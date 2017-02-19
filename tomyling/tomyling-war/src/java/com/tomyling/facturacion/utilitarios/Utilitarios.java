@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tomyling.facturacion.utilitarios;
+package com.tomyling.facturacion.utilitarios;
 
 import java.io.IOException;
 import java.io.Serializable;

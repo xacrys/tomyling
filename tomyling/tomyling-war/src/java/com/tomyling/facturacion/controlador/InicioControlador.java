@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tomyling.facturacion.controlador;
+package com.tomyling.facturacion.controlador;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -16,9 +16,9 @@ import javax.faces.bean.ViewScoped;
 
 
 import javax.faces.context.FacesContext;
-import tomyling.facturacion.modelo.Usuario;
-import tomyling.facturacion.servicio.UsuarioServicio;
-import tomyling.facturacion.utilitarios.Utilitarios;
+import com.tomyling.facturacion.modelo.Usuario;
+import com.tomyling.facturacion.servicio.UsuarioServicio;
+import com.tomyling.facturacion.utilitarios.Utilitarios;
 
 /**
  *
