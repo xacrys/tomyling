@@ -17,7 +17,7 @@ import javax.persistence.PersistenceContext;
  */
 public abstract class Generico<T> {
 
-    @PersistenceContext(unitName = "Alexys-ejbPU")
+    @PersistenceContext(unitName = "tomyling-ejbPU")
     private EntityManager entityManager;
     private Class<T> entityClass;
 
