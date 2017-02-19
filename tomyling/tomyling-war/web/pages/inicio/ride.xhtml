@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="content" >
+        <center>
+            <p:growl id="growl" life="8000" sticky="true" showSummary="true" />
+            <h:form>        
+                <p:fieldset>
+                    <p:panelGrid id="panGriRuc">
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Ingrese RUC --> " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText value="#{rideControlador.ruc}"/>
+                            </p:column>
+                        </p:row>                   
+                        <p:row>                     
+                                <p:column colspan="2">
+                                    <center>
+                                         <p:commandButton value="Enviar" 
+                                                          actionListener="#{rideControlador.cargarFactura}"
+                                                          update=":#{p:component('panGriRuc')}
+                                                          ,:#{p:component('panGri1')} 
+                                                          ,:#{p:component('panGri2')}
+                                                          ,:#{p:component('growl')}"
+                                                          />
+                                    </center>     
+                                </p:column>                         
+                        </p:row>
+                    </p:panelGrid>
+                    <p:panelGrid id="panGri1" >                    
+                        <p:row>
+                            <p:column>
+                                <p:graphicImage value="/resources/img/factura-400x400.png" width="80" height="80"/>
+                            </p:column> 
+                            <p:column  colspan="3"> 
+                                <p:outputLabel value="R.U.C." />
+                            </p:column>
+                            <p:column>
+                                <p:inputText readonly="true" value="#{rideControlador.ruc}" />
+                            </p:column>                        
+                        </p:row>                   
+                        <p:row>
+                            <p:column>
+                                
+                            </p:column>
+                            <p:column colspan="3">
+                                <p:outputLabel value="FACTURA " />
+                            </p:column>
+                            <p:column>
+                               
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                
+                            </p:column>
+                            <p:column colspan="3">
+                                <p:outputLabel value="No. " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText readonly="true" value="#{rideControlador.guiaRemision}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                
+                            </p:column>
+                            <p:column colspan="3">
+                                <p:outputLabel value="NÚMERO DE AUTORIZACIÓN " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText readonly="true" value="#{rideControlador.guiaRemision}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                
+                            </p:column>
+                            <p:column colspan="3">
+                                <p:outputLabel value="FECHA Y HORA DE AUTORIZACIÓN " />
+                            </p:column>
+                            <p:column>
+                                <p:calendar value="#{rideControlador.fechaEmision}"
+                                            locale="es" />
+                            </p:column>
+                        </p:row>                   
+                        <p:row>
+                            <p:column>
+                                
+                            </p:column>
+                            <p:column colspan="3">
+                                <p:outputLabel value="AMBIENTE " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText readonly="true" value="#{rideControlador.ambiente}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                
+                            </p:column>
+                            <p:column colspan="3">
+                                <p:outputLabel value="EMISIÓN " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText readonly="true" value="#{rideControlador.tipoEmision}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                
+                            </p:column>
+                            <p:column colspan="3">
+                                <p:outputLabel value="CLAVE DE ACCESO " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText readonly="true" value="#{rideControlador.claveAcceso}" />
+                            </p:column>
+                        </p:row>
+                      
+                        <p:row >
+                            <p:column >
+                                <p:outputLabel value="Dirección Matriz " />
+                            </p:column> 
+                            <p:column>
+                                <p:inputText readonly="true" value="#{rideControlador.dirMatriz}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Dirección Sucursal " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText readonly="true" value="#{rideControlador.dirEstablecimiento}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Contibuyente Especial Nro " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText readonly="true" value="#{rideControlador.contribuyenteEspecial}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="OBLIGADO A LLEVAR CONTABILIDAD " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText readonly="true" value="#{rideControlador.obligadoContabilidad}" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                    <p:panelGrid id="panGri2">
+                        <p:row>
+                            <p:column colspan="2"  >
+                                <p:outputLabel value="Cliente" />
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="identificación" />
+                            </p:column>                        
+                        </p:row>
+                        <p:row>
+                            <p:column >
+                                <p:outputLabel value="Fecha Emisión" />
+                            </p:column>
+                            <p:column  colspan="2">
+                                <p:outputLabel value="Guia" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:fieldset>
+            </h:form>
+        </center>
+    </ui:define>
+</ui:composition>

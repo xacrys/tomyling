@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+    <navigation-rule> 
+        <from-view-id>/ingresaSistema.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>exito</from-outcome>
+            <to-view-id>pages/seguridad/saludos.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+    <navigation-rule>
+        <from-view-id>pages/seguridad/saludos.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>menu</from-outcome>
+            <to-view-id>pages/seleccionar/inicio.edw</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/ingresaSistema.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>  
+     <navigation-rule>
+        <from-view-id>/pages/clientes/ingresoClientes.xhtml</from-view-id>
+    </navigation-rule> 
+</faces-config>

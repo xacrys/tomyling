@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>FACTURACION</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <h:outputStylesheet library="css" name="facturacionSRI1.css"/>
+        <h:outputScript library="js" name="facturacionSRI1.js"/>
+    </h:head>
+    <h:body>
+        <center>
+            <h:form>
+                <p:growl id="mensajes" showDetail="true" sticky="true" /> 
+                <p:fieldset style="color: brown" legend="Ingreso de Usuarios">
+                    <p:panelGrid id="panGriUsu">
+                        <p:graphicImage library="img"  name="editarPersona.png" width="130" height="180" />
+                        <p:row>
+                            <p:column>   
+                                <p:outputLabel value="Usuario" style="color: blue" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText  id="txtUsuario"  
+                                              value="#{inicioSesionBean.nombreUsuario}"
+                                              required="true"
+                                              maxlength="30" 
+                                              requiredMessage="Usuario obligatorio"/>
+                            </p:column>
+                        </p:row>    
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Password" style="color: blue" />
+                            </p:column>
+                            <p:column>
+                                <p:password  value="#{inicioSesionBean.contrasena}"
+                                             required="true" maxlength="15"
+                                             requiredMessage="Contrasena obligatorio" />  
+                            </p:column>
+                        </p:row>
+                        <p:row>
+
+                            <p:column colspan="2">
+                                <center>
+                                    <p:commandButton   
+                                                      icon="ui-icon-check" actionListener="#{inicioSesionBean.guadarUsuario}"
+                                                     style="margin-right: 20px;color: brown" 
+                                                     value="Crear"
+                                                     update="mensajes"
+                                                     />    
+                                </center>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:fieldset>
+            </h:form>
+        </center>
+    </h:body>
+</html>

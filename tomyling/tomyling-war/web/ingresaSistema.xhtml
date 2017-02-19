@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title style="color: green">Ingreso a Tomyling</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        
+        <h:outputStylesheet library="css" name="facturacionSRI1.css"/>
+        <h:outputStylesheet library="css" name="fontawesome.css"/>
+        <h:outputScript library="js" name="facturacionSRI1.js"/>
+    </h:head>
+    <h:body>
+        <center>
+            <h:form>
+                <p:growl  id="growl" sticky="true" showSummary="true" />
+                    <p:fieldset legend="Ingreso a Tomyling"  style="color: brown">
+                        <p:graphicImage library="img" name="login.png" />
+                        <p:panelGrid id="panGriIng" style="border: 2px solid grey">
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel style="color: blue" value="Usuario: "/>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText  value="#{inicioControlador.nombre}" 
+                                                  required="true" 
+                                                  requiredMessage="Usuario es obligatorio" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                     <p:outputLabel style="color: blue" value="Clave:" />
+                                </p:column>
+                                <p:column>
+                                    <p:password value="#{inicioControlador.clave}"
+                                                required="true" 
+                                                requiredMessage="Clave obligatorio"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2">
+                                    <center>
+                                        <p:commandButton action="#{inicioControlador.validarUsuario}" 
+                                                         value="Ingresar" style="color: brown" 
+                                                         update=":#{p:component('panGriIng')}
+                                                         ,:#{p:component('growl')}"
+                                                         icon="ui-icon-check" />
+                                        
+                                    </center>
+                                    
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    </p:fieldset>       
+            </h:form> 
+        </center>
+    </h:body>
+</html>

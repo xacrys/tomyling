@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title style="color: brown;font-size: 16px">FACTURACION ELECTRONICA</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <h:outputStylesheet library="css" name="facturacionSRI1.css"/>
+        <h:outputScript library="js" name="facturacionSRI1.js"/>
+    </h:head>
+    <h:body>
+
+        <p:layout fullPage="true">
+            <p:layoutUnit   position="north" size="100" >
+                <h:form id="frmGestor">
+                    <p:graphicImage  style="padding-left: 600px;"  library="img" name="factura.png" width="70" height="40"/> 
+                    <h5 style="text-align: center;color:  blue;">Facturacion <span style="color: red;"></span> </h5>
+                </h:form>
+            </p:layoutUnit>
+            <p:layoutUnit position="west" size="300" collapsible="true" header="Menu de Solicitudes">
+                <h:form id="frmGestora">
+                    <p:panelMenu style="width: 300px;">
+                        <!-- <p:submenu label="SEGURIDAD" >
+                             <p:submenu label="USUARIOS" icon="ui-icon-extlink"  >
+                                 <p:menuitem  value="Ingreso de Usuarios " url="/usuarios.edw" icon="" />
+                             </p:submenu> 
+                             <p:submenu label="ROLES" icon="ui-icon-extlink"  >
+                                 <p:menuitem  value="Ingreso de Roles " url="/pages/seguridad/rol.edw" icon="" />
+                             </p:submenu>
+                         </p:submenu> -->
+                        <!--  <p:submenu   label="ADMINISTRADOR" >   
+                               <p:submenu label="SOLICITUDES" icon="ui-icon-extlink"  >
+                                   <p:menuitem  value=" CREDITO " url="/pages/solicitud/solicitudCredito.edw" icon="ui-icon-fa-file-text" />
+                                   <p:menuitem value="GARANTIA" url="/pages/solicitud/garantiaCredito.edw" icon="" />
+                                   <p:menuitem value="ACTIVIDADES" url="/pages/solicitud/actividades.edw" icon="" />
+                                     <p:menuitem value="ASESORES" url="/pages/creditos/asesores.edw" icon="" />
+                               </p:submenu>
+                               
+                           </p:submenu> -->
+                        <p:submenu   label="ADMINISTRADOR" >
+                            <p:menuitem value="INGRESO DE USUARIOS" url="/pages/clientes/ingresoClientes.edw" />
+                        </p:submenu> 
+                        <p:submenu label="FACTURACION" >
+                            <p:menuitem value="SELECCIONAR" url="/pages/seleccionar/inicio.edw" icon="" 
+                                        actionListener="#{gestorFacturaBean.cargarFacturas}"
+                                        update="contenido"/>
+                            <p:menuitem value="VER"   
+                                        actionListener="#{gestorFacturaBean.cargarFacturas}"
+                                        update=":#{p:component('frmGestorb')}"
+                                        />
+
+                        </p:submenu>
+
+
+                        <!--   <p:submenu label="PERSONAS" icon="ui-icon-extlink"  >
+                               <p:menuitem  value="Ingreso de Personas " url="/pages/guias/persona.edw" icon="" />
+                           </p:submenu>
+                       </p:submenu>
+                       <p:submenu label="FACTURACION" >
+                           <p:submenu label="Guias" icon="ui-icon-extlink">
+                               <p:menuitem value="Ingreso Guias de Remision" url="/pages/guias/guias.edw" icon="" />
+                           </p:submenu>
+                       </p:submenu> -->
+                    </p:panelMenu>
+                    <p:outputLabel  value="#{gestorFacturaBean.flagGestores}"></p:outputLabel>
+                </h:form>
+            </p:layoutUnit>
+            <p:layoutUnit  position="center">
+                <h:form id="frmGestorb">
+                        <p:fieldset  style="color: brown;" legend="Ingreso de Archivo" rendered="#{gestorFacturaBean.flagGestores==1}">
+                            <p:panelGrid id="panGriFile" >
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel>Ingrese Archivo:</p:outputLabel>
+                                    </p:column>
+                                    <p:column>
+                                        <p:fileUpload value="#{leerArchivoBean.archivoSubido}" 
+                                                      allowTypes="/(\.|\/)(xml)$/"  
+                                                      mode="advanced" auto="true"
+                                                      fileUploadListener="{leerArchivoBean.subir}">
+                                        </p:fileUpload>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </p:fieldset>
+                    
+                </h:form>
+            </p:layoutUnit>
+            <p:layoutUnit position="south">
+                <p:outputLabel style="color:  background; font-family: Times New Roman;size: 8px;text-align: center;" value="Desarrollado por Edwin Vaca"/>
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+</html>
