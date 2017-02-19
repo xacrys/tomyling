@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author new user
  */
 @Entity
-@Table(name = "ambiente")
+@Table(name = "ambiente", schema="tomyling")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Ambiente.findAll", query = "SELECT a FROM Ambiente a")
