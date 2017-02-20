@@ -10,10 +10,88 @@
     <ui:define name="content" >
         <center>
             <p:growl id="growl" life="8000"></p:growl>
-            <h:form>
-            
+            <h:form id="formUsuario">
+                <p:panelGrid id="pgCrearUsuario">
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Institución:"></p:outputLabel>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="somInstitucion" value="#{usuarioControlador.idInstitucion}" style="width: 200px">                                
+                                <f:selectItems value="#{usuarioControlador.listaInstituciones}" />
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Nombres:"></p:outputLabel>
+                        </p:column>
+                        <p:column>
+                            <p:inputText placeholder="Ingrese su nombre...."
+                                         value="#{usuarioControlador.nombre}"></p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+
+                        <p:column>
+                            <p:outputLabel value="Apellidos:"></p:outputLabel>
+                        </p:column>
+                        <p:column>
+                            <p:inputText placeholder="Ingrese sus apellidos...."
+                                         value="#{usuarioControlador.apellido}"></p:inputText>
+                        </p:column>
+
+                    </p:row>
+                    <p:row>
+
+                        <p:column>
+                            <p:outputLabel value="Nombre de Usuario:"></p:outputLabel>
+                        </p:column>
+                        <p:column>
+                            <p:inputText placeholder="Ingrese su nombre de Usuario...."
+                                         value="#{usuarioControlador.nombreUsuario}"></p:inputText>
+                        </p:column>
+
+                    </p:row>
+                    <p:row>
+
+                        <p:column>
+                            <p:outputLabel value="Contraseña:"></p:outputLabel>
+                        </p:column>
+                        <p:column>
+                            <p:inputText placeholder="Ingrese su contraseña...."
+                                         value="#{usuarioControlador.contrasenia}"></p:inputText>
+                        </p:column>
+
+                    </p:row>
+                    <p:row>
+
+                        <p:column>
+                            <p:outputLabel value="Correo Electrónico:"></p:outputLabel>
+                        </p:column>
+                        <p:column>
+                            <p:inputText placeholder="Ingrese un correo válido."
+                                         value="#{usuarioControlador.correo}"></p:inputText>
+                        </p:column>
+
+                    </p:row>
+                    <p:row>
+
+                        <p:column colspan="2">
+                            <center>
+                                <p:commandButton icon='fa fa-user' 
+                                                 value='Crear Usuario'
+                                                 actionListener="#{usuarioControlador.crearUsuario}"
+                                                 update=":#{p:component('pgCrearUsuario')}
+                                                         ,:#{p:component('growl')}"
+                                                 ></p:commandButton>
+                            </center>
+                        </p:column>
+
+                    </p:row>
+                </p:panelGrid>
             </h:form>
-            
+
         </center>
     </ui:define>
 </ui:composition>
