@@ -5,6 +5,9 @@
  */
 package com.tomyling.facturacion.controlador;
 
+import com.tomyling.facturacion.modelo.Menu;
+import com.tomyling.facturacion.modelo.RolMenu;
+import com.tomyling.facturacion.modelo.UsuRol;
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -14,11 +17,15 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-
 import javax.faces.context.FacesContext;
 import com.tomyling.facturacion.modelo.Usuario;
+import com.tomyling.facturacion.servicio.MenuServicio;
+import com.tomyling.facturacion.servicio.RolMenuServicio;
+import com.tomyling.facturacion.servicio.UsuRolServicio;
 import com.tomyling.facturacion.servicio.UsuarioServicio;
 import com.tomyling.facturacion.utilitarios.Utilitarios;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -26,13 +33,22 @@ import com.tomyling.facturacion.utilitarios.Utilitarios;
  */
 @ManagedBean
 @ViewScoped
-public class InicioControlador extends Utilitarios implements Serializable{
+public class InicioControlador extends Utilitarios implements Serializable {
 
     private String nombre;
     private String clave;
 
     @EJB
     private UsuarioServicio usuarioServicio;
+
+    @EJB
+    private UsuRolServicio usuRolServicio;
+
+    @EJB
+    private RolMenuServicio rolMenuServicio;
+
+    @EJB
+    private MenuServicio menuServicio;
 
     @PostConstruct
     private void init() {
@@ -45,10 +61,17 @@ public class InicioControlador extends Utilitarios implements Serializable{
         if (u == null) {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario no existe.!", "El usuario no existe."));
-           
-            
         } else {
-            redirect("/pages/inicio/inicio.edw");
+            UsuRol ur = usuRolServicio.obtenerUsuRol(u.getIdUsuario());
+            if (ur != null) {
+                List<RolMenu> rm = rolMenuServicio.obtenerRolMenu(ur.getUsuRolPK().getIdRol());
+                if (rm != null || rm.isEmpty()) {
+                    List<Menu> listaMenu = new ArrayList<>();
+                    listaMenu = menuServicio.listarMenus(rm);
+                     redirect("/pages/inicio/inicio.edw");
+                }
+            }
+           
         }
     }
 
