@@ -5,23 +5,29 @@
  */
 package com.tomyling.facturacion.servicio;
 
-
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import com.tomyling.facturacion.dao.RolMenuDao;
+import com.tomyling.facturacion.modelo.RolMenu;
+import java.util.List;
+
 /**
  *
  * @author new user
  */
 
-
-
 @LocalBean
 @Stateless
-public class RolMenuServicio extends RolMenuDao{
+public class RolMenuServicio extends RolMenuDao {
 
-    
-    
+    public List<RolMenu> obtenerRolMenu(Integer idRol) {
+        List<RolMenu> rm = this.obtenerRolPorMenu(idRol);
+        if (rm == null) {
+            return null;
+        } else {
+        return rm;
+        }
+
+    }
+
 }
-
-

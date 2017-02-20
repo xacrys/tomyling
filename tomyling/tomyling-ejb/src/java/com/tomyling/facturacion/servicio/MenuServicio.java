@@ -8,18 +8,26 @@ package com.tomyling.facturacion.servicio;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import com.tomyling.facturacion.dao.MenuDao;
-
+import com.tomyling.facturacion.modelo.Menu;
+import com.tomyling.facturacion.modelo.RolMenu;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author new user
  */
-
-
 @LocalBean
 @Stateless
-public class MenuServicio extends MenuDao{
+public class MenuServicio extends MenuDao {
 
-    
-    
+    public List<Menu> listarMenus(List<RolMenu> rm) {
+        List<Menu> listaMenus;
+        listaMenus = this.listarMenusD(rm);
+        if (listaMenus != null) {
+            return listaMenus;
+        } else {
+            return null;
+        }
+    }
 }
