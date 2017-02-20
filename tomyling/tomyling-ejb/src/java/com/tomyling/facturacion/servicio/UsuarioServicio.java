@@ -28,5 +28,13 @@ public class UsuarioServicio extends UsuarioDao {
         }
 
     }
+    
+    public void crearUsuario(Usuario u){
+        try {
+            this.create(u);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
