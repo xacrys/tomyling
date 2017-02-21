@@ -1,0 +1,37 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 13/01/2017, 8:15:23
+    Author     : EDWIN VACA
+*/
+
+.ui-state-default{
+    background: transparent !important;
+    font-weight: bold !important;
+    box-shadow: none !important;
+    
+}
+
+#formMenu\:apOpciones h3{
+    background-color: transparent !important;
+    font-family: "Helvetica Neue",Roboto,Arial,"Droid Sans",sans-serif !important;
+    text-transform: capitalize !important;
+    font-weight: normal !important;
+    font-size: 13px !important;
+    padding-left: 9px !important;
+}
+
+#formMenu\:apOpciones .ui-icon-triangle-1-s,
+#formMenu\:apOpciones .ui-icon{
+    display: none !important;
+}
+
+#spGeneral{
+    width:90%;
+    height:4px; 
+    background: rgb(26,187,156) !important;
+    border: none !important;
+}
