@@ -26,17 +26,19 @@ import com.tomyling.facturacion.servicio.UsuarioServicio;
 import com.tomyling.facturacion.utilitarios.Utilitarios;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.bean.SessionScoped;
 
 /**
  *
  * @author new user
  */
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class InicioControlador extends Utilitarios implements Serializable {
 
     private String nombre;
     private String clave;
+    private List<Menu> listaMenu;
 
     @EJB
     private UsuarioServicio usuarioServicio;
@@ -52,8 +54,13 @@ public class InicioControlador extends Utilitarios implements Serializable {
 
     @PostConstruct
     private void init() {
+        this.nuevo();
+    }
+
+    public void nuevo() {
         this.nombre = "";
         this.clave = "";
+        this.listaMenu=new ArrayList<>();
     }
 
     public void validarUsuario() throws IOException {
@@ -66,12 +73,11 @@ public class InicioControlador extends Utilitarios implements Serializable {
             if (ur != null) {
                 List<RolMenu> rm = rolMenuServicio.obtenerRolMenu(ur.getUsuRolPK().getIdRol());
                 if (rm != null || rm.isEmpty()) {
-                    List<Menu> listaMenu = new ArrayList<>();
-                    listaMenu = menuServicio.listarMenus(rm);
-                     redirect("/pages/inicio/inicio.edw");
+                    this.listaMenu = menuServicio.listarMenus(rm);
+                    redirect("/pages/inicio/principal.edw");
                 }
             }
-           
+
         }
     }
 
@@ -89,5 +95,13 @@ public class InicioControlador extends Utilitarios implements Serializable {
 
     public void setClave(String clave) {
         this.clave = clave;
+    }
+
+    public List<Menu> getListaMenu() {
+        return listaMenu;
+    }
+
+    public void setListaMenu(List<Menu> listaMenu) {
+        this.listaMenu = listaMenu;
     }
 }
