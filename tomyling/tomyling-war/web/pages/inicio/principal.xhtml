@@ -10,16 +10,16 @@
     <ui:define name="menu" >
         <p:separator id="spGeneral" />
         <h:form id="formMenu">
-            <p:accordionPanel id="apOpciones" value="#{principalControlador.listaMenus}" var="menu" activeIndex="null">
+            <p:accordionPanel id="apOpciones" value="#{principalControlador.listaMenusSubmenus}" var="menu" activeIndex="null">
                 <p:tab>
                     <f:facet name="title">
-                        <span class="fa fa-windows fa-lg" style="float:left; margin-top: 3px; font-size: 13px"></span>
+                        <span class="#{menu.icono} fa-lg" style="float:left; margin-top: 3px; font-size: 13px"></span>
                         <h:outputText value="#{menu.nombreMenu}"/>
                     </f:facet>
-                    <p:accordionPanel id="apSubOpciones" value="#{principalControlador.listaMenus}" var="submenu" activeIndex="null">
+                    <p:accordionPanel id="apSubOpciones" value="#{menu.listaSubmenu}" var="submenu" activeIndex="null">
                         <p:tab>
                             <f:facet name="title">
-                                <span class="fa fa-windows fa-lg" style="float:left; margin-top: 3px; font-size: 13px"></span>
+                                <span class="#{submenu.icono} fa-lg" style="float:left; margin-top: 3px; font-size: 13px"></span>
                                 <h:outputText value="#{submenu.nombreMenu}"/>
                             </f:facet>
                         </p:tab>
