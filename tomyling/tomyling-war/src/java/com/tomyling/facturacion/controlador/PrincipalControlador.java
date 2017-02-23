@@ -5,19 +5,20 @@
  */
 package com.tomyling.facturacion.controlador;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
+
 import com.tomyling.facturacion.dto.MenuDinamicoDao;
 import com.tomyling.facturacion.modelo.Menu;
 import com.tomyling.facturacion.utilitarios.Utilitarios;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import org.primefaces.model.menu.DefaultMenuItem;
+import org.primefaces.model.menu.DefaultMenuModel;
 
 /**
  *
@@ -47,28 +48,33 @@ public class PrincipalControlador extends Utilitarios implements Serializable {
 
     public List<MenuDinamicoDao> iniciarMenu(List<Menu> lista) {
         List<Menu> listasMenus = new ArrayList<>();
-        List<Menu> listasSubMenus = new ArrayList<>();
+        List<DefaultMenuItem> listasSubMenus = new ArrayList<>();
+       DefaultMenuModel model = new DefaultMenuModel();
         for (Menu m : lista) {
             if (m.getPadre() == 0) {
                 listasMenus.add(m);
             } else {
-                listasSubMenus.add(m);
+                DefaultMenuItem item = new DefaultMenuItem(m.getNombreMenu());
+                item.setUrl("http://www.primefaces.org");
+                item.setIcon(m.getIcono());
+                item.setId(m.getPadre().toString());
+                listasSubMenus.add(item);
             }
         }
         List<MenuDinamicoDao> listafinal = new ArrayList<>();
+        
         for (Menu mp : listasMenus) {
 
             MenuDinamicoDao mdd = new MenuDinamicoDao();
             mdd.setIdMenu(mp.getIdMenu());
             mdd.setNombreMenu(mp.getNombreMenu());
             mdd.setIcono(mp.getIcono());
-            List<Menu> listaSubmenuFinal = new ArrayList<>();
-            for (Menu ms : listasSubMenus) {
-                if (Objects.equals(mp.getIdMenu(), ms.getPadre())) {
-                    listaSubmenuFinal.add(ms);
+            for (DefaultMenuItem dm : listasSubMenus) {
+                if (mp.getIdMenu() == Integer.parseInt(dm.getId())) {
+                    model.addElement(dm);
                 }
             }
-            mdd.setListaSubmenu(listaSubmenuFinal);
+            mdd.setModelo(model);
             listafinal.add(mdd);
         }
         return listafinal;
