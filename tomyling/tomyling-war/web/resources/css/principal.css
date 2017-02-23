@@ -15,6 +15,25 @@ and open the template in the editor.
     
 }
 
+.ui-accordion-content{
+    background: transparent !important;
+    padding: 3px 0px 3px 0px !important;
+    margin: 2px !important;
+    overflow: hidden !important;
+    
+    
+}
+
+.ui-menu{
+     background: transparent !important;
+     width: 100% !important;
+     border: 1px solid #ccc !important;
+     
+}
+.ui-menuitem-text{
+    color: white !important;
+}
+
 #formMenu\:apOpciones h3{
     background-color: transparent !important;
     font-family: "Helvetica Neue",Roboto,Arial,"Droid Sans",sans-serif !important;
@@ -25,8 +44,14 @@ and open the template in the editor.
 }
 
 #formMenu\:apOpciones .ui-icon-triangle-1-s,
-#formMenu\:apOpciones .ui-icon{
+#formMenu\:apOpciones .ui-icon-triangle-1-e
+{
     display: none !important;
+}
+#formMenu\:apOpciones .ui-icon{
+    
+    margin-top: 2px !important;
+    color:rgb(26,187,156) !important;
 }
 
 #spGeneral{
