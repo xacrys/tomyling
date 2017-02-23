@@ -27,7 +27,7 @@ public class MenuDao extends Generico<Menu> {
         List<Menu> listaMenu;
         List<Integer> listaIdMenus=new ArrayList<>();
         Query query;
-        String jpql = ("SELECT m FROM Menu m WHERE m.idMenu IN :idMenu");
+        String jpql = ("SELECT m FROM Menu m WHERE m.idMenu IN :idMenu ORDER BY m.nombreMenu asc");
         for(RolMenu r:rm)
         {
         listaIdMenus.add(r.getRolMenuPK().getIdMenu());
