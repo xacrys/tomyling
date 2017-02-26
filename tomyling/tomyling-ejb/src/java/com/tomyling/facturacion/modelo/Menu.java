@@ -35,6 +35,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Menu.findByIcono", query = "SELECT m FROM Menu m WHERE m.icono = :icono")})
 public class Menu implements Serializable {
 
+    @Size(max = 40)
+    @Column(name = "url")
+    private String url;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -132,6 +136,14 @@ public class Menu implements Serializable {
     @Override
     public String toString() {
         return "com.tomyling.facturacion.modelo.Menu[ idMenu=" + idMenu + " ]";
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
     
 }
