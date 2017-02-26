@@ -5,30 +5,36 @@
  */
 package com.tomyling.facturacion.dto;
 
+import com.tomyling.facturacion.modelo.Menu;
 import java.io.Serializable;
 import java.util.List;
-import org.primefaces.model.menu.DefaultMenuModel;
 
 /**
  *
  * @author new user
  */
-public class MenuDinamicoDao implements Serializable {
-
+public class MenuDinamicoDao implements Serializable{
+    
+    
     private Integer idMenu;
     private String nombreMenu;
     private String icono;
-    private DefaultMenuModel modelo;
+    private List<Menu> listaSubmenu;
 
-    public MenuDinamicoDao() {
-    }
-
-    public MenuDinamicoDao(Integer idMenu, String nombreMenu, String icono, DefaultMenuModel modelo) {
+    public MenuDinamicoDao(Integer idMenu, String nombreMenu, String icono, List<Menu> listaSubmenu) {
         this.idMenu = idMenu;
         this.nombreMenu = nombreMenu;
         this.icono = icono;
-        this.modelo = modelo;
+        this.listaSubmenu = listaSubmenu;
     }
+
+   
+
+    public MenuDinamicoDao() {
+    }
+    
+    
+    
 
     public Integer getIdMenu() {
         return idMenu;
@@ -46,6 +52,14 @@ public class MenuDinamicoDao implements Serializable {
         this.nombreMenu = nombreMenu;
     }
 
+    public List<Menu> getListaSubmenu() {
+        return listaSubmenu;
+    }
+
+    public void setListaSubmenu(List<Menu> listaSubmenu) {
+        this.listaSubmenu = listaSubmenu;
+    }
+
     public String getIcono() {
         return icono;
     }
@@ -53,13 +67,8 @@ public class MenuDinamicoDao implements Serializable {
     public void setIcono(String icono) {
         this.icono = icono;
     }
-
-    public DefaultMenuModel getModelo() {
-        return modelo;
-    }
-
-    public void setModelo(DefaultMenuModel modelo) {
-        this.modelo = modelo;
-    }
-
+    
+    
+    
+    
 }
