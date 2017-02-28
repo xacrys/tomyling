@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author new user
  */
 @Entity
-@Table(name = "factura", schema="tomyling")
+@Table(name = "factura")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Factura.findAll", query = "SELECT f FROM Factura f")
@@ -54,7 +54,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Factura.findByRazonSocialComprador", query = "SELECT f FROM Factura f WHERE f.razonSocialComprador = :razonSocialComprador")
     , @NamedQuery(name = "Factura.findByDireccionComprador", query = "SELECT f FROM Factura f WHERE f.direccionComprador = :direccionComprador")
     , @NamedQuery(name = "Factura.findByTotalSinimpuesto", query = "SELECT f FROM Factura f WHERE f.totalSinimpuesto = :totalSinimpuesto")
-    , @NamedQuery(name = "Factura.findByTotalDescuento", query = "SELECT f FROM Factura f WHERE f.totalDescuento = :totalDescuento")})
+    , @NamedQuery(name = "Factura.findByTotalDescuento", query = "SELECT f FROM Factura f WHERE f.totalDescuento = :totalDescuento")
+    , @NamedQuery(name = "Factura.findByPropina", query = "SELECT f FROM Factura f WHERE f.propina = :propina")
+    , @NamedQuery(name = "Factura.findByImporteTotal", query = "SELECT f FROM Factura f WHERE f.importeTotal = :importeTotal")
+    , @NamedQuery(name = "Factura.findByValor", query = "SELECT f FROM Factura f WHERE f.valor = :valor")})
 public class Factura implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -128,6 +131,13 @@ public class Factura implements Serializable {
     private BigDecimal totalSinimpuesto;
     @Column(name = "total_descuento")
     private BigDecimal totalDescuento;
+    @Column(name = "propina")
+    private Long propina;
+    @Column(name = "importe_total")
+    private Long importeTotal;
+    @Size(max = 20)
+    @Column(name = "valor")
+    private String valor;
 
     public Factura() {
     }
@@ -328,6 +338,30 @@ public class Factura implements Serializable {
         this.totalDescuento = totalDescuento;
     }
 
+    public Long getPropina() {
+        return propina;
+    }
+
+    public void setPropina(Long propina) {
+        this.propina = propina;
+    }
+
+    public Long getImporteTotal() {
+        return importeTotal;
+    }
+
+    public void setImporteTotal(Long importeTotal) {
+        this.importeTotal = importeTotal;
+    }
+
+    public String getValor() {
+        return valor;
+    }
+
+    public void setValor(String valor) {
+        this.valor = valor;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -350,7 +384,7 @@ public class Factura implements Serializable {
 
     @Override
     public String toString() {
-        return "tomyling.facturacion.modelo.Factura[ idFactura=" + idFactura + " ]";
+        return "com.tomyling.facturacion.modelo.Factura[ idFactura=" + idFactura + " ]";
     }
     
 }
