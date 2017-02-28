@@ -1,16 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition template="/templates/template.xhtml"
-                xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui">
-    <ui:define name="content" >
-        <center>
-            <p:growl id="growl" life="8000"></p:growl>
-            <h:form id="formUsuario">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Crear Usuarios</title>
+    </h:head>
+    <h:body>
+         <h:form id="formUsuario">
                 <p:panelGrid id="pgCrearUsuario">
                     <p:row>
                         <p:column>
@@ -82,8 +80,7 @@
                                 <p:commandButton icon='fa fa-user' 
                                                  value='Crear Usuario'
                                                  actionListener="#{usuarioControlador.crearUsuario}"
-                                                 update=":#{p:component('pgCrearUsuario')}
-                                                         ,:#{p:component('growl')}"
+                                                 update=":#{p:component('pgCrearUsuario')}"
                                                  ></p:commandButton>
                             </center>
                         </p:column>
@@ -91,9 +88,5 @@
                     </p:row>
                 </p:panelGrid>
             </h:form>
-
-        </center>
-    </ui:define>
-</ui:composition>
-
-
+    </h:body>
+</html>

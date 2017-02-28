@@ -16,19 +16,19 @@
                         <span class="#{opciones.icono} fa-lg" style="float:left; margin-top: 3px; font-size: 13px"></span>
                         <h:outputText value="#{opciones.nombreMenu}"/>
                     </f:facet>
-                    <p:menu model="#{opciones.modelo}"></p:menu>
+                    <p:menu model="#{opciones.modelo}" ></p:menu>
                 </p:tab>
             </p:accordionPanel>
         </h:form>
     </ui:define>
 
     <ui:define name="content" >
-        <center>
-            <p:growl id="growl" life="8000"></p:growl>
-            <h:form enctype="multipart/form-data">
-                <p:graphicImage value="/resources/img/principal.jpg" style="width: 100%; height: 40%"/>
-            </h:form>
-        </center>
+            <center>
+                <h:form id="frmContenido" >
+                    <p:graphicImage value="/resources/img/principal.jpg" style="width: 100%; height: 40%; display:#{principalControlador.urlContenido==''?'block':'none'}"></p:graphicImage>
+                    <ui:include src="#{principalControlador.urlContenido}"   rendered="#{principalControlador.urlContenido!=''}"></ui:include>
+                </h:form>
+            </center>
     </ui:define>
 </ui:composition>
 
