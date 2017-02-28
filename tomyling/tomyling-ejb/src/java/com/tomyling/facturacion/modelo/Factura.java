@@ -57,7 +57,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Factura.findByTotalDescuento", query = "SELECT f FROM Factura f WHERE f.totalDescuento = :totalDescuento")
     , @NamedQuery(name = "Factura.findByPropina", query = "SELECT f FROM Factura f WHERE f.propina = :propina")
     , @NamedQuery(name = "Factura.findByImporteTotal", query = "SELECT f FROM Factura f WHERE f.importeTotal = :importeTotal")
-    , @NamedQuery(name = "Factura.findByValor", query = "SELECT f FROM Factura f WHERE f.valor = :valor")})
+    , @NamedQuery(name = "Factura.findByMoneda", query = "SELECT f FROM Factura f WHERE f.moneda = :moneda")})
 public class Factura implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -136,8 +136,8 @@ public class Factura implements Serializable {
     @Column(name = "importe_total")
     private BigDecimal importeTotal;
     @Size(max = 20)
-    @Column(name = "valor")
-    private String valor;
+    @Column(name = "moneda")
+    private String moneda;
 
     public Factura() {
     }
@@ -354,12 +354,12 @@ public class Factura implements Serializable {
         this.importeTotal = importeTotal;
     }
 
-    public String getValor() {
-        return valor;
+    public String getMoneda() {
+        return moneda;
     }
 
-    public void setValor(String valor) {
-        this.valor = valor;
+    public void setMoneda(String moneda) {
+        this.moneda = moneda;
     }
 
     @Override
