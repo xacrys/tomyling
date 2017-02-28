@@ -5,21 +5,33 @@
  */
 package com.tomyling.facturacion.dao;
 
-
 import com.tomyling.facturacion.generico.Generico;
 
 import com.tomyling.facturacion.modelo.Factura;
+import java.util.List;
+import javax.persistence.Query;
 
 /**
  *
  * @author new user
  */
-
 public class FacturaDao extends Generico<Factura> {
-
 
     public FacturaDao() {
         super(Factura.class);
     }
-    
+
+    public Boolean validarFacturaExiste(String claveAcceso) {
+
+        List<Factura> fac;
+        Query query;
+        String jsql = "SELECT f FROM Factura f WHERE f.claveAcceso = :claveAcceso";
+        query = getEntityManager().createQuery(jsql).setParameter("claveAcceso", claveAcceso);
+        fac = query.getResultList();
+        if (fac == null || fac.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
