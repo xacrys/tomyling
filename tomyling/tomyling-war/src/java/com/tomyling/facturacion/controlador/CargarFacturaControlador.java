@@ -10,7 +10,10 @@ package com.tomyling.facturacion.controlador;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import com.sun.javafx.scene.control.skin.VirtualFlow;
+import com.tomyling.facturacion.modelo.DetalleFactura;
 import com.tomyling.facturacion.modelo.Factura;
+import com.tomyling.facturacion.modelo.Impuesto;
 import com.tomyling.facturacion.modelo.Parametros;
 import com.tomyling.facturacion.servicio.FacturaServicio;
 import com.tomyling.facturacion.servicio.ParametroServicio;
@@ -26,6 +29,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -59,7 +63,7 @@ import org.xml.sax.SAXException;
 @ViewScoped
 public class CargarFacturaControlador implements Serializable {
 
-    private UploadedFile archivoSubido;
+    private List<UploadedFile> archivoSubido;
     private File archivo;
     private String destino;
     private Factura factura;
@@ -68,6 +72,8 @@ public class CargarFacturaControlador implements Serializable {
     private Integer flagBaseImponible;
     private Integer flagValor;
     private Parametros parametro;
+    private List<Impuesto> listaImpuesto;
+    private List<DetalleFactura> listaDetalles;
 
     @EJB
     private FacturaServicio facturaServicio;
@@ -80,38 +86,50 @@ public class CargarFacturaControlador implements Serializable {
         this.parametro = parametroServicio.actualizarParametros();
         this.destino = this.parametro.getRutaTemporal().endsWith("\\") ? this.parametro.getRutaTemporal() : this.parametro.getRutaTemporal() + "\\";
         this.destino = this.destino.replace("\\", "\\\\");
+        this.archivoSubido = new ArrayList<>();
     }
 
-    public void subir(FileUploadEvent evento) throws JDOMException, TransformerConfigurationException, ParserConfigurationException, SAXException, TransformerException {
-        this.archivoSubido = evento.getFile();
-        try {
-            copiarArchivo(archivoSubido.getFileName(), archivoSubido.getInputstream());
-            String ruta = destino + archivoSubido.getFileName();
-            this.archivo = new File(ruta);
-            String fuenteXml = validarXml(archivo);
-            SAXBuilder saxBuilder = new SAXBuilder();
-            InputStream stream = new ByteArrayInputStream(fuenteXml.getBytes("UTF-8"));
-            Document documento = saxBuilder.build(stream);
-            Element nodoRaiz = documento.getRootElement();
-            String nombreRaiz = nodoRaiz.getName();
+    public void subir(FileUploadEvent evento) {
+        this.archivoSubido.add(evento.getFile());
+    }
 
-            factura = new Factura();
-            flagCodigo = 0;
-            flagCodigoPorcentaje = 0;
-            flagBaseImponible = 0;
-            flagValor = 0;
-            recorrerHijos(nodoRaiz);
-            Boolean flagExiste = facturaServicio.facturaExiste(factura.getClaveAcceso());
-            if (!flagExiste) {
-                facturaServicio.guardarFactura(factura);
-            } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Alerta!", "La Factura ya ha sido cargada."));
+    public void leerFactura() throws JDOMException, TransformerConfigurationException, ParserConfigurationException, SAXException, TransformerException  {
+        
+        for(UploadedFile uf : archivoSubido)
+        {
+            try {
+                copiarArchivo(uf.getFileName(), uf.getInputstream());
+                String ruta = destino + uf.getFileName();
+                this.archivo = new File(ruta);
+                String fuenteXml = validarXml(archivo);
+                SAXBuilder saxBuilder = new SAXBuilder();
+                InputStream stream = new ByteArrayInputStream(fuenteXml.getBytes("UTF-8"));
+                Document documento = saxBuilder.build(stream);
+                Element nodoRaiz = documento.getRootElement();
+                String nombreRaiz = nodoRaiz.getName();
 
-            }
+                factura = new Factura();
+                flagCodigo = 0;
+                flagCodigoPorcentaje = 0;
+                flagBaseImponible = 0;
+                flagValor = 0;
+                recorrerHijos(nodoRaiz);
+//            Boolean flagExiste = facturaServicio.facturaExiste(factura.getClaveAcceso());
+//            if (!flagExiste) {
+//                facturaServicio.guardarFactura(factura);
+//            } else {
+//                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Alerta!", "La Factura ya ha sido cargada."));
+//
+//            }
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } 
+                    
+        
         }
+        this.archivoSubido = new ArrayList<>();
+       
 
     }
 
@@ -245,7 +263,12 @@ public class CargarFacturaControlador implements Serializable {
                 case "totalDescuento":
                     factura.setTotalDescuento(BigDecimal.valueOf(Double.parseDouble(nodo.getText())));
                     break;
-               
+                case "propina":
+                    factura.setPropina(BigDecimal.valueOf(Double.parseDouble(nodo.getText())));
+                case "importeTotal":
+                    factura.setImporteTotal(BigDecimal.valueOf(Double.parseDouble(nodo.getText())));
+                case "moneda":
+                    factura.setMoneda(nodo.getText());
 
             }
         } else {
@@ -255,14 +278,6 @@ public class CargarFacturaControlador implements Serializable {
             }
 
         }
-    }
-
-    public UploadedFile getArchivoSubido() {
-        return archivoSubido;
-    }
-
-    public void setArchivoSubido(UploadedFile archivoSubido) {
-        this.archivoSubido = archivoSubido;
     }
 
     public Integer getFlagCodigo() {
@@ -295,6 +310,30 @@ public class CargarFacturaControlador implements Serializable {
 
     public void setFlagValor(Integer flagValor) {
         this.flagValor = flagValor;
+    }
+
+    public List<Impuesto> getListaImpuesto() {
+        return listaImpuesto;
+    }
+
+    public void setListaImpuesto(List<Impuesto> listaImpuesto) {
+        this.listaImpuesto = listaImpuesto;
+    }
+
+    public List<DetalleFactura> getListaDetalles() {
+        return listaDetalles;
+    }
+
+    public void setListaDetalles(List<DetalleFactura> listaDetalles) {
+        this.listaDetalles = listaDetalles;
+    }
+
+    public List<UploadedFile> getArchivoSubido() {
+        return archivoSubido;
+    }
+
+    public void setArchivoSubido(List<UploadedFile> archivoSubido) {
+        this.archivoSubido = archivoSubido;
     }
 
 }

@@ -8,16 +8,29 @@
         <title>Crear Usuarios</title>
     </h:head>
     <h:body>
-        <h:form id="formCargarFactura">
+        <h:form id="formCargarFactura" enctype="multipart/form-data">
             <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
             <p:fieldset legend="Agregue las facturas que desea cargar:" style="margin:20px 0px 20px 0px">
-                <p:fileUpload value="#{cargarFacturaControlador.archivoSubido}" 
-                              allowTypes="/(\.|\/)(xml)$/"                                                
-                              mode="advanced" auto="true"
-                              update="messages"
-                              fileUploadListener="#{cargarFacturaControlador.subir}">
-                </p:fileUpload>
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Eliga los documentos en formato (XML) que desar subir:"></p:outputLabel>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:fileUpload fileUploadListener="#{cargarFacturaControlador.subir}" mode="advanced" 
+                                          multiple="true" update="messages"  allowTypes="/(\.|\/)(xml)$/" label="Escoger" uploadLabel="Subir" cancelLabel="Cancelar"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: center">
+                            <p:commandButton actionListener="#{cargarFacturaControlador.leerFactura}" update="formCargarFactura" icon="fa fa-upload" value="Cargar Facturas">
 
+                            </p:commandButton>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
             </p:fieldset>
         </h:form>
     </h:body>
