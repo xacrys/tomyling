@@ -28,7 +28,9 @@
                         </p:column>
                         <p:column>
                             <p:inputText placeholder="Ingrese su nombre...."
-                                         value="#{usuarioControlador.nombre}"></p:inputText>
+                                         value="#{usuarioControlador.nombre}" 
+                                         required="true" requiredMessage="Nombre obligatorio">
+                            </p:inputText>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -38,7 +40,10 @@
                         </p:column>
                         <p:column>
                             <p:inputText placeholder="Ingrese sus apellidos...."
-                                         value="#{usuarioControlador.apellido}"></p:inputText>
+                                         value="#{usuarioControlador.apellido}"
+                                         required="true" 
+                                         requiredMessage="Apellido obligatorio">
+                            </p:inputText>
                         </p:column>
 
                     </p:row>
@@ -49,7 +54,10 @@
                         </p:column>
                         <p:column>
                             <p:inputText placeholder="Ingrese su nombre de Usuario...."
-                                         value="#{usuarioControlador.nombreUsuario}"></p:inputText>
+                                         value="#{usuarioControlador.nombreUsuario}" 
+                                         required="true" 
+                                         requiredMessage="Usuario obligatorio">
+                            </p:inputText>
                         </p:column>
 
                     </p:row>
@@ -60,7 +68,10 @@
                         </p:column>
                         <p:column>
                             <p:inputText placeholder="Ingrese su contraseña...."
-                                         value="#{usuarioControlador.contrasenia}"></p:inputText>
+                                         value="#{usuarioControlador.contrasenia}" required="true"
+                                         requiredMessage="Contraseña obligatorio">
+                                
+                            </p:inputText>
                         </p:column>
 
                     </p:row>
@@ -89,7 +100,7 @@
                         </p:column>
 
                     </p:row>
-                </p:panelGrid>
+                </p:panelGrid>                
             </h:form>
 
         </center>
