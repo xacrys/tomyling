@@ -1,3 +1,6 @@
+
+
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -14,8 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 /**
@@ -32,8 +37,11 @@ public class UsuarioControlador extends Utilitarios implements Serializable {
     private String contrasenia;
     private String correo;
     private Integer idInstitucion;
-    private List<SelectItem> listaInstituciones;
+    private List<SelectItem> listaInstituciones; 
     
+    private Usuario usuario;
+    private Usuario selecUsuario;
+    private List<Usuario> listaUsuario;
 
     @EJB
     private UsuarioServicio usuarioServicio;
@@ -41,11 +49,15 @@ public class UsuarioControlador extends Utilitarios implements Serializable {
     @EJB
     private InstitucionServicio institucionServicio;
 
+    public UsuarioControlador()
+    { 
+      this.listaUsuario =new ArrayList<>();
+    }        
     @PostConstruct
     private void inicio(){
-    this.listaInstituciones = new ArrayList<>();
-    
+    this.listaInstituciones = new ArrayList<>();  
     listaInstituciones = institucionServicio.listarInstituciones();
+    llenarUsuarios();
     }
     
     
@@ -63,9 +75,39 @@ public class UsuarioControlador extends Utilitarios implements Serializable {
         }
 
     }
-
     
-
+     private void llenarUsuarios()
+    {   
+        try
+        {    
+            this.listaUsuario = usuarioServicio.listarUsuarios();
+            FacesMessage msjsi=new FacesMessage();
+            msjsi.setSeverity(FacesMessage.SEVERITY_INFO);
+            msjsi.setSummary("lleno la lista");
+            
+            FacesContext.getCurrentInstance().addMessage("men", msjsi);
+        }
+        catch(Exception e)
+        {
+            FacesMessage msjno=new FacesMessage();
+            msjno.setSeverity(FacesMessage.SEVERITY_ERROR);
+            msjno.setSummary("NO lleno la lista");
+            
+            FacesContext.getCurrentInstance().addMessage("men1", msjno);
+            //Mensaje
+        }
+    } 
+    
+    public void leer(Usuario  selecUsuario)
+    {
+        usuario=selecUsuario;   
+    }        
+     
+    public void Editar(Usuario usuario)
+    { 
+        this.usuarioServicio.Modificar(usuario);
+    }
+            
     public Integer getIdInstitucion() {
         return idInstitucion;
     }
@@ -129,5 +171,39 @@ public class UsuarioControlador extends Utilitarios implements Serializable {
     public void setInstitucionServicio(InstitucionServicio institucionServicio) {
         this.institucionServicio = institucionServicio;
     }
+
+    public Usuario getSelecUsuario() {
+        return selecUsuario;
+    }
+
+    public void setSelecUsuario(Usuario selecUsuario) {
+        this.selecUsuario = selecUsuario;
+    }
+
+    public List<Usuario> getListaUsuario() {
+        return listaUsuario;
+    }
+
+    public void setListaUsuario(List<Usuario> listaUsuario) {
+        this.listaUsuario = listaUsuario;
+    }
+
+    public UsuarioServicio getUsuarioServicio() {
+        return usuarioServicio;
+    }
+
+    public void setUsuarioServicio(UsuarioServicio usuarioServicio) {
+        this.usuarioServicio = usuarioServicio;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
+      
 
 }

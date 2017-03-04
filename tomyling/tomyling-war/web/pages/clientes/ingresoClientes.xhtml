@@ -9,62 +9,79 @@
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content" >
         <center>
-        <h:form>
-            <p:growl id="growl" showSummary="true" sticky="true" />
-            <p:fieldset legend="Datos Usuario" style="color: brown">
-                <p:panelGrid id="panGriCli" style="color: brown;border: 2px solid blue">
-                    <p:row>
+         <p:growl id="growl" life="8000"></p:growl>
+        <h:form>        
+            <p:fieldset legend="DATOS CLIENTE" style="color: brown">
+                <p:panelGrid id="panGriCli">                
+                     <p:row>
                         <p:column>
-                            <p:outputLabel value="Nombres : " style="color: blue" />
+                            <p:outputLabel style="color: brown" value="Cédula-Ruc" />
                         </p:column>
+                         <p:column>
+                             <p:inputText  style="color: blue" required="true" 
+                                           requiredMessage="Cédula/Ruc obligatorio"
+                                          value="#{ingresoClientesControlador.cedRuc}"
+                                           />
+                        </p:column>
+                    </p:row>
+                     <p:row>
                         <p:column>
-                            <p:inputText value="#{ingresoClienteControladorBean.nombres}"
-                                         required="true" 
-                                         requiredMessage="Nombre obligatorio" />
+                            <p:outputLabel style="color: brown" value="Nombre" />
+                        </p:column>
+                         <p:column>
+                             <p:inputText style="color: blue" value="#{ingresoClientesControlador.nombre}"
+                                          required="true" requiredMessage="Nombre obligatorio"  />
+                        </p:column>
+                    </p:row>
+                     <p:row>
+                        <p:column>
+                            <p:outputLabel style="color: brown" value="Dirección" />
+                        </p:column>
+                         <p:column>
+                             <p:inputText style="color: blue" value="#{ingresoClientesControlador.direccion}" 
+                                          required="true" 
+                                          requiredMessage="Dirección obligatorio"/>
+                        </p:column>
+                     </p:row>
+                     <p:row>
+                        <p:column>
+                            <p:outputLabel style="color: brown" value="Teléfono" />
+                        </p:column>
+                         <p:column>
+                             <p:inputText style="color: blue" value="#{ingresoClientesControlador.telefono}"
+                                          required="true" 
+                                          requiredMessage="Teléfono obligatorio"/>
+                        </p:column>
+                     </p:row>
+                     <p:row>
+                        <p:column>
+                            <p:outputLabel style="color: brown" value="Estado" />
+                        </p:column>
+                         <p:column>
+                             <p:inputText style="color: blue" value="#{ingresoClientesControlador.estado}" 
+                                          required="true"
+                                          requiredMessage="Estado obligatorio" />
                         </p:column>
                     </p:row>
                     <p:row>
                         <p:column>
-                            <p:outputLabel value="Apellidos : " style="color: blue" />
+                            <p:outputLabel style="color: brown" value="Correo" />
                         </p:column>
-                        <p:column>
-                            <p:inputText  value="#{ingresoClienteControladorBean.apellidos}" required="true" 
-                                          requiredMessage="Apellidos obligatorio" />
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel value="Sexo :" style="color: blue" />
-                        </p:column>
-                        <p:column>
-                            <p:selectOneRadio value="#{ingresoClienteControladorBean.sexo}">
-                                <f:selectItem itemValue="M" itemLabel="Masculino" />
-                                <f:selectItem itemValue="F" itemLabel="Femenino" />
-                                <f:selectItem itemValue="O" itemLabel="Otros" />
-                            </p:selectOneRadio>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel value="Fecha Nacimiento" style="color: blue"/>
-                        </p:column>
-                        <p:column>
-                            <p:calendar value="#{ingresoClienteControladorBean.fechaNace}" locale="es" 
-                                        required="true" 
-                                        requiredMessage="Fecha de nacimineto obligatorio" />
+                         <p:column>
+                             <p:inputText style="color: blue" value="#{ingresoClientesControlador.correo}"
+                                          required="true" 
+                                          requiredMessage="Correo Electrónico obligatorio"/>
                         </p:column>
                     </p:row>
                     <p:row>
                         <p:column colspan="2">
-                            <p:commandButton value="Crear"
-                                             icon="ui-icon-check" 
-                                             actionListener="#{ingresoClienteControladorBean.guardar}" 
-                                             update=":#{p:component('panGriCli')},
-                                             :#{p:component('growl')}"  />
+                            <p:commandButton style="color: green" value="Crear" 
+                                             actionListener="#{ingresoClientesControlador.guardaCliente}"  
+                                             icon="fa fa-user" update=":#{p:component('growl')},
+                                             :#{p:component('panGriCli')}"/> 
                         </p:column>
                     </p:row>
                 </p:panelGrid>
-
             </p:fieldset>
 
         </h:form>

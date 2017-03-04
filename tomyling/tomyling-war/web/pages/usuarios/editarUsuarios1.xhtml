@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="content" >
+        <center>
+            <p:growl id="growl" life="8000"></p:growl>
+            <h:form id="formUsuario">
+                <p:fieldset legend="Editar Usuarios" style="border: 3px solid #23527c">
+                    <p:dataTable id="datTabUsu" value="#{usuarioControlador.listaUsuario}"
+                                 var="usu" emptyMessage="Ningún Usuario Recibido" rowIndexVar="index" paginator="true" rows="5"
+                                 resizableColumns="true"  style="text-align: center; align: center; border-radius: 1.6em; border: 2px solid #1b6d85"
+                                  paginatorPosition="bottom" >
+                        <p:column headerText="No." style="width: 5%;color: steelblue">
+                            #{index+1}
+                        </p:column>
+                        <p:column  style="color: brown" headerText="Nombre" filterBy="#{usu.nombre}"
+                                   filterMatchMode="contains" sortBy="#{usu.nombre}">
+                            <p:outputLabel value="#{usu.nombre}" style="color: blue"/>                       
+                        </p:column>
+                        <p:column headerText="Apellido" style="color: brown" filterBy="#{usu.apellido}" 
+                                  filterMatchMode="contains" sortBy="#{usu.apellido}">
+                            <p:outputLabel value="#{usu.apellido}" style="color: blue"/>                       
+                        </p:column>
+                        <p:column headerText="Usuario" style="color: brown" filterBy="#{usu.usuario}"
+                                  filterMatchMode="contains" sortBy="#{usu.usuario}">
+                            <p:outputLabel value="#{usu.usuario}" style="color: blue"/>                       
+                        </p:column>
+                        <p:column headerText="Contraseña" style="color: brown" filterBy="#{usu.contrasenia}" 
+                                  filterMatchMode="contains" sortBy="#{usu.contrasenia}">
+                            <p:outputLabel value="#{usu.contrasenia}" style="color: blue" />                       
+                        </p:column>
+                        <p:column headerText="Correo" style="color: brown" filterBy="#{usu.correo}"                              
+                                  filterMatchMode="contains" sortBy="#{usu.correo}">
+                            <p:outputLabel value="#{usu.correo}" style="color: blue"/>                       
+                        </p:column>
+                         <p:column headerText="Editar" style="color: red">
+                             <p:commandLink  oncomplete="PF('wdiaEditar').show();"                                             
+                                             update=":#{p:component('diaLogEdis')}"                                        
+                                             >
+                                 <p:graphicImage library="img" name="iconoEditar36x36.png"/>
+                                 <f:setPropertyActionListener target="#{usuarioControlador.selecUsuario}" 
+                                                              value="#usu" />
+                             </p:commandLink>                       
+                        </p:column>
+                    </p:dataTable>             
+                </p:fieldset>    
+            </h:form>  
+          
+                    <p:dialog id="diaLogEdis" widgetVar="wdiaEditar" modal="true" 
+                              header="Editar Usuario" resizable="false" 
+                              closeOnEscape="true" draggable="false" style="color: cyan"> 
+                        <h:form id="frmDia">
+                            <p:panelGrid>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel  style="color: brown;font-weight: bold;" value="Nombre " />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText value="#{usuarioControlador.selecUsuario.nombre}" />
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                        <p:column>
+                                            <p:outputLabel  style="color: brown;font-weight: bold;" value="Apellido " />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText value="#{usuarioControlador.selecUsuario.apellido}" />
+                                        </p:column>
+                                </p:row>
+                                <p:row>
+                                         <p:column>
+                                            <p:outputLabel  style="color: brown;font-weight: bold;" value="Usuario" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText value="#{usuarioControlador.selecUsuario.usuario}" />
+                                        </p:column>
+                                </p:row>
+                                 <p:row>
+                                         <p:column>
+                                            <p:outputLabel style="color: brown;font-weight: bold;" value="Contraseña" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText value="#{usuarioControlador.selecUsuario.contrasenia}" />
+                                        </p:column>
+                                </p:row>
+                                 <p:row>
+                                         <p:column>
+                                            <p:outputLabel style="color: brown;font-weight: bold;" value="Correo" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText value="#{usuarioControlador.usuario.correo}" /> 
+                                        </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column colspan="2">
+                                        <p:commandButton value="Cancelar" style="color: red"
+                                                         icon="ui-icon-close" immediate="true" 
+                                                         onclick="PF('wdiaEditar').hide();" 
+                                                         update=":formUsuario:datTabUsu"/>
+                                        <p:commandButton  actionListener="#{usuarioControlador.Editar}"
+                                                          value="Modificar" style="color: blue"
+                                                         icon="ui-icon-check" 
+                                                         onclick="PF('wdiaEditar').hide();"
+                                                         update=":formUsuario:datTabUsu"/>
+                                    </p:column>                                 
+                                </p:row>
+                            </p:panelGrid>
+                        </h:form>                    
+                    </p:dialog>                      
+        </center>
+    </ui:define>
+</ui:composition>
+
+

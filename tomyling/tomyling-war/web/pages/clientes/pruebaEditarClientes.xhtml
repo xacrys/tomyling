@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="content" >
+        <center>
+            <p:growl id="growl" life="8000"></p:growl>
+            <h:form id="formCliente">
+                <p:fieldset legend="Editar Clientes" style="border: 3px solid #23527c">
+                    <p:dataTable id="datTabCli" var="cli" 
+                                 value="#{pruebaClientesControlador.listaClientes}"
+                                 emptyMessage="Ningún Cliente" rowIndexVar="index"
+                                 resizableColumns="true"  paginator="true" paginatorPosition="bottom" 
+                                 rows="5" rowKey="#{cli.cedRuc}"                         
+                                 style="text-align: center; align: center; border-radius: 1.6em; border: 2px solid #1b6d85" >                                                                                />
+                        <p:ajax event="rowSelect" listener="#{pruebaClientesControlador.seleccionaFila}" />
+                        <p:column headerText="No." style="width: 5%;color: firebrick">
+                            #{index+1} 
+                        </p:column>
+                        <p:column  headerText="Cédula/Ruc" style="color: brown" 
+                                   filterBy="#{cli.cedRuc}" sortBy="#{cli.cedRuc}"> 
+                            <p:outputLabel value="#{cli.cedRuc}" style="color: blue" />
+                        </p:column>
+                        <p:column headerText="Nombre" style="color: brown"
+                                  filterBy="#{cli.nombreCliente}" sortBy="#{cli.nombreCliente}">
+                            <p:outputLabel value="#{cli.nombreCliente}" style="color: blue" />
+                        </p:column>
+                        <p:column headerText="Dirección" style="color: brown"
+                                  filterBy="#{cli.direccion}" sortBy="#{cli.direccion}">
+                            <p:outputLabel value="#{cli.direccion}" style="color: blue" />
+                        </p:column>
+                        <p:column headerText="Teléfono" style="color: brown"
+                                  filterBy="#{cli.telefono}"
+                                  sortBy="#{cli.telefono}"
+                                 >
+                            <p:outputLabel value="#{cli.telefono}" style="color: blue" />
+                        </p:column>
+                        <p:column headerText="Estado" style="color: brown"
+                                  filterBy="#{cli.correo}" sortBy="#{cli.correo}" >
+                            <p:outputLabel value="#{cli.estado}" style="color: blue" />
+                        </p:column>
+                        <p:column headerText="Correo" style="color: brown"
+                                  filterBy="#{cli.correo}" sortBy="#{cli.correo}">
+                            <p:outputLabel value="#{cli.correo}" style="color: blue" />
+                        </p:column>
+                        <p:column style="color: coral" headerText="Editar">  
+                            <p:commandLink actionListener="#{pruebaClientesControlador.leeFila}">
+                                <p:graphicImage library="img" name="iconoEditar36x36.png" />
+                            </p:commandLink>
+                        </p:column>                 
+                    </p:dataTable>            
+                </p:fieldset>                           
+             </h:form>
+        </center>
+    </ui:define>
+</ui:composition>
+
