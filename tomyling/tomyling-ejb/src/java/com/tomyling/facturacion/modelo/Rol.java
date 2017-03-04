@@ -7,6 +7,7 @@ package com.tomyling.facturacion.modelo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -114,5 +115,6 @@ public class Rol implements Serializable {
     public String toString() {
         return "tomyling.facturacion.modelo.Rol[ idRol=" + idRol + " ]";
     }
-    
+
+   
 }

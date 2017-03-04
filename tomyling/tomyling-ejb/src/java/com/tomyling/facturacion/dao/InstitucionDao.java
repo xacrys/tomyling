@@ -8,6 +8,7 @@ package com.tomyling.facturacion.dao;
 import com.tomyling.facturacion.generico.Generico;
 import com.tomyling.facturacion.modelo.Institucion;
 import java.util.ArrayList;
+
 import java.util.List;
 import javax.persistence.Query;
 
@@ -33,6 +34,23 @@ public class InstitucionDao extends Generico<Institucion> {
             return listaIns;
         }
 
+    }
+    
+    public List<Institucion> listaTodasInstitucion()
+    {
+        List<Institucion> lstInst;
+        Query query;
+        String jpql="SELECT i FROM Institucion i";
+        query=getEntityManager().createQuery(jpql);
+        lstInst=query.getResultList();
+        if(lstInst == null || lstInst.isEmpty())
+        {
+            return null;
+        }   
+        else
+        {
+            return lstInst;
+        }
     }
 
 }

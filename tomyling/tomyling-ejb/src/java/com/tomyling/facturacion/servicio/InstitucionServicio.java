@@ -9,6 +9,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import com.tomyling.facturacion.dao.InstitucionDao;
 import com.tomyling.facturacion.modelo.Institucion;
+import com.tomyling.facturacion.modelo.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -21,7 +22,8 @@ import javax.faces.model.SelectItem;
  */
 @LocalBean
 @Stateless
-public class InstitucionServicio extends InstitucionDao {
+public class InstitucionServicio extends InstitucionDao 
+{
 
     public List<SelectItem> listarInstituciones() {
 
@@ -41,5 +43,67 @@ public class InstitucionServicio extends InstitucionDao {
         }
         return items;
     }
-
+    
+   public void crearInstitucion(Institucion inst) 
+    {
+        try
+        {    
+            //Ingresa a InstitucionDao (se extiende hereda)
+            this.create(inst);
+            
+            FacesMessage msjsi = new FacesMessage();
+            msjsi.setSeverity(FacesMessage.SEVERITY_INFO);
+            msjsi.setSummary("Institución creada..");
+            
+            FacesContext.getCurrentInstance().addMessage("men", msjsi);
+        }
+         catch(Exception e)
+         {      
+            FacesMessage msjno = new FacesMessage();
+            msjno.setSeverity(FacesMessage.SEVERITY_INFO);
+            msjno.setSummary("Institución creada..");
+            
+            FacesContext.getCurrentInstance().addMessage("men", msjno);
+         } 
+    } 
+   
+   public List<Institucion> cargaInstitucion()
+   {
+       List<Institucion> listaInst;
+       listaInst=this.listaTodasInstitucion();
+       if(listaInst == null || listaInst.isEmpty())
+       {
+           return null;
+       }
+       else
+       {
+           return listaInst;
+       }
+   
+   } 
+   
+   public void eliminaInstitucion(Institucion selectInstitucion)
+   {
+        try
+        { 
+           this.remove(selectInstitucion);
+           
+           FacesMessage msjsi=new FacesMessage();
+           msjsi.setSeverity(FacesMessage.SEVERITY_INFO);
+           msjsi.setSummary("Eliminada Institución..");
+           
+           FacesContext.getCurrentInstance().addMessage("men", msjsi);
+        }   
+        catch(Exception e)   
+        { 
+           FacesMessage msjno=new FacesMessage();
+           msjno.setSeverity(FacesMessage.SEVERITY_INFO);
+           msjno.setSummary("Eliminada Institución..");
+           
+           FacesContext.getCurrentInstance().addMessage("men", msjno);
+            
+        
+        }   
+   }
+ 
 }
