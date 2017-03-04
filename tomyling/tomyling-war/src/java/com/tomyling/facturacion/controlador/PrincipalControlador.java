@@ -5,8 +5,7 @@
  */
 package com.tomyling.facturacion.controlador;
 
-
-import com.tomyling.facturacion.dto.MenuDinamicoDao;
+import com.tomyling.facturacion.dto.MenuDinamicoDto;
 import com.tomyling.facturacion.modelo.Menu;
 import com.tomyling.facturacion.utilitarios.Utilitarios;
 import java.io.Serializable;
@@ -30,7 +29,8 @@ public class PrincipalControlador extends Utilitarios implements Serializable {
 
     private InicioControlador inicio;
     private List<Menu> listaMenus;
-    private List<MenuDinamicoDao> listaMenusSubmenus;
+    private List<MenuDinamicoDto> listaMenusSubmenus;
+    private String urlContenido;
 
     @PostConstruct
     private void init() {
@@ -39,6 +39,7 @@ public class PrincipalControlador extends Utilitarios implements Serializable {
         this.inicio = (InicioControlador) session.getAttribute("inicioControlador");
         this.listaMenus = this.inicio.getListaMenu();
         listaMenusSubmenus = iniciarMenu(listaMenus);
+        urlContenido = "";
 
     }
 
@@ -46,26 +47,26 @@ public class PrincipalControlador extends Utilitarios implements Serializable {
         listaMenus = new ArrayList<>();
     }
 
-    public List<MenuDinamicoDao> iniciarMenu(List<Menu> lista) {
+    public List<MenuDinamicoDto> iniciarMenu(List<Menu> lista) {
         List<Menu> listasMenus = new ArrayList<>();
         List<DefaultMenuItem> listasSubMenus = new ArrayList<>();
-       DefaultMenuModel model = new DefaultMenuModel();
         for (Menu m : lista) {
             if (m.getPadre() == 0) {
                 listasMenus.add(m);
             } else {
                 DefaultMenuItem item = new DefaultMenuItem(m.getNombreMenu());
-                item.setUrl("http://www.primefaces.org");
+                item.setUpdate(":frmContenido");
+                String comando = "#{principalControlador.definirVista(\"" + m.getUrl() + "\")}";
+                item.setCommand(comando);
                 item.setIcon(m.getIcono());
                 item.setId(m.getPadre().toString());
                 listasSubMenus.add(item);
             }
         }
-        List<MenuDinamicoDao> listafinal = new ArrayList<>();
-        
+        List<MenuDinamicoDto> listafinal = new ArrayList<>();
         for (Menu mp : listasMenus) {
-
-            MenuDinamicoDao mdd = new MenuDinamicoDao();
+            DefaultMenuModel model = new DefaultMenuModel();
+            MenuDinamicoDto mdd = new MenuDinamicoDto();
             mdd.setIdMenu(mp.getIdMenu());
             mdd.setNombreMenu(mp.getNombreMenu());
             mdd.setIcono(mp.getIcono());
@@ -78,6 +79,10 @@ public class PrincipalControlador extends Utilitarios implements Serializable {
             listafinal.add(mdd);
         }
         return listafinal;
+    }
+
+    public void definirVista(String url) {
+        urlContenido = url;
     }
 
     public InicioControlador getInicio() {
@@ -96,12 +101,20 @@ public class PrincipalControlador extends Utilitarios implements Serializable {
         this.listaMenus = listaMenus;
     }
 
-    public List<MenuDinamicoDao> getListaMenusSubmenus() {
+    public List<MenuDinamicoDto> getListaMenusSubmenus() {
         return listaMenusSubmenus;
     }
 
-    public void setListaMenusSubmenus(List<MenuDinamicoDao> listaMenusSubmenus) {
+    public void setListaMenusSubmenus(List<MenuDinamicoDto> listaMenusSubmenus) {
         this.listaMenusSubmenus = listaMenusSubmenus;
+    }
+
+    public String getUrlContenido() {
+        return urlContenido;
+    }
+
+    public void setUrlContenido(String urlContenido) {
+        this.urlContenido = urlContenido;
     }
 
 }

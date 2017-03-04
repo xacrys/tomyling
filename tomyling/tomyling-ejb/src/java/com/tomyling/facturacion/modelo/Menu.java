@@ -32,7 +32,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Menu.findByEstadoMenu", query = "SELECT m FROM Menu m WHERE m.estadoMenu = :estadoMenu")
     , @NamedQuery(name = "Menu.findByNivel", query = "SELECT m FROM Menu m WHERE m.nivel = :nivel")
     , @NamedQuery(name = "Menu.findByPadre", query = "SELECT m FROM Menu m WHERE m.padre = :padre")
-    , @NamedQuery(name = "Menu.findByIcono", query = "SELECT m FROM Menu m WHERE m.icono = :icono")})
+    , @NamedQuery(name = "Menu.findByIcono", query = "SELECT m FROM Menu m WHERE m.icono = :icono")
+    , @NamedQuery(name = "Menu.findByUrl", query = "SELECT m FROM Menu m WHERE m.url = :url")})
 public class Menu implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,6 +54,9 @@ public class Menu implements Serializable {
     @Size(max = 40)
     @Column(name = "icono")
     private String icono;
+    @Size(max = 40)
+    @Column(name = "url")
+    private String url;
 
     public Menu() {
     }
@@ -107,6 +111,14 @@ public class Menu implements Serializable {
 
     public void setIcono(String icono) {
         this.icono = icono;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override
