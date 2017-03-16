@@ -10,12 +10,14 @@ package com.tomyling.facturacion.controlador;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import com.sun.javafx.scene.control.skin.VirtualFlow;
+import com.tomyling.facturacion.dto.FacturaXmlDto;
 import com.tomyling.facturacion.modelo.DetalleFactura;
 import com.tomyling.facturacion.modelo.Factura;
 import com.tomyling.facturacion.modelo.Impuesto;
 import com.tomyling.facturacion.modelo.Parametros;
+import com.tomyling.facturacion.servicio.DetalleFacturaServicio;
 import com.tomyling.facturacion.servicio.FacturaServicio;
+import com.tomyling.facturacion.servicio.ImpuestoServicio;
 import com.tomyling.facturacion.servicio.ParametroServicio;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -67,19 +69,25 @@ public class CargarFacturaControlador implements Serializable {
     private File archivo;
     private String destino;
     private Factura factura;
-    private Integer flagCodigo;
-    private Integer flagCodigoPorcentaje;
-    private Integer flagBaseImponible;
-    private Integer flagValor;
+    private Boolean flagImpuesto;
     private Parametros parametro;
     private List<Impuesto> listaImpuesto;
     private List<DetalleFactura> listaDetalles;
+    private Impuesto impuesto;
+    private DetalleFactura detalleFactura;
+    private FacturaXmlDto facturaXml;
 
     @EJB
     private FacturaServicio facturaServicio;
 
     @EJB
     private ParametroServicio parametroServicio;
+
+    @EJB
+    private ImpuestoServicio impuestoServicio;
+
+    @EJB
+    private DetalleFacturaServicio detalleFacServicio;
 
     @PostConstruct
     private void inicio() {
@@ -93,10 +101,9 @@ public class CargarFacturaControlador implements Serializable {
         this.archivoSubido.add(evento.getFile());
     }
 
-    public void leerFactura() throws JDOMException, TransformerConfigurationException, ParserConfigurationException, SAXException, TransformerException  {
-        
-        for(UploadedFile uf : archivoSubido)
-        {
+    public void leerFactura() throws JDOMException, TransformerConfigurationException, ParserConfigurationException, SAXException, TransformerException {
+
+        for (UploadedFile uf : archivoSubido) {
             try {
                 copiarArchivo(uf.getFileName(), uf.getInputstream());
                 String ruta = destino + uf.getFileName();
@@ -106,30 +113,36 @@ public class CargarFacturaControlador implements Serializable {
                 InputStream stream = new ByteArrayInputStream(fuenteXml.getBytes("UTF-8"));
                 Document documento = saxBuilder.build(stream);
                 Element nodoRaiz = documento.getRootElement();
-                String nombreRaiz = nodoRaiz.getName();
+                //String nombreRaiz = nodoRaiz.getName();
 
                 factura = new Factura();
-                flagCodigo = 0;
-                flagCodigoPorcentaje = 0;
-                flagBaseImponible = 0;
-                flagValor = 0;
+                listaImpuesto = new ArrayList<>();
+                listaDetalles = new ArrayList<>();
+                flagImpuesto = false;
+                facturaXml = new FacturaXmlDto();
+//                flagDetalle = false;
                 recorrerHijos(nodoRaiz);
-//            Boolean flagExiste = facturaServicio.facturaExiste(factura.getClaveAcceso());
-//            if (!flagExiste) {
-//                facturaServicio.guardarFactura(factura);
-//            } else {
-//                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Alerta!", "La Factura ya ha sido cargada."));
-//
-//            }
+                facturaXml.setFactura(factura);
+                facturaXml.setListaImpuestos(listaImpuesto);
+                facturaXml.setListaDetalles(listaDetalles);
+                Boolean flagExiste = facturaServicio.facturaExiste(factura.getClaveAcceso());
+                if (!flagExiste) {
+                    facturaServicio.guardarFactura(factura);
+                    Factura nuevaFactura = facturaServicio.consultarFactura(factura.getClaveAcceso());
+                    impuestoServicio.guardarImpuestos(nuevaFactura.getIdFactura(), listaImpuesto);
+                    detalleFacServicio.guardarDetalles(nuevaFactura.getIdFactura(), listaDetalles);
+
+                } else {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Alerta!", "La Factura ya ha sido cargada."));
+
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();
-            } 
-                    
-        
+            }
+
         }
         this.archivoSubido = new ArrayList<>();
-       
 
     }
 
@@ -265,67 +278,75 @@ public class CargarFacturaControlador implements Serializable {
                     break;
                 case "propina":
                     factura.setPropina(BigDecimal.valueOf(Double.parseDouble(nodo.getText())));
+                    break;
                 case "importeTotal":
                     factura.setImporteTotal(BigDecimal.valueOf(Double.parseDouble(nodo.getText())));
+                    break;
                 case "moneda":
                     factura.setMoneda(nodo.getText());
+                    break;
+                case "codigo":
+                    if (flagImpuesto) {
+                        impuesto.setCodImpuesto(Integer.parseInt(nodo.getText()));
+                    }
+                    break;
+                case "codigoPorcentaje":
+                    if (flagImpuesto) {
+                        impuesto.setCodigoPorcentaje(nodo.getText());
+                    }
+                    break;
+                case "baseImponible":
+                    if (flagImpuesto) {
+                        impuesto.setBaseImponible(BigDecimal.valueOf(Double.parseDouble(nodo.getText())));
+                    }
+                    break;
+                case "valor":
+                    if (flagImpuesto) {
+                        impuesto.setValor(BigDecimal.valueOf(Double.parseDouble(nodo.getText())));
+                        listaImpuesto.add(impuesto);
+                    }
+                    break;
+                case "codigoPrincipal":
+                    detalleFactura.setCodigoPrincipal(nodo.getText());
+                    break;
+                case "codigoAuxiliar":
+                    detalleFactura.setCodigoAuxiliar(nodo.getText());
+                    break;
+                case "descripcion":
+                    detalleFactura.setDescripcion(nodo.getText());
+                    break;
+                case "cantidad":
+                    detalleFactura.setCantidad(Double.parseDouble(nodo.getText()));
+                    break;
+                case "precioUnitario":
+                    detalleFactura.setPrecioUnitario(Double.parseDouble(nodo.getText()));
+                    break;
+                case "descuento":
+                    detalleFactura.setDescuento(Double.parseDouble(nodo.getText()));
+                    break;
+                case "precioTotalSinImpuesto":
+                    detalleFactura.setPrecioTotalSinimpuesto(Double.parseDouble(nodo.getText()));
+                    listaDetalles.add(detalleFactura);
+                    break;
 
             }
         } else {
             for (int i = 0; i < listaNodos.size(); i++) {
                 Element nodoSecundario = (Element) listaNodos.get(i);
+                if (nodoSecundario.getName().equals("totalImpuesto")) {
+                    impuesto = new Impuesto();
+                    flagImpuesto = true;
+                }
+                if (nodoSecundario.getName().equals("detalle")) {
+                    detalleFactura = new DetalleFactura();
+                }
+                if (nodoSecundario.getName().equals("impuesto")) {
+                    flagImpuesto = false;
+                }
                 recorrerHijos(nodoSecundario);
             }
 
         }
-    }
-
-    public Integer getFlagCodigo() {
-        return flagCodigo;
-    }
-
-    public void setFlagCodigo(Integer flagCodigo) {
-        this.flagCodigo = flagCodigo;
-    }
-
-    public Integer getFlagCodigoPorcentaje() {
-        return flagCodigoPorcentaje;
-    }
-
-    public void setFlagCodigoPorcentaje(Integer flagCodigoPorcentaje) {
-        this.flagCodigoPorcentaje = flagCodigoPorcentaje;
-    }
-
-    public Integer getFlagBaseImponible() {
-        return flagBaseImponible;
-    }
-
-    public void setFlagBaseImponible(Integer flagBaseImponible) {
-        this.flagBaseImponible = flagBaseImponible;
-    }
-
-    public Integer getFlagValor() {
-        return flagValor;
-    }
-
-    public void setFlagValor(Integer flagValor) {
-        this.flagValor = flagValor;
-    }
-
-    public List<Impuesto> getListaImpuesto() {
-        return listaImpuesto;
-    }
-
-    public void setListaImpuesto(List<Impuesto> listaImpuesto) {
-        this.listaImpuesto = listaImpuesto;
-    }
-
-    public List<DetalleFactura> getListaDetalles() {
-        return listaDetalles;
-    }
-
-    public void setListaDetalles(List<DetalleFactura> listaDetalles) {
-        this.listaDetalles = listaDetalles;
     }
 
     public List<UploadedFile> getArchivoSubido() {
