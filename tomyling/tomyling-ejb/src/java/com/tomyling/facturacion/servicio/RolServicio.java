@@ -64,5 +64,33 @@ public class RolServicio extends RolDao
         
     }
             
-   
+   // Eliminar Rol
+    public void eliminaRol(Rol selectRol)
+    {
+        try
+        {
+            this.remove(selectRol);
+        
+            FacesMessage elimina=new FacesMessage();
+            elimina.setSeverity(FacesMessage.SEVERITY_INFO);
+            elimina.setSummary("Rol eliminado");
+            
+            FacesContext.getCurrentInstance().addMessage("msns", elimina);
+        }    
+        catch(Exception e)
+        {
+            FacesMessage noelimina=new FacesMessage();
+            noelimina.setSeverity(FacesMessage.SEVERITY_INFO);
+            noelimina.setSummary("NO se elimino el Rol..");
+            
+            FacesContext.getCurrentInstance().addMessage("msns1", noelimina);
+            
+        }
+
+    }   
+    
+    public void editaRol(Rol selectRol)
+    {
+        this.edit(selectRol);
+    }       
 }

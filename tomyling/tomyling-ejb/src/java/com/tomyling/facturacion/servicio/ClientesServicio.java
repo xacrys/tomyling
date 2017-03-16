@@ -28,7 +28,7 @@ public class ClientesServicio extends ClientesDao
    {
        try
        {
-          this.create(cli);
+          this.edit(cli);
           
           FacesMessage msjsi=new FacesMessage();
           msjsi.setSeverity(FacesMessage.SEVERITY_INFO);
@@ -50,7 +50,7 @@ public class ClientesServicio extends ClientesDao
    { 
        List<Clientes> listaClientes;
        listaClientes=this.listaTodosClientes();
-       if(listaClientes == null || listaClientes.isEmpty())
+       if(listaClientes == null || listaClientes.isEmpty()) 
        {  
            return null;
        }
@@ -60,7 +60,15 @@ public class ClientesServicio extends ClientesDao
        }    
       
    }
-
+   
+   // Editar Clientes
+   public void actualizaClientes(Clientes selClientes)
+   {
+       this.edit(selClientes);
+   }        
     
-    
+   public void eliminaCliente(Clientes selCliente)
+   {
+      this.remove(selCliente);
+   }        
 }

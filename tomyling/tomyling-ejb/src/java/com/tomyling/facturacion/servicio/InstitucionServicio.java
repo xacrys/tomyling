@@ -98,12 +98,16 @@ public class InstitucionServicio extends InstitucionDao
         { 
            FacesMessage msjno=new FacesMessage();
            msjno.setSeverity(FacesMessage.SEVERITY_INFO);
-           msjno.setSummary("Eliminada Institución..");
+           msjno.setSummary("No se elimino  Institución..");
            
            FacesContext.getCurrentInstance().addMessage("men", msjno);
             
         
         }   
    }
- 
+   
+   public void editarInstitucion(Institucion selectInstitucion)
+    {
+      this.edit(selectInstitucion);
+    }
 }
