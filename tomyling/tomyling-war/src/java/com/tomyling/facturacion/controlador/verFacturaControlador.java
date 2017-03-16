@@ -49,7 +49,7 @@ public class verFacturaControlador extends Utilitarios implements Serializable
    
    public void cargaFacturas()
    {         
-       listaFactura=this.facturaServicio.verTodasFacturas();
+      // listaFactura=this.facturaServicio.verTodasFacturas();
    }
    
    //getters y setters
