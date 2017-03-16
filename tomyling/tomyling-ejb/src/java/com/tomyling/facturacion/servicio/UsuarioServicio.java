@@ -9,6 +9,9 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import com.tomyling.facturacion.dao.UsuarioDao;
 import com.tomyling.facturacion.modelo.Usuario;
+import java.util.List;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -29,12 +32,41 @@ public class UsuarioServicio extends UsuarioDao {
 
     }
     
-    public void crearUsuario(Usuario u){
+    public void crearUsuario(Usuario u)
+    {
         try {
             this.create(u);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+    
+    
+     public List<Usuario> listarUsuarios()
+     {      
+        List<Usuario> listaUsuario;      
+        listaUsuario = this.listarTodosUsuarios();
+        if (listaUsuario == null || listaUsuario.isEmpty()) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No existen datos de Usuasrios.!", ""));
+            return null;
+        }
+        else
+        {
+            return listaUsuario;
+        }
+      
+     }  
+     
+     public void Modificar(Usuario usus)
+     {
+         try
+         {
+             this.edit(usus);
+         }    
+             
+         catch(Exception e)
+         {
+         }
+     }     
 }

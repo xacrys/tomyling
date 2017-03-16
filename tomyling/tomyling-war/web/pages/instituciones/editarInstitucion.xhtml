@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="content" >
+        <center>
+            <h:form id="formEdiIns">
+                <p:fieldset legend="Editar Institución" style="font-size: 14px;border: 3px solid #23527c">
+                    <p:dataTable id="datTabIns" value="#{ingresoInstitucionControlador.listaInstitucion}"
+                                 var='ins'
+                                  emptyMessage="Ningúna Institución" rowIndexVar="index"
+                                 resizableColumns="true"  paginator="true" paginatorPosition="bottom" 
+                                 rows="5" rowKey="#{ins.idInstitucion}"                          
+                                 style="text-align: center; align: center; border-radius: 1.6em; border: 2px solid #1b6d85" >
+                        <p:ajax event="rowSelect" listener="#{ingresoInstitucionControlador.seleccionaFila}" update=":diaIns" />
+                        <p:column headerText="No." style="width: 5%;color: firebrick" >
+                            #{index+1}
+                        </p:column>
+                        <p:column headerText="ID" style="color: brown">
+                            <p:outputLabel style="color: blue" value="#{ins.idInstitucion}" />
+                        </p:column>
+                        <p:column headerText="Nombre" style="color: brown" sortBy="#{ins.nombre}" 
+                                  filterBy="#{ins.nombre}">
+                            <p:outputLabel style="color: blue" value="#{ins.nombre}" />
+                        </p:column>
+                        <p:column headerText="RUC" style="color: brown" sortBy="#{ins.ruc}" 
+                                  filterBy="#{ins.ruc}">
+                             <p:outputLabel style="color: blue" value="#{ins.ruc}" />
+                        </p:column>
+                        <p:column headerText="Dirección" style="color: brown" sortBy="#{ins.direccion}"
+                                  filterBy="#{ins.direccion}">                                
+                             <p:outputLabel style="color: blue" value="#{ins.direccion}" />
+                        </p:column>
+                        <p:column headerText="Teléfono" style="color: brown" sortBy="#{ins.telefono}" 
+                                  filterBy="#{ins.telefono}">
+                             <p:outputLabel style="color: blue" value="#{ins.telefono}" />
+                        </p:column>
+                        <p:column headerText="Editar" style="color: red" >                              
+                            <p:commandLink oncomplete="PF('wdiaIns').show();">  
+                                <p:graphicImage library="img" name="iconoEditar36x36.png" />
+                           <!--   <f:setPropertyActionListener 
+                                    target="#{ingresoInstitucionControlador.selectInstitucion}" value="#ins" />   
+                            </p:commandLink>  -->seleccionarselec
+                        </p:column>
+                        <p:column headerText="Eliminar" style="color: darkcyan">
+                            <p:commandLink style="color: purple" update=":#{p:component('messages')}"                                          
+                                           actionListener="#{ingresoInstitucionControlador.eliminarInstitucion}"
+                                           >
+                                <p:confirm  header="Confirmación" message="Esta seguro(a)?" icon="ui-icon-alert"  />
+                                <p:graphicImage library="img" name="iconoEliminar36x36.png" />
+                          <!--     <f:setPropertyActionListener 
+                                    target="#{ingresoInstitucionControlador.selectInstitucion}" value="#ins" /> -->
+                            </p:commandLink>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </h:form>    
+            <p:dialog id="diaIns" widgetVar="wdiaIns" closeOnEscape="true"
+                      draggable="false" header="Editar Institución"
+                      modal="true"  resizable="false" >
+                <h:form id="formDiaIns">
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel style="color: brown;font-size: 12px;" value="Nombre" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText style="color: blue; font-size: 12px"
+                                             value="#{ingresoInstitucionControlador.selectInstitucion.nombre}" /> 
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel style="color: brown;font-size: 12px;" value="Ruc" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText style="color: blue; font-size: 12px"
+                                             value="#{ingresoInstitucionControlador.selectInstitucion.ruc}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel style="color: brown;font-size: 12px;" value="Dirección" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText style="color: blue; font-size: 12px"
+                                             value="#{ingresoInstitucionControlador.selectInstitucion.direccion}" />
+                            </p:column>
+                         </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel style="color: brown;font-size: 12px;" value="Teléfono" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText style="color: blue; font-size: 12px"
+                                             value="#{ingresoInstitucionControlador.selectInstitucion.telefono}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:commandButton value="Modificar" icon="ui-icon-check" style="color: green"
+                                                />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form> 
+             </p:dialog>    
+            <h:form id="formConf">                         
+                 <p:growl id="messages" />
+ 
+                 <p:confirmDialog global="true" showEffect="fade" hideEffect="explode" >
+                     <p:commandButton style="color: blue; border: 2px solid #169F85" value="Si" type="button" styleClass="ui-confirmdialog-yes"
+                                      icon="ui-icon-check" />               
+                     <p:commandButton style="color: red; border: 2px solid #169F85" value="No" type="button" styleClass="ui-confirmdialog-no"
+                                      icon="ui-icon-close" />    
+                </p:confirmDialog>
+            </h:form>        
+        </center>
+    </ui:define>
+</ui:composition>
+
+

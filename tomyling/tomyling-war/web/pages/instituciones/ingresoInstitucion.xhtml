@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="content" >
+        <center>
+            <p:growl id="grow" sticky="true" life="8000" />
+            <h:form id="formInstitucion">
+                <p:fieldset legend="Ingreso Instituciones" style="font-size: 20px;border: 3px solid blueviolet">
+                    <p:panelGrid id="panGriIns" style="border: 2px solid #204d74"> 
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="ID" style="color: brown" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText style="color: blue" value="#{ingresoInstitucionControlador.ID}" 
+                                             required="true" requiredMessage="Nombre obligatorio" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Nombre" style="color: brown" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText style="color: blue" value="#{ingresoInstitucionControlador.nombre}" 
+                                             required="true" requiredMessage="Nombre obligatorio" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Cédula/Ruc" style="color: brown" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText style="color: blue" value="#{ingresoInstitucionControlador.cedRuc}"
+                                             required="true" requiredMessage="Cédula/Ruc obligatio" />
+                            </p:column>
+                        </p:row>
+                         <p:row>
+                            <p:column>
+                                <p:outputLabel value="Dirección" style="color: brown" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText style="color: blue" value="#{ingresoInstitucionControlador.direccion}"
+                                             required="true" requiredMessage="Dirección obligatio" />
+                            </p:column>
+                        </p:row>
+                           <p:row>
+                            <p:column>
+                                <p:outputLabel value="Teléfono" style="color: brown" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText style="color: blue" value="#{ingresoInstitucionControlador.telefono}" 
+                                             required="true" requiredMessage="Teléfono obligatio" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:commandButton style="color: #1ABB9C" value="Crear" 
+                                                 actionListener="#{ingresoInstitucionControlador.guardarInstitucion}"
+                                                  icon="fa fa-user" update=":#{p:component('grow')}
+                                                  ,:#{p:component('panGriIns')}" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:fieldset>
+            </h:form>
+        </center>
+    </ui:define>
+</ui:composition>

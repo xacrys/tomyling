@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="content" >
+        <center>
+            <p:growl id="growl" life="8000" showDetail="true" showSummary="true" sticky="true" globalOnly="true" ></p:growl>
+            <h:form id="formEdiIns">
+                <p:fieldset legend="Editar Rol" style="font-size: 14px;border: 3px solid #23527c">
+                    <p:dataTable id="datTabRol" value="#{ingresoRolControlador.listaRol}" var="filarol"  
+                                 emptyMessage="Ningún Rol" rowIndexVar="index"
+                                 resizableColumns="true"  paginator="true" paginatorPosition="bottom" 
+                                 rows="5"                         
+                                 style="text-align: center; align: center; border-radius: 1.6em; border: 2px solid #1b6d85" >
+                        <p:column headerText="No." style="width: 3%;color: firebrick" >
+                            #{index+1}
+                        </p:column>
+                        <p:column style="color: brown;width: 3%;" headerText="ID" >
+                            <p:outputLabel value="#{filarol.idRol}" style="color: blue" />
+                        </p:column>
+                         <p:column style="color: brown;width: 20%" headerText="Nombre">
+                            <p:outputLabel value="#{filarol.nombreRol}" style="color: blue" />
+                        </p:column>
+                         <p:column style="color: brown;width: 7%" headerText="Estado">
+                             <p:outputLabel value="#{filarol.estadoRol}" style="color: blue" />
+                        </p:column>
+                         <p:column style="color: brown;width: 18%" headerText="Fecha Crea">
+                             <p:outputLabel value="#{filarol.fechaCreacion}" style="color: blue" />
+                            <!-- <f:convertDateTime locale="es" /> -->
+                        </p:column>
+                        <p:column headerText="Editar" style="color: coral;width: 7%">
+                            <p:commandLink actionListener="#{ingresoRolControlador.verFila}"
+                                           update=":frmRol" oncomplete="PF('wdiaRol').show();" >
+                                <p:graphicImage library="img" name="iconoEditar36x36.png" />
+                                <f:setPropertyActionListener target="#{ingresoRolControlador.selectRol}" value="#{filarol}" />
+                            </p:commandLink>                                
+                        </p:column>                      
+                    </p:dataTable>                                   
+                </p:fieldset> 
+            </h:form> 
+            <p:dialog id="diaRol" widgetVar="wdiaRol" header="Lista Rol" 
+                      showEffect="explode" modal="true" resizable="false" closeOnEscape="true"
+                position="center center" width="400" height="200"  >
+                <h:form id="frmRol">
+                    <p:panelGrid style="border: 2px solid #1b6d85" id="panGriRol1">
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Nombre" style="color: sienna" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText style="color: slateblue" value="#{ingresoRolControlador.selectRol.nombreRol}" />
+                            </p:column>
+                        </p:row>
+                         <p:row>
+                            <p:column>
+                                <p:outputLabel value="Estado" style="color: sienna" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText style="color: slateblue" value="#{ingresoRolControlador.selectRol.estadoRol}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Fecha Creación" style="color: sienna" />
+                            </p:column>
+                            <p:column>
+                                <p:calendar id="mask" value="#{ingresoRolControlador.selectRol.fechaCreacion}" pattern="dd-MM-yyyy" mask="true" style="color: slateblue"/>
+                                
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:commandButton value="Modificar" onclick="PF(''wdiaRol).hide();"
+                                                 style="color: blue; border: 2px solid #169F85" icon="ui-icon-cheack" />
+                                 <p:commandButton value="Cancelar" onclick="PF(''wdiaRol).hide();"
+                                                  style="color: blue; border: 2px solid #169F85" icon="ui-icon-close"> 
+                                     <p:ajax update=":#{p:component('panGriRol1')}" resetValues="true" />
+                                 </p:commandButton>
+                                
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>      
+            </p:dialog>
+        </center>
+    </ui:define>
+</ui:composition>
+
