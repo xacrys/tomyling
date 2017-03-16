@@ -8,41 +8,53 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content" >
-        <center>
-            <p:growl id="growl" life="8000" showDetail="true" showSummary="true" sticky="true" globalOnly="true" ></p:growl>
-            <h:form id="formEdiIns">
+        <center>          
+            <h:form id="formEdiIns">  
+               <!-- <p:growl id="growl" life="8000" showDetail="true" showSummary="true" sticky="true" globalOnly="true" ></p:growl> -->
                 <p:fieldset legend="Editar Rol" style="font-size: 14px;border: 3px solid #23527c">
                     <p:dataTable id="datTabRol" value="#{ingresoRolControlador.listaRol}" var="filarol"  
                                  emptyMessage="Ningún Rol" rowIndexVar="index"
                                  resizableColumns="true"  paginator="true" paginatorPosition="bottom" 
                                  rows="5"                         
-                                 style="text-align: center; align: center; border-radius: 1.6em; border: 2px solid #1b6d85" >
+                                 style="text-align: center; align: center; border-radius: 1.6em; border: 2px solid #1b6d85"
+                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15" >
                         <p:column headerText="No." style="width: 3%;color: firebrick" >
                             #{index+1}
                         </p:column>
                         <p:column style="color: brown;width: 3%;" headerText="ID" >
                             <p:outputLabel value="#{filarol.idRol}" style="color: blue" />
                         </p:column>
-                         <p:column style="color: brown;width: 20%" headerText="Nombre">
+                        <p:column style="color: brown;width: 20%" headerText="Nombre" 
+                                  filterBy="#{filarol.nombreRol}" sortBy="#{filarol.nombreRol}">
                             <p:outputLabel value="#{filarol.nombreRol}" style="color: blue" />
                         </p:column>
-                         <p:column style="color: brown;width: 7%" headerText="Estado">
+                         <p:column style="color: brown;width: 7%" headerText="Estado"
+                                   filterBy="#{filarol.estadoRol}" sortBy="#{filarol.estadoRol}">
                              <p:outputLabel value="#{filarol.estadoRol}" style="color: blue" />
                         </p:column>
-                         <p:column style="color: brown;width: 18%" headerText="Fecha Crea">
+                         <p:column style="color: brown;width: 18%" headerText="Fecha Crea"
+                                   filterBy="#{filarol.fechaCreacion}" sortBy="#{filarol.fechaCreacion}"> 
                              <p:outputLabel value="#{filarol.fechaCreacion}" style="color: blue" />
                             <!-- <f:convertDateTime locale="es" /> -->
                         </p:column>
                         <p:column headerText="Editar" style="color: coral;width: 7%">
-                            <p:commandLink actionListener="#{ingresoRolControlador.verFila}"
+                            <p:commandLink actionListener="#{ingresoRolControlador.editaUnRol}"
                                            update=":frmRol" oncomplete="PF('wdiaRol').show();" >
                                 <p:graphicImage library="img" name="iconoEditar36x36.png" />
                                 <f:setPropertyActionListener target="#{ingresoRolControlador.selectRol}" value="#{filarol}" />
                             </p:commandLink>                                
-                        </p:column>                      
-                    </p:dataTable>                                   
+                        </p:column>
+                        <p:column style="color: coral;width: 7%" headerText="Eliminar"  >
+                            <p:commandLink oncomplete="PF('wdiaLogRol').show();" update=":#{p:component('formDiaLogEli')}">
+                                <p:graphicImage library="img" name="iconoEliminar36x36.png" />
+                                <f:setPropertyActionListener target="#{ingresoRolControlador.selectRol}" value="#{filarol}" />                              
+                            </p:commandLink>                           
+                        </p:column>
+                    </p:dataTable>                                    
                 </p:fieldset> 
             </h:form> 
+            <!-- dialog de Edición -->
             <p:dialog id="diaRol" widgetVar="wdiaRol" header="Lista Rol" 
                       showEffect="explode" modal="true" resizable="false" closeOnEscape="true"
                 position="center center" width="400" height="200"  >
@@ -54,7 +66,7 @@
                             </p:column>
                             <p:column>
                                 <p:inputText style="color: slateblue" value="#{ingresoRolControlador.selectRol.nombreRol}" />
-                            </p:column>
+                            </p:column> 
                         </p:row>
                          <p:row>
                             <p:column>
@@ -69,24 +81,39 @@
                                 <p:outputLabel value="Fecha Creación" style="color: sienna" />
                             </p:column>
                             <p:column>
-                                <p:calendar id="mask" value="#{ingresoRolControlador.selectRol.fechaCreacion}" pattern="dd-MM-yyyy" mask="true" style="color: slateblue"/>
+                                <p:calendar id="mask" value="#{ingresoRolControlador.selectRol.fechaCreacion}"
+                                            pattern="dd-MM-yyyy" mask="true" style="color: slateblue"/>
                                 
                             </p:column>
                         </p:row>
                         <p:row>
                             <p:column colspan="2">
-                                <p:commandButton value="Modificar" onclick="PF(''wdiaRol).hide();"
+                                <p:commandButton value="Modificar" onclick="PF(''wdiaRol).hide();"  
+                                                 actionListener="#{ingresoRolControlador.editaUnRol()}"
+                                                 update=":#{p:component('datTabRol')}"
                                                  style="color: blue; border: 2px solid #169F85" icon="ui-icon-cheack" />
                                  <p:commandButton value="Cancelar" onclick="PF(''wdiaRol).hide();"
                                                   style="color: blue; border: 2px solid #169F85" icon="ui-icon-close"> 
                                      <p:ajax update=":#{p:component('panGriRol1')}" resetValues="true" />
-                                 </p:commandButton>
-                                
+                                 </p:commandButton>                              
                             </p:column>
                         </p:row>
-                    </p:panelGrid>
-                </h:form>      
+                    </p:panelGrid>                   
+                </h:form>       
             </p:dialog>
+            <!--Confirmación --> 
+            <p:dialog header="Confirmación" widgetVar="wdiaLogRol" 
+                      showEffect="explode" modal="true" resizable="false" closeOnEscape="true"
+                position="center center" width="200" height="70" >
+                <h:form id="formDiaLogEli">
+                    <p:commandButton value="Si" onclick="PF('wdiaLogRol').hide();" 
+                                     style="color: blue;border: 2px solid #1b6d85"
+                                     actionListener="#{ingresoRolControlador.borraUnRol()}"/>
+                     <p:commandButton value="No" onclick="PF('wdiaLogRol').hide();" 
+                                     style="color:red;border: 2px solid #1b6d85" />
+                </h:form>
+            </p:dialog>
+          
         </center>
     </ui:define>
 </ui:composition>

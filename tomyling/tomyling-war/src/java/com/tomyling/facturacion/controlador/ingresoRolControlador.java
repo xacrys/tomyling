@@ -83,12 +83,24 @@ public class ingresoRolControlador  extends Utilitarios implements Serializable
          }     
             
     } 
-    
+        
     public void verFila()
     {
         Rol rol2=new Rol();
         rol2=this.selectRol;
-    }        
+    } 
+    //Eliminar Rol
+    public void borraUnRol()
+    {
+        this.rolServ.eliminaRol(selectRol);
+        
+    } 
+    
+    //Editar Rol
+    public void editaUnRol()
+    {
+        this.rolServ.editaRol(selectRol);
+    }
     //getters y setters
 
     public Integer getId_rol() {

@@ -11,24 +11,34 @@
         <center>
             <p:growl id="grow" sticky="true" life="8000" />
             <h:form id="formInstitucion">
-                <p:fieldset legend="Ingreso Instituciones" style="font-size: 20px;border: 3px solid blueviolet">
+                <h1 style="color: teal;font-size: 20px">INGRESO DE INSTITUCIONES</h1>
+              <!--  <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /> -->
+                <p:fieldset style="font-size: 16px;border: 3px solid #23527c;color: coral">
                     <p:panelGrid id="panGriIns" style="border: 2px solid #204d74"> 
                         <p:row>
                             <p:column>
                                 <p:outputLabel value="ID" style="color: brown" />
                             </p:column>
                             <p:column>
-                                <p:inputText style="color: blue" value="#{ingresoInstitucionControlador.ID}" 
-                                             required="true" requiredMessage="Nombre obligatorio" />
+                                <p:inputText id="txtID" style="color: blue" value="#{ingresoInstitucionControlador.ID}" 
+                                             required="true" requiredMessage="Nombre obligatorio" 
+                                             readonly="true" />
                             </p:column>
+                            <p:column >
+                                <p:message for="txtID" display="icon" />
+                            </p:column>
+
                         </p:row>
                         <p:row>
                             <p:column>
                                 <p:outputLabel value="Nombre" style="color: brown" />
                             </p:column>
                             <p:column>
-                                <p:inputText style="color: blue" value="#{ingresoInstitucionControlador.nombre}" 
+                                <p:inputText  id="txtNombre" style="color: blue" value="#{ingresoInstitucionControlador.nombre}" 
                                              required="true" requiredMessage="Nombre obligatorio" />
+                            </p:column>
+                            <p:column >
+                                <p:message for="txtNombre" display="icon" />
                             </p:column>
                         </p:row>
                         <p:row>
@@ -36,37 +46,55 @@
                                 <p:outputLabel value="Cédula/Ruc" style="color: brown" />
                             </p:column>
                             <p:column>
-                                <p:inputText style="color: blue" value="#{ingresoInstitucionControlador.cedRuc}"
-                                             required="true" requiredMessage="Cédula/Ruc obligatio" />
+                                <p:inputText  id="txtCedula" style="color: blue" value="#{ingresoInstitucionControlador.cedRuc}"
+                                              required="true" requiredMessage="Cédula/Ruc obligatio" label="Cédula/Ruc" >
+                                    <f:validator validatorId="cedulaRuc1" />
+                                </p:inputText>
                             </p:column>
+                             <p:column >
+                                <p:message for="txtCedula" display="icon" />
+                             </p:column>
                         </p:row>
                          <p:row>
                             <p:column>
                                 <p:outputLabel value="Dirección" style="color: brown" />
                             </p:column>
                             <p:column>
-                                <p:inputText style="color: blue" value="#{ingresoInstitucionControlador.direccion}"
+                                <p:inputText  id="txtDireccion" style="color: blue" value="#{ingresoInstitucionControlador.direccion}"
                                              required="true" requiredMessage="Dirección obligatio" />
                             </p:column>
+                             <p:column >
+                                <p:message for="txtDireccion" display="icon" />
+                             </p:column>
                         </p:row>
                            <p:row>
                             <p:column>
                                 <p:outputLabel value="Teléfono" style="color: brown" />
                             </p:column>
                             <p:column>
-                                <p:inputText style="color: blue" value="#{ingresoInstitucionControlador.telefono}" 
+                                <p:inputText  id="txtTelefono" style="color: blue" value="#{ingresoInstitucionControlador.telefono}" 
                                              required="true" requiredMessage="Teléfono obligatio" />
+                            </p:column>
+                            <p:column >
+                                <p:message for="txtTelefono" display="icon" />
                             </p:column>
                         </p:row>
                         <p:row>
-                            <p:column colspan="2">
-                                <p:commandButton style="color: #1ABB9C" value="Crear" 
+                            <p:column colspan="3">
+                                <p:commandButton style="color: teal;border: 2px solid #00aeef" value="Crear"  
                                                  actionListener="#{ingresoInstitucionControlador.guardarInstitucion}"
-                                                  icon="fa fa-user" update=":#{p:component('grow')}
+                                                  icon="fa fa-user" update=":#{p:component('men')}
                                                   ,:#{p:component('panGriIns')}" />
+                                <p:commandButton value="Cancelar"  icon="ui-icon-close" 
+                                                 style="color: red;border: 2px solid #23527c" >
+                                    <p:ajax update=":#{p:component('panGriIns')},
+                                                :#{p:component('men')}" resetValues="true"  />                                   
+                                </p:commandButton>
+                                                 
                             </p:column>
                         </p:row>
                     </p:panelGrid>
+                    <p:messages id="men" style="color: red" />
                 </p:fieldset>
             </h:form>
         </center>

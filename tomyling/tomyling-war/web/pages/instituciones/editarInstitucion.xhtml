@@ -15,9 +15,11 @@
                                  var='ins'
                                   emptyMessage="Ningúna Institución" rowIndexVar="index"
                                  resizableColumns="true"  paginator="true" paginatorPosition="bottom" 
-                                 rows="5" rowKey="#{ins.idInstitucion}"                          
+                                 rows="5" rowKey="#{ins.idInstitucion}"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15"
                                  style="text-align: center; align: center; border-radius: 1.6em; border: 2px solid #1b6d85" >
-                        <p:ajax event="rowSelect" listener="#{ingresoInstitucionControlador.seleccionaFila}" update=":diaIns" />
+                       
                         <p:column headerText="No." style="width: 5%;color: firebrick" >
                             #{index+1}
                         </p:column>
@@ -41,22 +43,18 @@
                              <p:outputLabel style="color: blue" value="#{ins.telefono}" />
                         </p:column>
                         <p:column headerText="Editar" style="color: red" >                              
-                            <p:commandLink oncomplete="PF('wdiaIns').show();">  
+                            <p:commandLink oncomplete="PF('wdiaIns').show();" update=":#{p:component('formDiaIns')}">                                         
                                 <p:graphicImage library="img" name="iconoEditar36x36.png" />
-                           <!--   <f:setPropertyActionListener 
-                                    target="#{ingresoInstitucionControlador.selectInstitucion}" value="#ins" />   
-                            </p:commandLink>  -->seleccionarselec
+                             <f:setPropertyActionListener 
+                                 target="#{ingresoInstitucionControlador.selectInstitucion}" value="#{ins}" />   
+                            </p:commandLink>  
                         </p:column>
-                        <p:column headerText="Eliminar" style="color: darkcyan">
-                            <p:commandLink style="color: purple" update=":#{p:component('messages')}"                                          
-                                           actionListener="#{ingresoInstitucionControlador.eliminarInstitucion}"
-                                           >
-                                <p:confirm  header="Confirmación" message="Esta seguro(a)?" icon="ui-icon-alert"  />
+                         <p:column style="color: coral;width: 7%" headerText="Eliminar"  >
+                             <p:commandLink  oncomplete="PF('wElimina').show();" update=":#{p:component('formElimina')}">
                                 <p:graphicImage library="img" name="iconoEliminar36x36.png" />
-                          <!--     <f:setPropertyActionListener 
-                                    target="#{ingresoInstitucionControlador.selectInstitucion}" value="#ins" /> -->
-                            </p:commandLink>
-                        </p:column>
+                                <f:setPropertyActionListener target="#{ingresoInstitucionControlador.selectInstitucion}" value="#{ins}" />                                
+                            </p:commandLink>                           
+                        </p:column>  
                     </p:dataTable>
                 </p:fieldset>
             </h:form>    
@@ -64,7 +62,7 @@
                       draggable="false" header="Editar Institución"
                       modal="true"  resizable="false" >
                 <h:form id="formDiaIns">
-                    <p:panelGrid>
+                    <p:panelGrid id="panGriEdis">
                         <p:row>
                             <p:column>
                                 <p:outputLabel style="color: brown;font-size: 12px;" value="Nombre" />
@@ -103,23 +101,33 @@
                         </p:row>
                         <p:row>
                             <p:column colspan="2">
-                                <p:commandButton value="Modificar" icon="ui-icon-check" style="color: green"
-                                                />
-                            </p:column>
+                                <p:commandButton  actionListener="#{ingresoInstitucionControlador.actualizaInstitucion()}"
+                                                  value="Modificar" icon="fa-edit"
+                                                  update=":#{p:component('datTabIns')}"
+                                                  onclick="PF('wdiaIns').hide();"
+                                                  style="color: blue; border: 2px solid #169F85"  />
+                                 <p:commandButton value="Cancelar" onclick="PF('wdiaIns').hide();"
+                                                  style="color: blue; border: 2px solid #169F85" icon="ui-icon-close"> 
+                                     <p:ajax update=":#{p:component('panGriEdis')}" resetValues="true" />
+                                </p:commandButton> 
+                            </p:column>                          
                         </p:row>
                     </p:panelGrid>
                 </h:form> 
              </p:dialog>    
-            <h:form id="formConf">                         
-                 <p:growl id="messages" />
- 
-                 <p:confirmDialog global="true" showEffect="fade" hideEffect="explode" >
-                     <p:commandButton style="color: blue; border: 2px solid #169F85" value="Si" type="button" styleClass="ui-confirmdialog-yes"
-                                      icon="ui-icon-check" />               
-                     <p:commandButton style="color: red; border: 2px solid #169F85" value="No" type="button" styleClass="ui-confirmdialog-no"
-                                      icon="ui-icon-close" />    
-                </p:confirmDialog>
-            </h:form>        
+            <p:dialog id="diaLogEliInst" widgetVar="wElimina" closeOnEscape="true"
+                      draggable="false" header="Editar Institución"
+                      modal="true"  resizable="false" >
+                      <h:form id="formElimina">
+                          <p:commandButton value="Si"  icon="ui-icon-check"
+                                           actionListener="#{ingresoInstitucionControlador.eliminarInstitucion()}"
+                                           onclick="PF('wElimina').hide();"
+                                                  style="color: blue; border: 2px solid #169F85"  />
+                          <p:commandButton value="No"  icon="ui-icon-close"
+                                           onclick="PF('wElimina').hide();"
+                                           style="color: blue; border: 2px solid #169F85"  />
+                    </h:form>  
+            </p:dialog>
         </center>
     </ui:define>
 </ui:composition>

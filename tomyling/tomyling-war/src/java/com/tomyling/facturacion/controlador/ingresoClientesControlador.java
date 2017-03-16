@@ -35,38 +35,46 @@ public class ingresoClientesControlador extends Utilitarios implements Serializa
     private List<Clientes> listaClientes;
     private Clientes selClientes;
 
-    @EJB
-    private ClientesServicio clienteServicio;
-
+    
     @PostConstruct
     private void inicio() {
-        this.listaClientes = new ArrayList<>();
+        this.listaClientes = new ArrayList<>(); 
+        this.selClientes=new Clientes();
         llenarClientes();
     }
+    
+    @EJB
+    private ClientesServicio clientesServ;
 
     public void guardaCliente() {
+        
+        
+        
         Clientes cliNuevo = new Clientes();
         cliNuevo.setCedRuc(cedRuc);
         cliNuevo.setNombreCliente(nombre);
         cliNuevo.setDireccion(direccion);
         cliNuevo.setTelefono(telefono);
-        cliNuevo.setEstado(estado);
+        cliNuevo.setEstado(true);
         cliNuevo.setCorreo(correo);
-        this.clienteServicio.creaCliente(cliNuevo);
+       
+        this.clientesServ.creaCliente(cliNuevo);
     }
 
-    public void llenarClientes() {
-        this.listaClientes = clienteServicio.listaDeClientes();
+    public void llenarClientes() 
+    {
+        this.listaClientes = clientesServ.listaDeClientes();    
     }
 
-    public void seleccionaClientes(SelectEvent ev) {
-        this.selClientes = (Clientes) ev.getObject();
-    }
-
-    public void verCliente() {
-        Clientes cliente1 = new Clientes();
-        cliente1 = this.selClientes;
-    }
+    public void editaClientes()        
+    {
+        this.clientesServ.actualizaClientes(selClientes);
+    }        
+    
+    public void borraCliente()
+    {
+        this.clientesServ.eliminaCliente(selClientes);
+    }        
     //getters y setters
 
     public String getCedRuc() {

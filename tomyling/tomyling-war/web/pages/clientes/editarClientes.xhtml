@@ -9,16 +9,19 @@
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content" >
         <center>
-            <p:growl id="growl" life="8000"></p:growl>
+         // <p:growl id="growl" life="8000"></p:growl>
             <h:form id="formCliente">
+                
                 <p:fieldset legend="Editar Clientes" style="border: 3px solid #23527c">
                     <p:dataTable id="datTabCli" var="cli" 
                                  value="#{ingresoClientesControlador.listaClientes}"
                                  emptyMessage="Ningún Cliente" rowIndexVar="index"
                                  resizableColumns="true"  paginator="true" paginatorPosition="bottom" 
-                                 rows="5" rowKey="#{ingresoClientesControlador.cedRuc}"                         
-                                 style="text-align: center; align: center; border-radius: 1.6em; border: 2px solid #1b6d85" > 
-                        <p:ajax event="rowSelect" listener="#{ingresoClientesControlador.seleccinaClientes}" update="diaLogCli" />                                                          />
+                                 rows="5"                          
+                                 style="text-align: center; align: center; border-radius: 1.6em; border: 2px solid #1b6d85"                               
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15" > 
+                                                                                 />
                         <p:column headerText="No." style="width: 5%;color: firebrick">
                             #{index+1} 
                         </p:column>
@@ -49,13 +52,19 @@
                             <p:outputLabel value="#{cli.correo}" style="color: blue" />
                         </p:column>
                         <p:column headerText="Editar" style="color: red">
-                            <p:commandLink oncomplete="PF('wCliente').show();" update="diaLogCli"
+                            <p:commandLink oncomplete="PF('wCliente').show();" update="formDia"
                                             >                                   
                                 <p:graphicImage library="img" name="iconoEditar36x36.png" /> 
-                                <f:setPropertyActionListener target="#{ingresoClientesControlador.selClientes}" value="#cli" />
+                                <f:setPropertyActionListener target="#{ingresoClientesControlador.selClientes}" value="#{cli}" />
                             </p:commandLink>
                         </p:column>
-                        
+                        <p:column style="color: coral;width: 7%" headerText="Eliminar"  >
+                            <p:commandLink oncomplete="PF('wElimina').show();"
+                                           update=":#{p:component('formEli')}">
+                                <p:graphicImage library="img" name="iconoEliminar36x36.png" />
+                                <f:setPropertyActionListener target="#{ingresoClientesControlador.selClientes}" value="#{cli}" />                               
+                            </p:commandLink>                           
+                        </p:column>                                                                              
                     </p:dataTable>            
                 </p:fieldset>    
             </h:form>  
@@ -63,15 +72,7 @@
                               header="Cliente Seleccinado" resizable="false" 
                               closeOnEscape="true" draggable="false" style="color: cyan">
                 <h:form id="formDia">
-                    <p:panelGrid id="panGriDia">
-                        <p:row>
-                            <p:column>
-                                <p:outputLabel style="color: brown" value="Cédula/Ruc" />
-                            </p:column>
-                            <p:column>
-                                <p:inputText style="color: blue"  value="#{ingresoClientesControlador.selClientes.cedRuc}" />
-                            </p:column>
-                        </p:row>
+                    <p:panelGrid id="panGriDia">                       
                         <p:row>
                             <p:column>
                                 <p:outputLabel style="color: brown" value="Nombre" />
@@ -114,19 +115,39 @@
                         </p:row>
                         <p:row>
                             <p:column colspan="2">
-                                <p:commandButton style="color: green" value="Modificar" 
-                                                 icon="ui-icon-check" onclick="PF(''wCliente).hide();"
-                                                 update=":#{p:component('formCliente')},
-                                                 :#{p:component('datTabCli')}" >
+                                <p:commandButton  value="Modificar" update=":#{p:component('datTabCli')}"
+                                                  actionListener="#{ingresoClientesControlador.editaClientes()}" 
+                                                 icon="ui-icon-check" onclick="PF('wCliente').hide();"
+                                                 style="color: blue; border: 2px solid #169F85" 
+                                                 >
                                     
-                                </p:commandButton>
-                            </p:column>
+                                </p:commandButton> 
+                                <p:commandButton value="Cancelar" onclick="PF('wCliente').hide();"
+                                                  style="color: blue; border: 2px solid #169F85" icon="ui-icon-close"> 
+                                     <p:ajax update=":#{p:component('panGriDia')}" resetValues="true" />
+                                 </p:commandButton> 
+                            </p:column>                          
                         </p:row>
                     </p:panelGrid>
-                </h:form>
-                
+                </h:form>               
             </p:dialog>
-                              
+            <!--Confirma Eliminar Cliente -->
+        <!--     <p:confirmDialog global="true" showEffect="fade" hideEffect="explode"  >
+                <h:form id="formConfirma">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </h:form>            
+            </p:confirmDialog>  -->
+        <p:dialog  widgetVar="wElimina" closeOnEscape="true" showEffect="fade" hideEffect="explode"
+                   header="Confirma" resizable="false" modal="true" draggable="false" id="diaLogEli"  >
+            <h:form id="formEli">
+                <p:commandButton value="Si" styleClass = "ui-confirmdialog-yes"  icon="ui-icon-check"
+                                 actionListener="#{ingresoClientesControlador.borraCliente()}"
+                                 onclick="PF('wElimina').hide();" />
+                <p:commandButton value="No" styleClass = "ui-confirmdialog-no"  icon="ui-icon-close"
+                                  onclick="PF('wElimina').hide();" />
+            </h:form>
+        </p:dialog>
         </center>
     </ui:define>
 </ui:composition>

@@ -9,81 +9,94 @@
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content" >
         <center>
-         <p:growl id="growl" life="8000"></p:growl>
-        <h:form>        
-            <p:fieldset legend="DATOS CLIENTE" style="color: brown">
-                <p:panelGrid id="panGriCli">                
+    <!--   <p:growl id="growl" life="8000"></p:growl> -->
+        <h:form>
+        <!--    <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /> -->
+            <h1 style="color: teal;font-size: 20px">DATOS DEL CLIENTE</h1>
+            <p:fieldset  style="font-size: 16px;border: 3px solid #23527c;color: coral">
+                <p:panelGrid id="panGriCli" style="font-size: 14px;border: 2px solid #1b6d85">                
                      <p:row>
                         <p:column>
-                            <p:outputLabel style="color: brown" value="Cédula-Ruc" />
+                            <p:outputLabel style="color: brown" value="Cédula-Ruc *" />
                         </p:column>
                          <p:column>
-                             <p:inputText  style="color: blue" required="true" 
+                             <p:inputText id="txtCedRuc" style="color: blue" required="true" 
                                            requiredMessage="Cédula/Ruc obligatorio"
-                                          value="#{ingresoClientesControlador.cedRuc}"
-                                           />
-                        </p:column>
+                                           value="#{ingresoClientesControlador.cedRuc}" label="Cédula/Ruc" >
+                                 <f:validator validatorId="cedulaRuc1" />
+                             </p:inputText>                                          
+                        </p:column>                        
+                         <p:column>
+                             <p:message for="txtCedRuc" display="icon" />
+                         </p:column>                    
                     </p:row>
                      <p:row>
                         <p:column>
-                            <p:outputLabel style="color: brown" value="Nombre" />
+                            <p:outputLabel style="color: brown" value="Nombre *" />
                         </p:column>
                          <p:column>
-                             <p:inputText style="color: blue" value="#{ingresoClientesControlador.nombre}"
+                             <p:inputText id="txtNombre" style="color: blue" value="#{ingresoClientesControlador.nombre}"
                                           required="true" requiredMessage="Nombre obligatorio"  />
                         </p:column>
+                         <p:column>
+                             <p:message for="txtNombre" display="icon" />
+                         </p:column>                      
                     </p:row>
                      <p:row>
                         <p:column>
-                            <p:outputLabel style="color: brown" value="Dirección" />
+                            <p:outputLabel style="color: brown" value="Dirección *" />
                         </p:column>
                          <p:column>
-                             <p:inputText style="color: blue" value="#{ingresoClientesControlador.direccion}" 
+                             <p:inputText  id="txtDireccion" style="color: blue" value="#{ingresoClientesControlador.direccion}" 
                                           required="true" 
                                           requiredMessage="Dirección obligatorio"/>
                         </p:column>
+                         <p:column>
+                             <p:message for="txtDireccion" display="icon" />
+                         </p:column>                      
                      </p:row>
                      <p:row>
                         <p:column>
-                            <p:outputLabel style="color: brown" value="Teléfono" />
+                            <p:outputLabel style="color: brown" value="Teléfono *" />
                         </p:column>
                          <p:column>
-                             <p:inputText style="color: blue" value="#{ingresoClientesControlador.telefono}"
+                             <p:inputText id="txtTelefono" style="color: blue" value="#{ingresoClientesControlador.telefono}"
                                           required="true" 
                                           requiredMessage="Teléfono obligatorio"/>
                         </p:column>
-                     </p:row>
-                     <p:row>
-                        <p:column>
-                            <p:outputLabel style="color: brown" value="Estado" />
-                        </p:column>
                          <p:column>
-                             <p:inputText style="color: blue" value="#{ingresoClientesControlador.estado}" 
-                                          required="true"
-                                          requiredMessage="Estado obligatorio" />
-                        </p:column>
-                    </p:row>
+                             <p:message for="txtTelefono" display="icon" />
+                         </p:column>                      
+                     </p:row>                    
                     <p:row>
                         <p:column>
-                            <p:outputLabel style="color: brown" value="Correo" />
+                            <p:outputLabel style="color: brown" value="Correo *" />
                         </p:column>
                          <p:column>
-                             <p:inputText style="color: blue" value="#{ingresoClientesControlador.correo}"
+                             <p:inputText id="txtCorreo" style="color: blue" value="#{ingresoClientesControlador.correo}"
                                           required="true" 
                                           requiredMessage="Correo Electrónico obligatorio"/>
                         </p:column>
+                        <p:column>
+                            <p:message for="txtCorreo" display="icon" />
+                        </p:column>                       
                     </p:row>
                     <p:row>
-                        <p:column colspan="2">
-                            <p:commandButton style="color: green" value="Crear" 
-                                             actionListener="#{ingresoClientesControlador.guardaCliente}"  
-                                             icon="fa fa-user" update=":#{p:component('growl')},
+                        <p:column colspan="3"> 
+                            <p:commandButton style="color: teal;border: 2px solid #00aeef" value="Crear"
+                                             actionListener="#{ingresoClientesControlador.guardaCliente}"    
+                                             icon="fa fa-user" update=":#{p:component('men')},
                                              :#{p:component('panGriCli')}"/> 
-                        </p:column>
+                            <p:commandButton value="Cancelar" style="color: red;border: 2px solid #00aeef" 
+                                             icon="ui-icon-close" >
+                                <p:ajax update=":#{p:component('panGriCli')},
+                                                :#{p:component('men')}" resetValues="true"  />          
+                            </p:commandButton>
+                        </p:column>                                                   
                     </p:row>
-                </p:panelGrid>
+                </p:panelGrid> 
+                <p:messages id="men" style="color: red" />
             </p:fieldset>
-
         </h:form>
         </center>
     </ui:define>

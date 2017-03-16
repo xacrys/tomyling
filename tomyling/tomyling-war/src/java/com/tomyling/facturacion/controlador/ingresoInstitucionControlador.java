@@ -25,6 +25,7 @@ import org.primefaces.event.SelectEvent;
 @ViewScoped
 public class ingresoInstitucionControlador  extends Utilitarios implements Serializable  
 {
+   // ||
    private Integer ID;
    private String nombre;
    private String cedRuc;
@@ -33,30 +34,57 @@ public class ingresoInstitucionControlador  extends Utilitarios implements Seria
    
    private Institucion selectInstitucion;
    private List<Institucion> listaInstitucion;
+  // private Integer ultimo;
    
+  
   
    
    @PostConstruct
    private void inicio()
    {
+       // Intanciamos a selectInstitucion para que no sea null
+       this.selectInstitucion=new Institucion(); 
        this.listaInstitucion=new ArrayList<>();
        llenaInstitucion();
+       ultimoId();
    }  
    
    @EJB
    private InstitucionServicio institutServicio;
+   
+   public void ultimoId()
+   {
+       Institucion inst=new Institucion();
+       inst=listaInstitucion.get(listaInstitucion.size()-1);
+       int ultimo=inst.getIdInstitucion()+1;
+       this.ID=ultimo;
+      
+   }  
    
    public void guardarInstitucion()
    {
        //también se instancia
        //Institucion institucion;
        Institucion institucion=new Institucion();
+   //    institucion.setIdInstitucion(ID);
        institucion.setIdInstitucion(ID);
-       institucion.setNombre(nombre);
+       institucion.setNombre(nombre); 
        institucion.setRuc(cedRuc);
        institucion.setDireccion(direccion);
        institucion.setTelefono(telefono);
        
+       /*   DatosUsuario datUsu=new DatosUsuario();
+           datUsu=listaDatUsu.get(listaDatUsu.size()-1);
+           Integer ultimoCli=datUsu.getIdUsuario()+1; 
+           
+           ingCliSer.guardaCliente(ultimoCli, nombres, apellidos, sexo, fechaNace); */
+       
+      /* Institucion inst=new Institucion();
+        inst=listaInstitucion.get(listaInstitucion.size()-1);
+        int ultimo=inst.getIdInstitucion()+1;
+        institucion.setIdInstitucion(ultimo);
+        institucion.getIdInstitucion(); */
+        
        this.institutServicio.crearInstitucion(institucion);
    } 
    
@@ -70,10 +98,10 @@ public class ingresoInstitucionControlador  extends Utilitarios implements Seria
       this.institutServicio.eliminaInstitucion(selectInstitucion);    
    }
    
-   public void seleccionaFila(SelectEvent ev)
+   public void actualizaInstitucion()
    {
-       this.selectInstitucion=(Institucion) ev.getObject();
-   }        
+       this.institutServicio.editarInstitucion(selectInstitucion);
+   }
    //getters y setters
     
 
@@ -132,5 +160,5 @@ public class ingresoInstitucionControlador  extends Utilitarios implements Seria
     public void setID(Integer ID) {
         this.ID = ID;
     }
-   
+
 }

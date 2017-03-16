@@ -10,68 +10,80 @@
     <ui:define name="content" >
         <center>
             <h:form id="formRol">
-                <p:growl id="growl" life="8000" showDetail="true" showSummary="true" sticky="true" globalOnly="true"
-                         severity="info,fatal"></p:growl>
+              <!--  <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /> -->
                 <p:fieldset legend="Ingreso de Rol" style="font-size: 14px;border: 3px solid #23527c">
                     <p:panelGrid id="panGriRol">
                         <p:row>
                             <p:column>
-                                <p:outputLabel style="color: brown" value="ID"  />
+                                <p:outputLabel style="color: brown" value="ID: *"  />
                             </p:column>
                             <p:column >
-                                <p:inputText value="#{ingresoRolControlador.id_rol}" style="color: blue" 
+                                <p:inputText id="itId" value="#{ingresoRolControlador.id_rol}" style="color: blue" 
                                              required="true" requiredMessage="Id obligatorio.." />
                             </p:column>
+                            <p:column >
+                                <p:message for="itId" display="icon" />
+                            </p:column>
+
                         </p:row>
-                         <p:row>
+                        <p:row>
                             <p:column>
-                                 <p:outputLabel style="color: brown" value="Nombre" />
+                                <p:outputLabel style="color: brown" value="Nombre: *" />
                             </p:column>
                             <p:column>
-                                <p:inputText value="#{ingresoRolControlador.nombre_rol}" style="color: blue"
+                                <p:inputText id="itNombre" value="#{ingresoRolControlador.nombre_rol}" style="color: blue"
                                              required="true" requiredMessage="Nombre obligatorio.." />
                             </p:column>
-                        </p:row>
-                         <p:row>
-                            <p:column>
-                                 <p:outputLabel style="color: brown" value="Estado" />
-                            </p:column>
-                            <p:column>
-                                <p:inputText value="#{ingresoRolControlador.estado_rol}" style="color: blue"
-                                             required="true" requiredMessage="Estado bligatorio.." />
+                            <p:column >
+                                <p:message for="itNombre" display="icon" />
                             </p:column>
                         </p:row>
                         <p:row>
                             <p:column>
-                                 <p:outputLabel style="color: brown" value="Fecha Ingresa" />
+                                <p:outputLabel style="color: brown" value="Estado: *" />
                             </p:column>
                             <p:column>
-                                <p:calendar  value="#{ingresoRolControlador.fecha_rol}" 
+                                <p:inputText id="itEstado" value="#{ingresoRolControlador.estado_rol}" style="color: blue"
+                                             required="true" requiredMessage="Estado bligatorio.." />
+                            </p:column>
+                            <p:column >
+                                <p:message for="itEstado" display="icon" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel style="color: brown" value="Fecha Ingresa: *" />
+                            </p:column>
+                            <p:column>
+                                <p:calendar  id="cdFecha" value="#{ingresoRolControlador.fecha_rol}" 
                                              lang="es" 
-                                            pattern="dd/MM/yyyy HH:mm" effect="explode" locale="es"
-                                            required="true" requiredMessage="Fecha obligatorio.." />
+                                             pattern="dd/MM/yyyy HH:mm" effect="explode" locale="es"
+                                             required="true" requiredMessage="Fecha obligatorio.." />
                                 <h:outputScript library="js" name="calendar_es.js" />
                             </p:column>
+                            <p:column >
+                                <p:message for="cdFecha" display="icon" /> 
+                            </p:column>
                         </p:row> 
-                          <p:row>
-                              <center>  
-                                  <p:column colspan="2" style="padding:5px" >                                                    
-                                      <p:commandButton value="Crear" icon="fa fa-user" 
-                                                       action="#{ingresoRolControlador.guardaRol}"
-                                                       style="color: teal;border: 2px solid #23527c" 
-                                                       update=":#{p:component('panGriRol')},
-                                                               :#{p:component('growl')}"
-                                                  
-                                                       />
-                                       <p:commandButton value="Cancelar" icon="ui-icon-close"                                                                                                        
-                                                       style="color: red;border: 2px solid #23527c" >
-                                           <p:ajax update=":#{p:component('panGriRol')},
-                                                   :#{p:component('growl')}" resetValues="true"  /> 
-                                       </p:commandButton>
-                                  </p:column> 
-                              </center>   
+                        <p:row>
+                            <center>  
+                                <p:column colspan="3" style="padding:5px" >                                                    
+                                    <p:commandButton value="Crear" icon="fa fa-user" 
+                                                     action="#{ingresoRolControlador.guardaRol}"
+                                                     style="color: teal;border: 2px solid #23527c" 
+                                                     update=":#{p:component('panGriRol')},
+                                                     :#{p:component('men')}">
+                                    </p:commandButton>
+                                    <p:commandButton value="Cancelar" icon="ui-icon-close"                                                                                                        
+                                                     style="color: red;border: 2px solid #23527c" >
+                                        <p:ajax update=":#{p:component('panGriRol')},
+                                                :#{p:component('men')}" resetValues="true"  /> 
+                                    </p:commandButton>
+                                </p:column> 
+                            </center>   
                         </p:row>                        
-                    </p:panelGrid>                   
+                    </p:panelGrid> 
+                    <p:messages id="men" style="color: red" />
                 </p:fieldset>
             </h:form>
         </center>
