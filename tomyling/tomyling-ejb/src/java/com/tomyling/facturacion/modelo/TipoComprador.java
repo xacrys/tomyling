@@ -97,7 +97,7 @@ public class TipoComprador implements Serializable {
 
     @Override
     public String toString() {
-        return "tomyling.facturacion.modelo.TipoComprador[ codComprador=" + codComprador + " ]";
+        return "com.tomyling.facturacion.modelo.TipoComprador[ codComprador=" + codComprador + " ]";
     }
     
 }

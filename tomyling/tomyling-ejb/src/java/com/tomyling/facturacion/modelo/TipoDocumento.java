@@ -97,7 +97,7 @@ public class TipoDocumento implements Serializable {
 
     @Override
     public String toString() {
-        return "tomyling.facturacion.modelo.TipoDocumento[ codDocumento=" + codDocumento + " ]";
+        return "com.tomyling.facturacion.modelo.TipoDocumento[ codDocumento=" + codDocumento + " ]";
     }
     
 }

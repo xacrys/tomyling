@@ -71,7 +71,7 @@ public class InsClientes implements Serializable {
 
     @Override
     public String toString() {
-        return "tomyling.facturacion.modelo.InsClientes[ insClientesPK=" + insClientesPK + " ]";
+        return "com.tomyling.facturacion.modelo.InsClientes[ insClientesPK=" + insClientesPK + " ]";
     }
     
 }

@@ -156,7 +156,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "tomyling.facturacion.modelo.Usuario[ idUsuario=" + idUsuario + " ]";
+        return "com.tomyling.facturacion.modelo.Usuario[ idUsuario=" + idUsuario + " ]";
     }
     
 }

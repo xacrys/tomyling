@@ -34,4 +34,18 @@ public class FacturaDao extends Generico<Factura> {
             return true;
         }
     }
+    
+     public Factura consultarFacturaPorClave(String claveAcceso) {
+
+        Factura fac;
+        Query query;
+        String jsql = "SELECT f FROM Factura f WHERE f.claveAcceso = :claveAcceso";
+        query = getEntityManager().createQuery(jsql).setParameter("claveAcceso", claveAcceso);
+        fac = (Factura)query.getSingleResult();
+        if (fac == null ) {
+            return null;
+        } else {
+            return fac;
+        }
+    }
 }

@@ -25,7 +25,7 @@ public abstract class Generico<T> {
         this.entityClass = entityClass;
     }
 
-    public boolean create(T entity) {
+        public boolean create(T entity) {
         try {
             getEntityManager().persist(entity);
             return true;

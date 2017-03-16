@@ -8,7 +8,8 @@ package com.tomyling.facturacion.servicio;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import com.tomyling.facturacion.dao.DetalleFacturaDao;
-
+import com.tomyling.facturacion.modelo.DetalleFactura;
+import java.util.List;
 
 /**
  *
@@ -18,6 +19,11 @@ import com.tomyling.facturacion.dao.DetalleFacturaDao;
 @Stateless
 public class DetalleFacturaServicio extends DetalleFacturaDao{
 
-    
-    
+    public void guardarDetalles(Integer idFactura, List<DetalleFactura> listaDetalle) {
+        for (DetalleFactura df : listaDetalle) {
+            df.setIdFactura(idFactura);
+            this.create(df);
+
+        }
+    }
 }

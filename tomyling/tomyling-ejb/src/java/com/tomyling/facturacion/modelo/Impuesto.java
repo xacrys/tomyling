@@ -155,7 +155,7 @@ public class Impuesto implements Serializable {
 
     @Override
     public String toString() {
-        return "tomyling.facturacion.modelo.Impuesto[ idImpuesto=" + idImpuesto + " ]";
+        return "com.tomyling.facturacion.modelo.Impuesto[ idImpuesto=" + idImpuesto + " ]";
     }
     
 }

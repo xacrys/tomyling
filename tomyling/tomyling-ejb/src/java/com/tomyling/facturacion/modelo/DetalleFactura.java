@@ -6,8 +6,6 @@
 package com.tomyling.facturacion.modelo;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,25 +45,25 @@ public class DetalleFactura implements Serializable {
     @Column(name = "id_detalle")
     private Integer idDetalle;
     @Column(name = "id_factura")
-    private BigInteger idFactura;
+    private Integer idFactura;
     @Size(max = 25)
     @Column(name = "codigo_principal")
     private String codigoPrincipal;
     @Size(max = 25)
     @Column(name = "codigo_auxiliar")
     private String codigoAuxiliar;
-    @Size(max = 35)
+    @Size(max = 100)
     @Column(name = "descripcion")
     private String descripcion;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "cantidad")
-    private BigDecimal cantidad;
+    private Double cantidad;
     @Column(name = "precio_unitario")
-    private BigDecimal precioUnitario;
+    private Double precioUnitario;
     @Column(name = "descuento")
-    private BigDecimal descuento;
+    private Double descuento;
     @Column(name = "precio_total_sinimpuesto")
-    private BigDecimal precioTotalSinimpuesto;
+    private Double precioTotalSinimpuesto;
 
     public DetalleFactura() {
     }
@@ -82,11 +80,11 @@ public class DetalleFactura implements Serializable {
         this.idDetalle = idDetalle;
     }
 
-    public BigInteger getIdFactura() {
+    public Integer getIdFactura() {
         return idFactura;
     }
 
-    public void setIdFactura(BigInteger idFactura) {
+    public void setIdFactura(Integer idFactura) {
         this.idFactura = idFactura;
     }
 
@@ -114,35 +112,35 @@ public class DetalleFactura implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public BigDecimal getCantidad() {
+    public Double getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(BigDecimal cantidad) {
+    public void setCantidad(Double cantidad) {
         this.cantidad = cantidad;
     }
 
-    public BigDecimal getPrecioUnitario() {
+    public Double getPrecioUnitario() {
         return precioUnitario;
     }
 
-    public void setPrecioUnitario(BigDecimal precioUnitario) {
+    public void setPrecioUnitario(Double precioUnitario) {
         this.precioUnitario = precioUnitario;
     }
 
-    public BigDecimal getDescuento() {
+    public Double getDescuento() {
         return descuento;
     }
 
-    public void setDescuento(BigDecimal descuento) {
+    public void setDescuento(Double descuento) {
         this.descuento = descuento;
     }
 
-    public BigDecimal getPrecioTotalSinimpuesto() {
+    public Double getPrecioTotalSinimpuesto() {
         return precioTotalSinimpuesto;
     }
 
-    public void setPrecioTotalSinimpuesto(BigDecimal precioTotalSinimpuesto) {
+    public void setPrecioTotalSinimpuesto(Double precioTotalSinimpuesto) {
         this.precioTotalSinimpuesto = precioTotalSinimpuesto;
     }
 
@@ -168,7 +166,7 @@ public class DetalleFactura implements Serializable {
 
     @Override
     public String toString() {
-        return "tomyling.facturacion.modelo.DetalleFactura[ idDetalle=" + idDetalle + " ]";
+        return "com.tomyling.facturacion.modelo.DetalleFactura[ idDetalle=" + idDetalle + " ]";
     }
     
 }

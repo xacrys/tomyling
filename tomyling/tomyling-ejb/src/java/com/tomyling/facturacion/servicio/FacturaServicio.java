@@ -30,5 +30,12 @@ public class FacturaServicio extends FacturaDao {
             System.out.println("Error al guardar factura en facturaServicio");
         }
     }
+    
+    public Factura consultarFactura(String clave)
+    {
+        Factura fac = consultarFacturaPorClave(clave);
+        return fac;
+    
+    }
 
 }

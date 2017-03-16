@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author new user
  */
 @Entity
-@Table(name = "tipo_tarifa" , schema="tomyling")
+@Table(name = "tipo_tarifa", schema="tomyling")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TipoTarifa.findAll", query = "SELECT t FROM TipoTarifa t")
@@ -110,7 +110,7 @@ public class TipoTarifa implements Serializable {
 
     @Override
     public String toString() {
-        return "tomyling.facturacion.modelo.TipoTarifa[ idTarifa=" + idTarifa + " ]";
+        return "com.tomyling.facturacion.modelo.TipoTarifa[ idTarifa=" + idTarifa + " ]";
     }
     
 }

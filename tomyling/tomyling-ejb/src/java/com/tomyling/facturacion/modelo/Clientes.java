@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.tomyling.facturacion.modelo;
 
 import java.io.Serializable;
@@ -134,7 +133,7 @@ public class Clientes implements Serializable {
 
     @Override
     public String toString() {
-        return "tomyling.facturacion.modelo.Clientes[ cedRuc=" + cedRuc + " ]";
+        return "com.tomyling.facturacion.modelo.Clientes[ cedRuc=" + cedRuc + " ]";
     }
-
+    
 }

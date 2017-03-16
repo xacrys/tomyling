@@ -120,7 +120,7 @@ public class Retencion implements Serializable {
 
     @Override
     public String toString() {
-        return "tomyling.facturacion.modelo.Retencion[ idRetencion=" + idRetencion + " ]";
+        return "com.tomyling.facturacion.modelo.Retencion[ idRetencion=" + idRetencion + " ]";
     }
     
 }

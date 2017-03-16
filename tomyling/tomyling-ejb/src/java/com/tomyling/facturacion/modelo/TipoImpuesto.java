@@ -96,7 +96,7 @@ public class TipoImpuesto implements Serializable {
 
     @Override
     public String toString() {
-        return "tomyling.facturacion.modelo.TipoImpuesto[ codImpuesto=" + codImpuesto + " ]";
+        return "com.tomyling.facturacion.modelo.TipoImpuesto[ codImpuesto=" + codImpuesto + " ]";
     }
     
 }

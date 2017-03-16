@@ -85,7 +85,7 @@ public class TipoEmision implements Serializable {
 
     @Override
     public String toString() {
-        return "tomyling.facturacion.modelo.TipoEmision[ codEmision=" + codEmision + " ]";
+        return "com.tomyling.facturacion.modelo.TipoEmision[ codEmision=" + codEmision + " ]";
     }
     
 }

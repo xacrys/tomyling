@@ -71,7 +71,7 @@ public class RolMenu implements Serializable {
 
     @Override
     public String toString() {
-        return "tomyling.facturacion.modelo.RolMenu[ rolMenuPK=" + rolMenuPK + " ]";
+        return "com.tomyling.facturacion.modelo.RolMenu[ rolMenuPK=" + rolMenuPK + " ]";
     }
     
 }

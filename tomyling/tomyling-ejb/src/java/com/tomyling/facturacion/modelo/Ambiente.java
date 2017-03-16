@@ -96,7 +96,7 @@ public class Ambiente implements Serializable {
 
     @Override
     public String toString() {
-        return "tomyling.facturacion.modelo.Ambiente[ codAmbiente=" + codAmbiente + " ]";
+        return "com.tomyling.facturacion.modelo.Ambiente[ codAmbiente=" + codAmbiente + " ]";
     }
     
 }

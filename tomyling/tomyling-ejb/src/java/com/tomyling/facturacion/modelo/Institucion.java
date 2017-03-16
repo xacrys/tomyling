@@ -121,7 +121,7 @@ public class Institucion implements Serializable {
 
     @Override
     public String toString() {
-        return "tomyling.facturacion.modelo.Institucion[ idInstitucion=" + idInstitucion + " ]";
+        return "com.tomyling.facturacion.modelo.Institucion[ idInstitucion=" + idInstitucion + " ]";
     }
     
 }

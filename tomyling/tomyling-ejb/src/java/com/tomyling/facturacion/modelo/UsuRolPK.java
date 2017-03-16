@@ -77,7 +77,7 @@ public class UsuRolPK implements Serializable {
 
     @Override
     public String toString() {
-        return "tomyling.facturacion.modelo.UsuRolPK[ idUsuario=" + idUsuario + ", idRol=" + idRol + " ]";
+        return "com.tomyling.facturacion.modelo.UsuRolPK[ idUsuario=" + idUsuario + ", idRol=" + idRol + " ]";
     }
     
 }
