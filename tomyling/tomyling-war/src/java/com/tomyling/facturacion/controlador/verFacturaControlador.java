@@ -31,6 +31,7 @@ public class verFacturaControlador extends Utilitarios implements Serializable
    private String cedRuc;
    private String razonSocial;
    private Date fechaEmision;
+   private Boolean flagRide;
   
    
    private List<Factura> listaFactura;
@@ -41,8 +42,9 @@ public class verFacturaControlador extends Utilitarios implements Serializable
    private void inicio()
    {
        // Intanciamos a selectInstitucion para que no sea null
-       this.seleccionaFactura=new Factura();
-       this.listaFactura=new ArrayList<>(); 
+       
+       this.listaFactura=new ArrayList<>();
+       flagRide=false;
        cargaFacturas();     
    }
    @EJB
@@ -69,6 +71,17 @@ public class verFacturaControlador extends Utilitarios implements Serializable
        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Se han encontrado "+listaFactura.size()+" facturas" , "exito"));
        }
        
+   }
+   
+   public void verRide(Factura fac)
+   {
+       seleccionaFactura=new Factura();
+       flagRide=true;
+       seleccionaFactura=fac;
+   }
+   public void regresar()
+   {
+       flagRide=false;
    }
    
    //getters y setters
@@ -120,6 +133,14 @@ public class verFacturaControlador extends Utilitarios implements Serializable
 
     public void setListaFactura(List<Factura> listaFactura) {
         this.listaFactura = listaFactura;
+    }
+
+    public Boolean getFlagRide() {
+        return flagRide;
+    }
+
+    public void setFlagRide(Boolean flagRide) {
+        this.flagRide = flagRide;
     }
   
      
