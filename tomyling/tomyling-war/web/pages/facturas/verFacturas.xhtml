@@ -1,56 +1,89 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition template="/templates/template.xhtml"
-                xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui">
-    <ui:define name="content" >
-        <center>
-            <h:form id="formFactura">
-                <p:fieldset style="border: 3px solid #23527c" legend="Consulta de Facturas" >
-                    <p:dataTable id="datTabFac" var="fac" value="#{verFacturaControlador.listaFactura}" 
-                                 emptyMessage="Ninguna Factura" rowIndexVar="index"
-                                 resizableColumns="true"  paginator="true" paginatorPosition="bottom" 
-                                 rows="5"                          
-                                 style="text-align: center; align: center; border-radius: 1.6em; border: 2px solid #1b6d85"                               
-                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="5,10,15">
-                        
-                        <p:column headerText="No."  style="width: 5%;color: firebrick">
-                            #{index+=1}
-                        </p:column>
-                        <p:column headerText="ID FACTURA" style="color: brown">
-                            <p:outputLabel style="color: blue" value="#{verFacturaControlador.idFactura}" />
-                        </p:column>
-                        <p:column headerText="Cédula/Ruc" style="color: brown">
-                             <p:outputLabel style="color: blue" value="#{verFacturaControlador.cedRuc}" />
-                        </p:column>
-                        <p:column headerText="Razón Social" style="color: brown">
-                             <p:outputLabel style="color: blue" value="#{verFacturaControlador.razonSocial}" />
-                        </p:column> 
-                        <p:column headerText="Fecha" style="color: brown">
-                            <p:outputLabel style="color: blue" value="#{verFacturaControlador.fechaEmision}" />                                          
-                        </p:column> 
-                        <p:column headerText="Total Sin Impuestos" style="color: brown">
-                            <p:outputLabel style="color: blue" value="#{verFacturaControlador.totalSinImpuestos}" />
-                        </p:column>
-                        <p:column headerText="Total Descuento" style="color: brown">
-                            <p:outputLabel style="color: blue" value="#{verFacturaControlador.totalDescuentos}" />
-                        </p:column>
-                        <p:column headerText="Buscar" style="color: green">
-                            <p:commandLink>
-                                <p:graphicImage library="img" name="buscar.png" />
-                                <f:setPropertyActionListener target="#{verFacturaControlador.seleccionaFactura}" value="#{fac}" />
-                            </p:commandLink>
-                        </p:column>
-                    </p:dataTable>
-                </p:fieldset>
-            </h:form>
-        </center>
-    </ui:define>
-</ui:composition>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Ver Factura</title>
+    </h:head>
+    <h:body>
+        <h:form id="formFactura">
+            <p:growl id="growl" life="8000" ></p:growl>
+            <p:fieldset style="border: 3px solid #23527c" legend="Consulta de Facturas"  >
 
+                <p:panelGrid style="width: 100%">
+                    <p:row >
+                        <p:column colspan="2" style="text-align: center">
+                            <p:outputLabel value="INGRESE LOS DATOS DE LA FACTURA A BUSCAR"></p:outputLabel>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="RUC/Cedula:"></p:outputLabel>
+                        </p:column>
+                        <p:column>
+                            <p:inputText value="#{verFacturaControlador.cedRuc}" style="width: 100%"></p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Razon Social:"></p:outputLabel>
+                        </p:column>
+                        <p:column>
+                            <p:inputText value="#{verFacturaControlador.razonSocial}" style="width: 100%"></p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Fecha:"></p:outputLabel>
+                        </p:column>
+                         <p:column>
+                             <p:calendar value="#{verFacturaControlador.fechaEmision}" style="width: 100%"></p:calendar>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2" style="text-align: center">
+                            <p:commandButton value="Buscar Factura" icon="fa fa-search" actionListener="#{verFacturaControlador.buscarFactura}" update=":#{p:component('datTabFac')},growl"></p:commandButton>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:dataTable id="datTabFac" var="fac" value="#{verFacturaControlador.listaFactura}" 
+                             emptyMessage="Ninguna Factura" rowIndexVar="index"
+                             resizableColumns="true"  paginator="true" paginatorPosition="bottom" 
+                             rows="5"                          
+                             style="text-align: center; align: center; border-radius: 1.6em; border: 2px solid #1b6d85"                               
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15">
+
+                    <p:column headerText="No."  style="width: 5%;color: firebrick">
+                        #{index+=1}
+                    </p:column>
+                    <p:column headerText="ID FACTURA" style="color: brown">
+                        <p:outputLabel style="color: blue" value="#{fac.idFactura}" />
+                    </p:column>
+                    <p:column headerText="Cédula/Ruc" style="color: brown">
+                        <p:outputLabel style="color: blue" value="#{fac.cedRuc}" />
+                    </p:column>
+                    <p:column headerText="Razón Social" style="color: brown">
+                        <p:outputLabel style="color: blue" value="#{fac.razonSocial}" />
+                    </p:column> 
+                    <p:column headerText="Fecha" style="color: brown">
+                        <p:outputLabel style="color: blue" value="#{fac.fechaEmision}" />                                          
+                    </p:column> 
+                    <p:column headerText="Total Sin Impuestos" style="color: brown">
+                        <p:outputLabel style="color: blue" value="#{fac.totalSinimpuesto}" />
+                    </p:column>
+                    <p:column headerText="Total Descuento" style="color: brown">
+                        <p:outputLabel style="color: blue" value="#{fac.totalDescuento}" />
+                    </p:column>
+                    <p:column headerText="Ver Ride" style="color: green">
+                        <p:commandButton icon="fa fa-file-pdf-o"></p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+        </h:form>
+        
+    </h:body>
+</html>
 
