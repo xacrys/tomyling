@@ -14,8 +14,10 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -29,8 +31,7 @@ public class verFacturaControlador extends Utilitarios implements Serializable
    private String cedRuc;
    private String razonSocial;
    private Date fechaEmision;
-   private float totalSinImpuestos;
-   private float totalDescuentos;
+  
    
    private List<Factura> listaFactura;
    private Factura seleccionaFactura;
@@ -49,7 +50,25 @@ public class verFacturaControlador extends Utilitarios implements Serializable
    
    public void cargaFacturas()
    {         
-       listaFactura=this.facturaServicio.verTodasFacturas();
+      listaFactura=this.facturaServicio.verTodasFacturas();
+      if(listaFactura.isEmpty() || listaFactura==null)
+      {
+          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!", "No se ha podido encontrar facturas."));
+      }
+   }
+   
+   public void buscarFactura(){
+   
+       listaFactura= new ArrayList<>();
+       listaFactura = this.facturaServicio.buscarFacturas(cedRuc, razonSocial, fechaEmision);
+       if(listaFactura==null || listaFactura.isEmpty() )
+      {
+          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning! No se ha podido encontrar facturas" , "No se ha podido encontrar facturas."));
+      }
+       else{
+       FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Se han encontrado "+listaFactura.size()+" facturas" , "exito"));
+       }
+       
    }
    
    //getters y setters
@@ -77,21 +96,7 @@ public class verFacturaControlador extends Utilitarios implements Serializable
         this.fechaEmision = fechaEmision;
     }
 
-    public float getTotalSinImpuestos() {
-        return totalSinImpuestos;
-    }
-
-    public void setTotalSinImpuestos(float totalSinImpuestos) {
-        this.totalSinImpuestos = totalSinImpuestos;
-    }
-
-    public float getTotalDescuentos() {
-        return totalDescuentos;
-    }
-
-    public void setTotalDescuentos(float totalDescuentos) {
-        this.totalDescuentos = totalDescuentos;
-    }
+   
 
     public Factura getSeleccionaFactura() {
         return seleccionaFactura;
