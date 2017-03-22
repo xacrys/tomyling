@@ -11,4 +11,6 @@
         <property name="driverClass" value="org.postgresql.Driver"/>
     </jdbc-connection-pool>
     <jdbc-resource enabled="true" jndi-name="java:module/facturacion" object-type="user" pool-name="post-gre-sql_facturacion_postgresPool"/>
+    <jdbc-resource enabled="true" jndi-name="java:module/facturacion" object-type="user" pool-name="post-gre-sql_facturacion_postgresPool"/>
+    <jdbc-resource enabled="true" jndi-name="java:module/jdbc/factura" object-type="user" pool-name="post-gre-sql_facturacion_postgresPool"/>
 </resources>
