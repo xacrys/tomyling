@@ -10,7 +10,7 @@
     <h:body>
         <h:form id="formFactura">
             <p:growl id="growl" life="8000" ></p:growl>
-            <p:fieldset style="border: 3px solid #23527c" legend="Consulta de Facturas"  >
+            <p:fieldset id="fsDatosFactura" style="border: 3px solid #23527c; display:#{verFacturaControlador.flagRide?'none':'block'}" legend="Consulta de Facturas" >
 
                 <p:panelGrid style="width: 100%">
                     <p:row >
@@ -38,8 +38,8 @@
                         <p:column>
                             <p:outputLabel value="Fecha:"></p:outputLabel>
                         </p:column>
-                         <p:column>
-                             <p:calendar value="#{verFacturaControlador.fechaEmision}" style="width: 100%"></p:calendar>
+                        <p:column>
+                            <p:calendar value="#{verFacturaControlador.fechaEmision}" style="width: 100%"></p:calendar>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -78,12 +78,167 @@
                         <p:outputLabel style="color: blue" value="#{fac.totalDescuento}" />
                     </p:column>
                     <p:column headerText="Ver Ride" style="color: green">
-                        <p:commandButton icon="fa fa-file-pdf-o"></p:commandButton>
+                        <p:commandButton icon="fa fa-file-pdf-o" actionListener="#{verFacturaControlador.verRide(fac)}"
+                                         update=":#{p:component('fsDatosFactura')},:#{p:component('formRide')},:#{p:component('panGri1')}"></p:commandButton>
                     </p:column>
                 </p:dataTable>
             </p:fieldset>
         </h:form>
-        
+        <h:form id="formRide">        
+            <p:fieldset legend="Formato Ride de la Factura" style="display:#{verFacturaControlador.flagRide?'block':'none'}">
+                <p:panelGrid id="panGriRuc">
+                    <p:row>
+                        <p:column>
+                            <p:commandButton value="Regresar" icon="fa fa-undo" actionListener="#{verFacturaControlador.regresar}"
+                                             update=":#{p:component('fsDatosFactura')},:#{p:component('formRide')}" process="@this"></p:commandButton>  
+                        </p:column>
+                    </p:row>                   
+                </p:panelGrid>
+                <p:panelGrid id="panGri1" >                    
+                    <p:row>
+                        <p:column>
+                            <p:graphicImage value="/resources/img/factura-400x400.png" width="80" height="80"/>
+                        </p:column> 
+                        <p:column  colspan="3"> 
+                            <p:outputLabel value="R.U.C." />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.ruc}" />
+                        </p:column>                        
+                    </p:row>                   
+                    <p:row>
+                        <p:column>
+
+                        </p:column>
+                        <p:column colspan="3">
+                            <p:outputLabel value="FACTURA " />
+                        </p:column>
+                        <p:column>
+
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+
+                        </p:column>
+                        <p:column colspan="3">
+                            <p:outputLabel value="No. " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel  value="#{verFacturaControlador.seleccionaFactura.guiaRemision}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+
+                        </p:column>
+                        <p:column colspan="3">
+                            <p:outputLabel value="NÚMERO DE AUTORIZACIÓN " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel  value="#{verFacturaControlador.seleccionaFactura.claveAcceso}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+
+                        </p:column>
+                        <p:column colspan="3">
+                            <p:outputLabel value="FECHA Y HORA DE AUTORIZACIÓN " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.fechaEmision}"
+                                           />
+                        </p:column>
+                    </p:row>                   
+                    <p:row>
+                        <p:column>
+
+                        </p:column>
+                        <p:column colspan="3">
+                            <p:outputLabel value="AMBIENTE " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.codAmbiente}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+
+                        </p:column>
+                        <p:column colspan="3">
+                            <p:outputLabel value="EMISIÓN " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{rideControlador.tipoEmision}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+
+                        </p:column>
+                        <p:column colspan="3">
+                            <p:outputLabel value="CLAVE DE ACCESO " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText readonly="true" value="#{rideControlador.claveAcceso}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row >
+                        <p:column >
+                            <p:outputLabel value="Dirección Matriz " />
+                        </p:column> 
+                        <p:column>
+                            <p:inputText readonly="true" value="#{rideControlador.dirMatriz}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Dirección Sucursal " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText readonly="true" value="#{rideControlador.dirEstablecimiento}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Contibuyente Especial Nro " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText readonly="true" value="#{rideControlador.contribuyenteEspecial}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="OBLIGADO A LLEVAR CONTABILIDAD " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText readonly="true" value="#{rideControlador.obligadoContabilidad}" />
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:panelGrid id="panGri2">
+                    <p:row>
+                        <p:column colspan="2"  >
+                            <p:outputLabel value="Cliente" />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="identificación" />
+                        </p:column>                        
+                    </p:row>
+                    <p:row>
+                        <p:column >
+                            <h:commandLink>
+                                <p:graphicImage value="/resources/img/iconoEditar36x36.png" />
+                                <p:dataExporter type="xls" target="formRide" fileName="facturaRide" pageOnly="true"/>
+                            </h:commandLink>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:fieldset>
+        </h:form>
+
     </h:body>
 </html>
 
