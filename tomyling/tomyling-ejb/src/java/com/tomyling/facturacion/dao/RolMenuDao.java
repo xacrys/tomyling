@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -31,7 +32,24 @@ public class RolMenuDao extends Generico<RolMenu> {
         }
         else{
             return listaRolMenu;
-        }
-        
+        }     
     }
+    
+    public List<RolMenu> listaRolMenu(Integer idUsu)
+    {
+        List<RolMenu> lstRolMenDao;
+        Query query;
+        String jpql="SELECT rm FROM RolMenu rm WHERE rm.rolMenuPK.idMenu = :paramA"; 
+        query=getEntityManager().createQuery(jpql).setParameter("paramA", idUsu);
+        lstRolMenDao=query.getResultList();
+        if(lstRolMenDao==null || lstRolMenDao.isEmpty()) 
+        {
+             return null;
+        }
+        else
+        {
+            return lstRolMenDao;
+        }
+       
+    }        
 }

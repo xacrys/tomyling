@@ -43,4 +43,21 @@ public class MenuDao extends Generico<Menu> {
         }
                 
     }
+    
+    public List<Menu> creaListaMenu()
+    {
+        List<Menu> lstMenu;
+        String jpql="SELECT m FROM Menu m";
+        Query query;
+        query=getEntityManager().createQuery(jpql);
+        lstMenu=query.getResultList();
+        if(lstMenu==null || lstMenu.isEmpty()) 
+        {
+            return null;
+        }    
+        else
+        {
+            return lstMenu;
+        }
+    }
 }
