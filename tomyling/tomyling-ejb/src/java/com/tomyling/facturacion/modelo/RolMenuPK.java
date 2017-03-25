@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.metamodel.SingularAttribute;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -16,7 +17,7 @@ import javax.validation.constraints.NotNull;
  * @author new user
  */
 @Embeddable
-public class RolMenuPK implements Serializable {
+public class RolMenuPK implements Serializable { 
 
     @Basic(optional = false)
     @NotNull
@@ -79,5 +80,10 @@ public class RolMenuPK implements Serializable {
     public String toString() {
         return "com.tomyling.facturacion.modelo.RolMenuPK[ idRol=" + idRol + ", idMenu=" + idMenu + " ]";
     }
+
+   /* public void setIdMenu(SingularAttribute<Menu, Integer> idMenu) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    } */
+
     
 }
