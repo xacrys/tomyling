@@ -159,7 +159,7 @@
                             <p:outputLabel value="AMBIENTE " />
                         </p:column>
                         <p:column>
-                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.codAmbiente}" />
+                            <p:outputLabel value="#{verFacturaControlador.descripAmbiente}" />
                         </p:column>
                     </p:row>
                     <p:row>
@@ -170,7 +170,7 @@
                             <p:outputLabel value="EMISIÓN " />
                         </p:column>
                         <p:column>
-                            <p:outputLabel value="#{rideControlador.tipoEmision}" />
+                            <p:outputLabel value="#{verFacturaControlador.descripTipoEmision}" />
                         </p:column>
                     </p:row>
                     <p:row>
@@ -181,7 +181,7 @@
                             <p:outputLabel value="CLAVE DE ACCESO " />
                         </p:column>
                         <p:column>
-                            <p:inputText readonly="true" value="#{rideControlador.claveAcceso}" />
+                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.claveAcceso}" />                            
                         </p:column>
                     </p:row>
 
@@ -190,7 +190,7 @@
                             <p:outputLabel value="Dirección Matriz " />
                         </p:column> 
                         <p:column>
-                            <p:inputText readonly="true" value="#{rideControlador.dirMatriz}" />
+                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.dirMatriz}" />
                         </p:column>
                     </p:row>
                     <p:row>
@@ -198,7 +198,7 @@
                             <p:outputLabel value="Dirección Sucursal " />
                         </p:column>
                         <p:column>
-                            <p:inputText readonly="true" value="#{rideControlador.dirEstablecimiento}" />
+                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.dirEstablecimiento}" />
                         </p:column>
                     </p:row>
                     <p:row>
@@ -206,7 +206,7 @@
                             <p:outputLabel value="Contibuyente Especial Nro " />
                         </p:column>
                         <p:column>
-                            <p:inputText readonly="true" value="#{rideControlador.contribuyenteEspecial}" />
+                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.contibuyenteEspecial}" />
                         </p:column>
                     </p:row>
                     <p:row>
@@ -214,27 +214,70 @@
                             <p:outputLabel value="OBLIGADO A LLEVAR CONTABILIDAD " />
                         </p:column>
                         <p:column>
-                            <p:inputText readonly="true" value="#{rideControlador.obligadoContabilidad}" />
+                            <p:outputLabel value="#{verFacturaControlador.obligaContabilidad}" />
                         </p:column>
                     </p:row>
                 </p:panelGrid>
                 <p:panelGrid id="panGri2">
                     <p:row>
-                        <p:column colspan="2"  >
-                            <p:outputLabel value="Cliente" />
+                        <p:column colspan="3" style="width: 28%">
+                            <p:outputLabel value="Cliente" />                         
                         </p:column>
                         <p:column>
+                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.razonSocial}" />
+                        </p:column>    
+                        <p:column style="width: 28%">
                             <p:outputLabel value="identificación" />
-                        </p:column>                        
-                    </p:row>
-                    <p:row>
-                        <p:column >
-                            <h:commandLink>
-                                <p:graphicImage value="/resources/img/iconoEditar36x36.png" />
-                                <p:dataExporter type="xls" target="formRide" fileName="facturaRide" pageOnly="true"/>
-                            </h:commandLink>
+                        </p:column> 
+                        <p:column>
+                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.cedRuc}" />
                         </p:column>
+                    </p:row> 
+                    <p:row>
+                        <p:column colspan="3" style="width: 28%">
+                            <p:outputLabel value="Fecha Emisión" />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.fechaEmision}" />
+                        </p:column>
+                        <p:column style="width: 28%">
+                            <p:outputLabel value="Guia" />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.guiaRemision}" />
+                        </p:column> 
                     </p:row>
+                </p:panelGrid>
+                <p:panelGrid id="panGri3">
+                    <p:dataTable id="datTabDetFac" var="detFac" value="#{verFacturaControlador.listaDetalleFactura}"
+                                 rowIndexVar="index" 
+                                 emptyMessage="Ningun Detalle de Factura"
+                                 style="text-align: center; align: center; border-radius: 1.6em" >
+                        <p:column headerText="Item">
+                            #{index+=1}
+                        </p:column>
+                        <p:column headerText="Código P">
+                            <p:outputLabel value="#{detFac.codigoPrincipal}" />
+                        </p:column>
+                        <p:column headerText="Código Aux">
+                            <p:outputLabel value="#{detFac.codigoAuxiliar}" />
+                        </p:column>
+                        <p:column headerText="Descripción del Item o Producto" style="width: 25%">
+                            <p:outputLabel value="#{detFac.descripcion}" />
+                        </p:column>
+                        <p:column headerText="Cantidad">
+                            <p:outputLabel value="#{detFac.cantidad}" />
+                        </p:column>
+                        <p:column headerText="Precio U">
+                            <p:outputLabel value="#{detFac.precioUnitario}" />
+                        </p:column>
+                        <p:column headerText="Descuento">
+                            <p:outputLabel value="#{detFac.descuento}" />
+                        </p:column>
+                        <p:column headerText="Precio Total">
+                            <p:outputLabel value="#{detFac.precioTotalSinimpuesto}" />
+                        </p:column>
+                    </p:dataTable>
                 </p:panelGrid>
             </p:fieldset>
         </h:form>

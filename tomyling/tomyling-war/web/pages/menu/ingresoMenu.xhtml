@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Ingreso de MENU</title>
+    </h:head>
+    <h:body>
+        <h:form id="formMenu">
+            <!--    <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /> -->
+            <h1 style="color: teal;font-size: 20px">INGRESO MENU</h1>
+
+            <p:panelGrid id="panGriMen" style="font-size: 14px;border: 2px solid #1b6d85">                                
+                <p:row>
+                    <p:column>
+                        <p:outputLabel style="color: brown;font-weight:bold" value="Nombre"  />
+                    </p:column>
+                    <p:column>
+                        <p:inputText  id="txtNombre" style="color: blue;font-weight:bold" 
+                                      value="#{ingresoMenuControlador.nombreMenu}"
+                                      label="Nombre" required="true"/>
+                    </p:column>
+                    <p:column>
+                        <p:message  for="txtNombre" display="icon"  />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel style="color: brown;font-weight:bold" value="Nivel"  />
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="txtNivel" style="color: blue;font-weight:bold" value="#{ingresoMenuControlador.niveMenu}"
+                                     requiredMessage="Nivel obligatorio" label="Nivel" required="true">
+                        </p:inputText>
+                    </p:column> 
+                    <p:column>
+                        <p:message  for="txtNivel" display="icon"  />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel style="color: brown;font-weight:bold" value="Padre"  />
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="txtPadre" style="color: blue;font-weight:bold" value="#{ingresoMenuControlador.padreMenu}"
+                                     required="true" requiredMessage="Padre obligatorio" label="Padre" >
+
+                        </p:inputText>
+                    </p:column> 
+                    <p:column>
+                        <p:message  for="txtPadre" display="icon"  />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel style="color: brown;font-weight:bold" value="Icono" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="txtIcono" style="color: blue;font-weight:bold" value="#{ingresoMenuControlador.iconoMenu}"
+                                     required="true" requiredMessage="Icono obligatorio" label="Icono" />                                                            
+                    </p:column>
+                    <p:column>
+                        <p:message  for="txtIcono" display="icon"  />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel style="color: brown;font-weight:bold" value="URL" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="txtUrl" style="color: blue;font-weight:bold"
+                                     value="#{ingresoMenuControlador.urlMenu}" >
+
+                        </p:inputText>
+
+                    </p:column>
+                    <p:column>
+                        <p:message  for="txtUrl" display="icon"  />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column colspan="3" style="text-align: center">
+                        <p:commandButton style="color: teal;border: 2px solid #00aeef" value="Crear"
+                                         icon="fa fa-archive" action="#{ingresoMenuControlador.creaMenu}"
+                                         update=":formMenu"/>
+                        <p:commandButton value="Cancelar" style="color: red;border: 2px solid #00aeef" 
+                                         icon="ui-icon-close" >
+                            <p:ajax update=":#{p:component('panGriMen')},
+                                    :#{p:component('men')}" resetValues="true"  /> 
+                        </p:commandButton>
+                    </p:column>  
+
+
+                </p:row>
+            </p:panelGrid> 
+            <p:messages id="men" style="color: red" />
+        </h:form>
+    </h:body>
+</html>
+
+
+
+
+
