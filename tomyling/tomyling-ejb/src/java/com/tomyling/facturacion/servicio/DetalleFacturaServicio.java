@@ -26,4 +26,19 @@ public class DetalleFacturaServicio extends DetalleFacturaDao{
 
         }
     }
+    
+    //  ||
+    public List<DetalleFactura> cargaDetalleFactura(Integer detFac)
+    {
+        List<DetalleFactura> lstDetFacServ;
+        lstDetFacServ=this.consultaPorID(detFac);
+        if(lstDetFacServ==null || lstDetFacServ.isEmpty()) 
+        {
+             return null;
+        } 
+        else
+        {
+             return lstDetFacServ;
+        }          
+    }
 }

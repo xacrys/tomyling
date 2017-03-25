@@ -9,6 +9,7 @@ package com.tomyling.facturacion.servicio;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import com.tomyling.facturacion.dao.TipoEmisionDao;
+import com.tomyling.facturacion.modelo.TipoEmision;
 
 
 /**
@@ -18,7 +19,19 @@ import com.tomyling.facturacion.dao.TipoEmisionDao;
 
 @LocalBean
 @Stateless
-public class TipoEmisionServicio extends TipoEmisionDao{
-
-   
+public class TipoEmisionServicio extends TipoEmisionDao
+{
+   public TipoEmision ingresaTipEmi(Integer tipoEmite)
+   {
+       TipoEmision tipoEmision;
+       tipoEmision=this.regresaTipEmi(tipoEmite);
+       if(tipoEmision==null)
+       {
+            return null; 
+       }
+       else
+       {
+           return tipoEmision;
+       }          
+   }
 }

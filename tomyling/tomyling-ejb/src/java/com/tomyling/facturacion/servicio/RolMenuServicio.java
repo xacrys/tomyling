@@ -18,7 +18,8 @@ import java.util.List;
 
 @LocalBean
 @Stateless
-public class RolMenuServicio extends RolMenuDao {
+public class RolMenuServicio extends RolMenuDao 
+{
 
     public List<RolMenu> obtenerRolMenu(Integer idRol) {
         List<RolMenu> rm = this.obtenerRolPorMenu(idRol);
@@ -29,5 +30,24 @@ public class RolMenuServicio extends RolMenuDao {
         }
 
     }
-
+  
+    public List<RolMenu> consultarRolesPorUsuario(Integer idUsu)
+    {
+        List<RolMenu> lstRolMenu;
+        lstRolMenu=this.listaRolMenu(idUsu); 
+        if(lstRolMenu==null || lstRolMenu.isEmpty())
+        {
+            return null;
+        } 
+        else
+        {
+            
+        }   return lstRolMenu;     
+    }        
+    
+   public void guardarRolMenu(RolMenu rm)
+   {
+       this.create(rm);
+   }        
+          
 }
