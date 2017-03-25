@@ -31,6 +31,7 @@ public class PrincipalControlador extends Utilitarios implements Serializable {
     private List<Menu> listaMenus;
     private List<MenuDinamicoDto> listaMenusSubmenus;
     private String urlContenido;
+    
 
     @PostConstruct
     private void init() {
@@ -38,6 +39,7 @@ public class PrincipalControlador extends Utilitarios implements Serializable {
         this.nuevo();
         this.inicio = (InicioControlador) session.getAttribute("inicioControlador");
         this.listaMenus = this.inicio.getListaMenu();
+        
         listaMenusSubmenus = iniciarMenu(listaMenus);
         urlContenido = "";
 
