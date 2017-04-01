@@ -101,28 +101,28 @@ public class verFacturaControlador extends Utilitarios implements Serializable
        seleccionaFactura=fac;
        
        //Recupera descripcion de tabla Ambiente
-       Integer cod=this.seleccionaFactura.getCodAmbiente(); 
-     //  lstDesAmb=this.ambienteServicio.listaDescripAmbiente(cod);
-        Ambiente amb=(Ambiente) this.ambienteServicio.retornaCodigo(cod); 
-      //  String descripcion=amb.getDescripcion();
-        descripAmbiente=amb.getDescripcion();
-        // recupera descripcion de tabla TipoEmision
-        Integer codEmi=this.seleccionaFactura.getCodEmision();
-        TipoEmision tipEmis;
-        tipEmis=this.tipoEmisionServicio.ingresaTipEmi(codEmi);
-        descripTipoEmision=tipEmis.getTipoEmision();
-        //Obligado llevar contabilidad
-        Boolean sino=this.seleccionaFactura.getObligadoContabilidad();      
-        if(sino==true)
-        {
-            obligaContabilidad="Si";
-        }
-        else
-        {
-           obligaContabilidad="No"; 
-        }
-        Integer idDetFac=this.seleccionaFactura.getIdFactura();
-        listaDetalleFactura=this.detalleFacturaServicio.cargaDetalleFactura(idDetFac);      
+//       Integer cod=this.seleccionaFactura.getCodAmbiente(); 
+//     //  lstDesAmb=this.ambienteServicio.listaDescripAmbiente(cod);
+//        Ambiente amb=(Ambiente) this.ambienteServicio.retornaCodigo(cod); 
+//      //  String descripcion=amb.getDescripcion();
+//        descripAmbiente=amb.getDescripcion();
+//        // recupera descripcion de tabla TipoEmision
+//        Integer codEmi=this.seleccionaFactura.getCodEmision();
+//        TipoEmision tipEmis;
+//        tipEmis=this.tipoEmisionServicio.ingresaTipEmi(codEmi);
+//        descripTipoEmision=tipEmis.getTipoEmision();
+//        //Obligado llevar contabilidad
+//        Boolean sino=this.seleccionaFactura.getObligadoContabilidad();      
+//        if(sino==true)
+//        {
+//            obligaContabilidad="Si";
+//        }
+//        else
+//        {
+//           obligaContabilidad="No"; 
+//        }
+//        Integer idDetFac=this.seleccionaFactura.getIdFactura();
+//        listaDetalleFactura=this.detalleFacturaServicio.cargaDetalleFactura(idDetFac);      
    }
    public void regresar()
    {

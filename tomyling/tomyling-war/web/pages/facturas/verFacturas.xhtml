@@ -10,8 +10,7 @@
     <h:body>
         <h:form id="formFactura">
             <p:growl id="growl" life="8000" ></p:growl>
-            <p:fieldset id="fsDatosFactura" style="border: 3px solid #23527c; display:#{verFacturaControlador.flagRide?'none':'block'}" legend="Consulta de Facturas" >
-
+            <p:fieldset id="fsDatosFactura" style="border: 3px solid #23527c;display:#{verFacturaControlador.flagRide?'none':'block'}"  legend="Consulta de Facturas" >
                 <p:panelGrid style="width: 100%">
                     <p:row >
                         <p:column colspan="2" style="text-align: center">
@@ -79,209 +78,199 @@
                     </p:column>
                     <p:column headerText="Ver Ride" style="color: green">
                         <p:commandButton icon="fa fa-file-pdf-o" actionListener="#{verFacturaControlador.verRide(fac)}"
-                                         update=":#{p:component('fsDatosFactura')},:#{p:component('formRide')},:#{p:component('panGri1')}"></p:commandButton>
+                                         update=":#{p:component('fsDatosFactura')}, :#{p:component('fsFactura')}"></p:commandButton>
                     </p:column>
                 </p:dataTable>
             </p:fieldset>
-        </h:form>
-        <h:form id="formRide">        
-            <p:fieldset legend="Formato Ride de la Factura" style="display:#{verFacturaControlador.flagRide?'block':'none'}">
-                <p:panelGrid id="panGriRuc">
+            <p:fieldset id="fsFactura" legend="Formato Ride de la Factura" style="display:#{verFacturaControlador.flagRide?'block':'none'}">
+                <p:panelGrid style="width: 100%" styleClass="sinBordes">
                     <p:row>
-                        <p:column>
-                            <p:commandButton value="Regresar" icon="fa fa-undo" actionListener="#{verFacturaControlador.regresar}"
-                                             update=":#{p:component('fsDatosFactura')},:#{p:component('formRide')}" process="@this"></p:commandButton>  
-                        </p:column>
-                    </p:row>                   
-                </p:panelGrid>
-                <p:panelGrid id="panGri1" >                    
-                    <p:row>
-                        <p:column>
-                            <p:graphicImage value="/resources/img/factura-400x400.png" width="80" height="80"/>
-                        </p:column> 
-                        <p:column  colspan="3"> 
-                            <p:outputLabel value="R.U.C." />
-                        </p:column>
-                        <p:column>
-                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.ruc}" />
-                        </p:column>                        
-                    </p:row>                   
-                    <p:row>
-                        <p:column>
-
-                        </p:column>
-                        <p:column colspan="3">
-                            <p:outputLabel value="FACTURA " />
-                        </p:column>
-                        <p:column>
-
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-
-                        </p:column>
-                        <p:column colspan="3">
-                            <p:outputLabel value="No. " />
-                        </p:column>
-                        <p:column>
-                            <p:outputLabel  value="#{verFacturaControlador.seleccionaFactura.guiaRemision}" />
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-
-                        </p:column>
-                        <p:column colspan="3">
-                            <p:outputLabel value="NÚMERO DE AUTORIZACIÓN " />
-                        </p:column>
-                        <p:column>
-                            <p:outputLabel  value="#{verFacturaControlador.seleccionaFactura.claveAcceso}" />
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-
-                        </p:column>
-                        <p:column colspan="3">
-                            <p:outputLabel value="FECHA Y HORA DE AUTORIZACIÓN " />
-                        </p:column>
-                        <p:column>
-                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.fechaEmision}"
-                                           />
-                        </p:column>
-                    </p:row>                   
-                    <p:row>
-                        <p:column>
-
-                        </p:column>
-                        <p:column colspan="3">
-                            <p:outputLabel value="AMBIENTE " />
-                        </p:column>
-                        <p:column>
-                            <p:outputLabel value="#{verFacturaControlador.descripAmbiente}" />
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-
-                        </p:column>
-                        <p:column colspan="3">
-                            <p:outputLabel value="EMISIÓN " />
-                        </p:column>
-                        <p:column>
-                            <p:outputLabel value="#{verFacturaControlador.descripTipoEmision}" />
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-
-                        </p:column>
-                        <p:column colspan="3">
-                            <p:outputLabel value="CLAVE DE ACCESO " />
-                        </p:column>
-                        <p:column>
-                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.claveAcceso}" />                            
-                        </p:column>
-                    </p:row>
-
-                    <p:row >
-                        <p:column >
-                            <p:outputLabel value="Dirección Matriz " />
-                        </p:column> 
-                        <p:column>
-                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.dirMatriz}" />
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel value="Dirección Sucursal " />
-                        </p:column>
-                        <p:column>
-                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.dirEstablecimiento}" />
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel value="Contibuyente Especial Nro " />
-                        </p:column>
-                        <p:column>
-                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.contibuyenteEspecial}" />
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel value="OBLIGADO A LLEVAR CONTABILIDAD " />
-                        </p:column>
-                        <p:column>
-                            <p:outputLabel value="#{verFacturaControlador.obligaContabilidad}" />
-                        </p:column>
-                    </p:row>
-                </p:panelGrid>
-                <p:panelGrid id="panGri2">
-                    <p:row>
-                        <p:column colspan="3" style="width: 28%">
-                            <p:outputLabel value="Cliente" />                         
-                        </p:column>
-                        <p:column>
-                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.razonSocial}" />
-                        </p:column>    
-                        <p:column style="width: 28%">
-                            <p:outputLabel value="identificación" />
-                        </p:column> 
-                        <p:column>
-                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.cedRuc}" />
-                        </p:column>
+                        <p:column colspan="5" style="text-align: center">
+                            <p:commandButton value="Regresar" icon="fa fa-undo" actionListener="#{verFacturaControlador.regresar()}" update=":#{p:component('fsFactura')},:#{p:component('fsDatosFactura')}"></p:commandButton>
+                        </p:column>                   
                     </p:row> 
                     <p:row>
-                        <p:column colspan="3" style="width: 28%">
-                            <p:outputLabel value="Fecha Emisión" />
+                        <p:column colspan="2" rowspan="5" style="width: 40%; text-align: center;">
+                            <p:graphicImage value='../../resources/img/facturaLogo.png'></p:graphicImage>
                         </p:column>
-                        <p:column>
-                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.fechaEmision}" />
+                        <p:column style="width: 2%"></p:column>
+                        <p:column styleClass="esquinaIzqAr">
+                            <p:outputLabel value="Ruc:"  ></p:outputLabel>
                         </p:column>
-                        <p:column style="width: 28%">
-                            <p:outputLabel value="Guia" />
+                        <p:column styleClass="esquinaDerAr">
+                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.ruc}" ></p:outputLabel>
                         </p:column>
-                        <p:column>
-                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.guiaRemision}" />
-                        </p:column> 
                     </p:row>
-                </p:panelGrid>
-                <p:panelGrid id="panGri3">
-                    <p:dataTable id="datTabDetFac" var="detFac" value="#{verFacturaControlador.listaDetalleFactura}"
-                                 rowIndexVar="index" 
-                                 emptyMessage="Ningun Detalle de Factura"
-                                 style="text-align: center; align: center; border-radius: 1.6em" >
-                        <p:column headerText="Item">
-                            #{index+=1}
+                    <p:row>
+                        <p:column style="width: 2%"></p:column>
+                        <p:column colspan='2' styleClass="dosLados">
+                            <p:outputLabel value="FACTURA:" ></p:outputLabel>
                         </p:column>
-                        <p:column headerText="Código P">
-                            <p:outputLabel value="#{detFac.codigoPrincipal}" />
+                    </p:row>
+                    <p:row>
+                        <p:column style="width: 2%"></p:column>
+                        <p:column  colspan="2" styleClass="dosLados">
+                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.guiaRemision}" ></p:outputLabel>
                         </p:column>
-                        <p:column headerText="Código Aux">
-                            <p:outputLabel value="#{detFac.codigoAuxiliar}" />
+                    </p:row>
+                    <p:row>
+                        <p:column style="width: 2%"></p:column>
+                        <p:column colspan="2" styleClass="dosLados">
+                            <p:outputLabel value="Numero de Autorizacion:" ></p:outputLabel>
                         </p:column>
-                        <p:column headerText="Descripción del Item o Producto" style="width: 25%">
-                            <p:outputLabel value="#{detFac.descripcion}" />
+                    </p:row>
+                    <p:row>
+                        <p:column style="width: 2%"></p:column>
+                        <p:column colspan="2" styleClass="dosLados">
+                            <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.claveAcceso}" ></p:outputLabel>
                         </p:column>
-                        <p:column headerText="Cantidad">
-                            <p:outputLabel value="#{detFac.cantidad}" />
+                    </p:row>
+                    <p:row>
+                        <p:column styleClass="esquinaIzqAr">
+                            <p:outputLabel value='Direccion Matriz' ></p:outputLabel>
                         </p:column>
-                        <p:column headerText="Precio U">
-                            <p:outputLabel value="#{detFac.precioUnitario}" />
+                        <p:column styleClass="esquinaDerAr" >
+                            <p:outputLabel value='#{verFacturaControlador.seleccionaFactura.dirMatriz}' ></p:outputLabel>
                         </p:column>
-                        <p:column headerText="Descuento">
-                            <p:outputLabel value="#{detFac.descuento}" />
+                        <p:column style="width: 2%"></p:column>
+                        <p:column styleClass="ladoIzquierdo">
+                            <p:outputLabel value='Fecha de Emision' ></p:outputLabel>
+                        </p:column >
+                        <p:column styleClass="ladoDerecho">
+                            <p:outputLabel value='#{verFacturaControlador.seleccionaFactura.fechaEmision}' ></p:outputLabel>
                         </p:column>
-                        <p:column headerText="Precio Total">
-                            <p:outputLabel value="#{detFac.precioTotalSinimpuesto}" />
+                    </p:row>
+                    <p:row>
+                        <p:column styleClass="ladoIzquierdo">
+                            <p:outputLabel value='Direccion Sucursal' ></p:outputLabel>
                         </p:column>
-                    </p:dataTable>
+                        <p:column styleClass="ladoDerecho">
+                            <p:outputLabel value='#{verFacturaControlador.seleccionaFactura.dirEstablecimiento}' ></p:outputLabel>
+                        </p:column>
+                        <p:column style="width: 2%"></p:column>
+                        <p:column styleClass="ladoIzquierdo">
+                            <p:outputLabel value='Ambiente' ></p:outputLabel>
+                        </p:column>
+                        <p:column styleClass="ladoDerecho">
+                            <p:outputLabel value='#{verFacturaControlador.descripAmbiente}' ></p:outputLabel>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column styleClass="ladoIzquierdo">
+                            <p:outputLabel value='Contribuyente Especial No.' ></p:outputLabel>
+                        </p:column>
+                        <p:column styleClass="ladoDerecho">
+                            <p:outputLabel value='#{verFacturaControlador.seleccionaFactura.contibuyenteEspecial}' ></p:outputLabel>
+                        </p:column>
+                        <p:column style="width: 2%"></p:column>
+                        <p:column styleClass="ladoIzquierdo">
+                            <p:outputLabel value='Emision' ></p:outputLabel>
+                        </p:column>
+                        <p:column styleClass="ladoDerecho">
+                            <p:outputLabel value='#{verFacturaControlador.descripTipoEmision}' ></p:outputLabel>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2" styleClass="dosLados">
+                            <p:outputLabel value='OBLIGADO A LLEVAR CONTABILIDAD.' ></p:outputLabel>
+                        </p:column>
+                        <p:column style="width: 2%"></p:column>
+                        <p:column colspan="2" styleClass="dosLados">
+                            <p:outputLabel value='CLAVE DE ACCESO' ></p:outputLabel><br></br>                            
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2" styleClass="dosLados">
+                            <p:outputLabel value='#{verFacturaControlador.obligaContabilidad}' ></p:outputLabel>
+                        </p:column>
+                        <p:column style="width: 2%"></p:column>
+                        <p:column colspan="2" styleClass="dosLados">
+                            <p:outputLabel value='#{verFacturaControlador.seleccionaFactura.claveAcceso}' ></p:outputLabel>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column styleClass="esquinaIzqAb">
+                            <p:outputLabel value='Cliente.' ></p:outputLabel>
+                        </p:column>
+                        <p:column styleClass="esquinaDerAb">
+                            <p:outputLabel value='Cliente.' ></p:outputLabel>
+                        </p:column>
+                        <p:column style="width: 2%"></p:column>
+                        <p:column styleClass="esquinaIzqAb">
+                            <p:outputLabel value='Identificacion.' ></p:outputLabel>
+                        </p:column>
+                        <p:column styleClass="esquinaDerAb">
+                            <p:outputLabel value='Identificacion.' ></p:outputLabel>
+                        </p:column>
+                    </p:row>
+                    <p:row style="height: 20px"></p:row>
+                    <p:row>
+                        <p:column styleClass="esquinaIzqAr">
+                            <p:outputLabel value='Cliente.'  ></p:outputLabel>
+                        </p:column>
+                        <p:column colspan="2" styleClass="arriba">
+                            <p:outputLabel value='#{verFacturaControlador.seleccionaFactura.razonSocial}' ></p:outputLabel>
+                        </p:column>
+                        <p:column styleClass="arriba">
+                            <p:outputLabel value='Identificacion.' ></p:outputLabel>
+                        </p:column>
+                        <p:column styleClass="esquinaDerAr">
+                            <p:outputLabel value='#{verFacturaControlador.seleccionaFactura.cedRuc}' ></p:outputLabel>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column styleClass="esquinaIzqAb">
+                            <p:outputLabel value='Fecha Emision.' ></p:outputLabel>
+                        </p:column>
+                        <p:column colspan="2" styleClass="abajo">
+                            <p:outputLabel value='#{verFacturaControlador.seleccionaFactura.fechaEmision}'  ></p:outputLabel>
+                        </p:column>
+                        <p:column styleClass="abajo">
+                            <p:outputLabel value='Guia.' ></p:outputLabel>
+                        </p:column>
+                        <p:column styleClass="esquinaDerAb">
+                            <p:outputLabel value='#{verFacturaControlador.seleccionaFactura.guiaRemision}' ></p:outputLabel>
+                        </p:column>
+                    </p:row>
+                    <p:row style="height: 20px"></p:row>
+                    <p:row>
+                        <p:column colspan="5">
+                            <p:dataTable id="datTabDetFac" var="detFac" value="#{verFacturaControlador.listaDetalleFactura}"
+                                         rowIndexVar="index" 
+                                         emptyMessage="Ningun Detalle de Factura"
+                                         style="text-align: center; align: center; border-radius: 1.6em" >
+                                <p:column headerText="Item">
+                                    #{index+=1}
+                                </p:column>
+                                <p:column headerText="Código P">
+                                    <p:outputLabel value="#{detFac.codigoPrincipal}" />
+                                </p:column>
+                                <p:column headerText="Código Aux">
+                                    <p:outputLabel value="#{detFac.codigoAuxiliar}" />
+                                </p:column>
+                                <p:column headerText="Descripción del Item o Producto" style="width: 25%">
+                                    <p:outputLabel value="#{detFac.descripcion}" />
+                                </p:column>
+                                <p:column headerText="Cantidad">
+                                    <p:outputLabel value="#{detFac.cantidad}" />
+                                </p:column>
+                                <p:column headerText="Precio U">
+                                    <p:outputLabel value="#{detFac.precioUnitario}" />
+                                </p:column>
+                                <p:column headerText="Descuento">
+                                    <p:outputLabel value="#{detFac.descuento}" />
+                                </p:column>
+                                <p:column headerText="Precio Total">
+                                    <p:outputLabel value="#{detFac.precioTotalSinimpuesto}" />
+                                </p:column>
+                            </p:dataTable>
+                        </p:column>
+                    </p:row>
                 </p:panelGrid>
             </p:fieldset>
         </h:form>
-
     </h:body>
 </html>
 
