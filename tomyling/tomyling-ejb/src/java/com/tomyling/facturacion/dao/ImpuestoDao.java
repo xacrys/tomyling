@@ -8,6 +8,7 @@ package com.tomyling.facturacion.dao;
 
 import com.tomyling.facturacion.generico.Generico;
 import com.tomyling.facturacion.modelo.Impuesto;
+import javax.persistence.Query;
 
 /**
  *
@@ -22,4 +23,18 @@ public class ImpuestoDao extends Generico<Impuesto>{
         super(Impuesto.class);
     }
     
+    public Impuesto cargaImpuesto(Integer codImp)
+    {      
+        Query query;
+        String jpql="SELECT i FROM Impuesto i WHERE i.idFactura = :paramA";
+        query=getEntityManager().createQuery(jpql).setParameter("paramA", codImp);
+        if(query==null)
+        {
+            return null;
+        }
+        else
+        {
+            return (Impuesto) query.getSingleResult();
+        }      
+    }
 }
