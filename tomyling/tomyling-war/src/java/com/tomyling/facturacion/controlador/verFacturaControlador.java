@@ -53,7 +53,7 @@ public class verFacturaControlador extends Utilitarios implements Serializable
    private BigDecimal propina;
    //IMPUESTO
    private BigDecimal valor14;
-   //*******************************************
+   //*******************************************;;;;;;;;;
    private Boolean flagRide;
   
    
