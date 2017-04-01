@@ -37,4 +37,18 @@ public class ImpuestoServicio extends ImpuestoDao{
             }        
         }
     }
+    
+    public Impuesto recogeImpuesto(Integer imp)
+    {
+        Impuesto impRecoge;
+        impRecoge=this.cargaImpuesto(imp);
+        if(impRecoge==null)
+        {
+            return null;
+        }
+        else
+        {
+            return impRecoge;
+        }     
+    }        
 }

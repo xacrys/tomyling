@@ -31,10 +31,10 @@ public class RolMenuServicio extends RolMenuDao
 
     }
   
-    public List<RolMenu> consultarRolesPorUsuario(Integer idUsu)
+    public List<RolMenu> consultarRolesPorUsuario(Integer idUsuario)
     {
         List<RolMenu> lstRolMenu;
-        lstRolMenu=this.listaRolMenu(idUsu); 
+        lstRolMenu=this.listaRolMenu(idUsuario); 
         if(lstRolMenu==null || lstRolMenu.isEmpty())
         {
             return null;

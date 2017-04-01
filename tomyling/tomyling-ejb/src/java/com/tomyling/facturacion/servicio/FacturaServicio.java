@@ -61,4 +61,18 @@ public class FacturaServicio extends FacturaDao {
             return null;
         }
     }
+    
+    public Factura recogeFactura(Integer facturar) 
+    {
+        Factura recFac;
+        recFac=this.consultaFcaturaxId(facturar);
+        if(recFac == null)
+        {
+            return null;
+        }
+        else
+        {
+            return recFac;
+        }      
+    }        
 }
