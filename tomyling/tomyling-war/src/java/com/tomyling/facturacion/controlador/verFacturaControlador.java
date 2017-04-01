@@ -8,13 +8,18 @@ package com.tomyling.facturacion.controlador;
 import com.tomyling.facturacion.modelo.Ambiente;
 import com.tomyling.facturacion.modelo.DetalleFactura;
 import com.tomyling.facturacion.modelo.Factura;
+import com.tomyling.facturacion.modelo.Impuesto;
 import com.tomyling.facturacion.modelo.TipoEmision;
+import com.tomyling.facturacion.modelo.TipoImpuesto;
 import com.tomyling.facturacion.servicio.AmbienteServicio;
 import com.tomyling.facturacion.servicio.DetalleFacturaServicio;
 import com.tomyling.facturacion.servicio.FacturaServicio;
+import com.tomyling.facturacion.servicio.ImpuestoServicio;
 import com.tomyling.facturacion.servicio.TipoEmisionServicio;
+import com.tomyling.facturacion.servicio.TipoImpuestoServicio;
 import com.tomyling.facturacion.utilitarios.Utilitarios;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,6 +45,14 @@ public class verFacturaControlador extends Utilitarios implements Serializable
    private String descripAmbiente; 
    private String descripTipoEmision;
    private String obligaContabilidad;
+   private String descripTipoImpuesto;
+   //FACTURA
+   private BigDecimal subtotal;
+   private BigDecimal totalDescuento;
+   private BigDecimal valorTotal;
+   private BigDecimal propina;
+   //IMPUESTO
+   private BigDecimal valor14;
    //*******************************************
    private Boolean flagRide;
   
@@ -49,6 +62,7 @@ public class verFacturaControlador extends Utilitarios implements Serializable
    private List<Ambiente> lstDesAmb;
    private List<DetalleFactura> listaDetalleFactura;
    private DetalleFactura seleccionaDetalleFactura;
+  
    
    @EJB
    private AmbienteServicio ambienteServicio;
@@ -56,12 +70,16 @@ public class verFacturaControlador extends Utilitarios implements Serializable
    private TipoEmisionServicio tipoEmisionServicio;
    @EJB
    private DetalleFacturaServicio detalleFacturaServicio;
-   
+   @EJB
+   private ImpuestoServicio impuestoServicio;
+   @EJB
+   private TipoImpuestoServicio tipImpSer;
+  
    @PostConstruct
    private void inicio()
    {           
        this.listaFactura=new ArrayList<>();
-       this.listaDetalleFactura=new ArrayList<>();
+       this.listaDetalleFactura=new ArrayList<>();     
        flagRide=false;
        cargaFacturas(); 
        this.lstDesAmb=new ArrayList<>();
@@ -119,10 +137,31 @@ public class verFacturaControlador extends Utilitarios implements Serializable
         }
         else
         {
-           obligaContabilidad="No"; 
+           obligaContabilidad="No";  
         }
+        //Dstalle Factura
         Integer idDetFac=this.seleccionaFactura.getIdFactura();
-        listaDetalleFactura=this.detalleFacturaServicio.cargaDetalleFactura(idDetFac);      
+        listaDetalleFactura=this.detalleFacturaServicio.cargaDetalleFactura(idDetFac);
+        //Factura para Ride
+        Factura factura;
+        factura=null;
+        factura=this.facturaServicio.recogeFactura(idDetFac);
+        subtotal=factura.getTotalSinimpuesto();
+        totalDescuento=factura.getTotalDescuento();
+        valorTotal=factura.getImporteTotal();
+        propina=factura.getPropina();
+        // Impuestos
+        Integer codImpuesto=this.seleccionaFactura.getIdFactura();
+        Impuesto impuesto;
+        impuesto=this.impuestoServicio.recogeImpuesto(codImpuesto);
+        Integer codigoImpuesto=impuesto.getCodImpuesto(); 
+        valor14=impuesto.getValor();
+        //Trae tipoImpuesto
+        TipoImpuesto tipoImp;
+        tipoImp=null;
+        tipoImp=this.tipImpSer.traeCodImpuesto(codigoImpuesto);
+        descripTipoImpuesto=tipoImp.getDescImpuesto();
+        
    }
    public void regresar()
    {
@@ -228,7 +267,54 @@ public class verFacturaControlador extends Utilitarios implements Serializable
     public void setListaDetalleFactura(List<DetalleFactura> listaDetalleFactura) {
         this.listaDetalleFactura = listaDetalleFactura;
     }
-  
-     
+
+    public String getDescripTipoImpuesto() {
+        return descripTipoImpuesto;
+    }
+
+    public void setDescripTipoImpuesto(String descripTipoImpuesto) {
+        this.descripTipoImpuesto = descripTipoImpuesto;
+    }
+
+    public BigDecimal getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(BigDecimal subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    public BigDecimal getTotalDescuento() {
+        return totalDescuento;
+    }
+
+    public void setTotalDescuento(BigDecimal totalDescuento) {
+        this.totalDescuento = totalDescuento;
+    }
+
+    public BigDecimal getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(BigDecimal valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
+    public BigDecimal getValor14() {
+        return valor14;
+    }
+
+    public void setValor14(BigDecimal valor14) {
+        this.valor14 = valor14;
+    }
+
+    public BigDecimal getPropina() {
+        return propina;
+    }
+
+    public void setPropina(BigDecimal propina) {
+        this.propina = propina;
+    }
+    
      
 }
