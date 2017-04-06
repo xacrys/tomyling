@@ -99,4 +99,20 @@ public class FacturaDao extends Generico<Factura> {
             return null;
         }
     }
+    
+    public Factura consultaFcaturaxId(Integer facturar)
+    {
+        Query query;
+        String jpql="SELECT f FROM Factura f WHERE f.idFactura = :paramA";
+        query=getEntityManager().createQuery(jpql).setParameter("paramA", facturar);
+        if(query == null)
+        {
+             return null;
+        }    
+        else
+        {
+            return (Factura) query.getSingleResult();
+        }
+        
+    }       
 }

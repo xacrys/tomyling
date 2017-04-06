@@ -26,7 +26,7 @@ public class DetalleFacturaDao extends Generico<DetalleFactura>{
     {
         List<DetalleFactura> lstDetFac;
         Query query;
-        String jpql="SELECT df FROM DetalleFactura df WHERE df.idDetalle = :paramA";
+        String jpql="SELECT df FROM DetalleFactura df WHERE df.idFactura = :paramA";
         query=getEntityManager().createQuery(jpql).setParameter("paramA",detFac);
         lstDetFac=query.getResultList();
         
