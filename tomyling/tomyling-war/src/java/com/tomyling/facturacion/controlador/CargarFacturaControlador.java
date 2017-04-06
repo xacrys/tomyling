@@ -227,7 +227,7 @@ public class CargarFacturaControlador implements Serializable {
                     factura.setEstab(nodo.getText());
                     break;
                 case "ptoEmi":
-                    factura.setCodEmision(Integer.parseInt(nodo.getText()));
+                    factura.setPtoEmi(nodo.getText());
                     break;
                 case "secuencial":
                     factura.setSecuencial(nodo.getText());
@@ -327,6 +327,26 @@ public class CargarFacturaControlador implements Serializable {
                 case "precioTotalSinImpuesto":
                     detalleFactura.setPrecioTotalSinimpuesto(Double.parseDouble(nodo.getText()));
                     listaDetalles.add(detalleFactura);
+                    break;
+                case "campoAdicional":
+                    switch(nodo.getAttributes().get(0).getValue())
+                    {
+                        case "Direccion":
+                        factura.setDireccionAdicional(nodo.getContent().get(0).getValue());
+                        break;
+                        case "Telefono":
+                        factura.setTelefonoAdicional(nodo.getContent().get(0).getValue());
+                        break;
+                        case "Vendedor":
+                        factura.setVendedorAdicional(nodo.getContent().get(0).getValue());
+                        break;
+                        case "Forma de pago":
+                        factura.setFormaPagoAdicional(nodo.getContent().get(0).getValue());
+                        break;
+                        case "Cuota 1":
+                        factura.setCuotaAdicional(nodo.getContent().get(0).getValue());
+                        break;
+                    }
                     break;
 
             }
