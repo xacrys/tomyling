@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author new user
  */
 @Entity
-@Table(name = "usuario",schema="tomyling")
+@Table(name = "usuario", schema = "tomyling")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
@@ -158,5 +158,5 @@ public class Usuario implements Serializable {
     public String toString() {
         return "com.tomyling.facturacion.modelo.Usuario[ idUsuario=" + idUsuario + " ]";
     }
-    
+
 }
