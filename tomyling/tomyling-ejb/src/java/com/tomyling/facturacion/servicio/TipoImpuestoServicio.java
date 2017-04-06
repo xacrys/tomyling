@@ -9,6 +9,7 @@ package com.tomyling.facturacion.servicio;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import com.tomyling.facturacion.dao.TipoImpuestoDao;
+import com.tomyling.facturacion.modelo.TipoImpuesto;
 
 
 /**
@@ -18,7 +19,21 @@ import com.tomyling.facturacion.dao.TipoImpuestoDao;
 
 @LocalBean
 @Stateless
-public class TipoImpuestoServicio extends TipoImpuestoDao{
+public class TipoImpuestoServicio extends TipoImpuestoDao
+{
+    public TipoImpuesto traeCodImpuesto(Integer codigoImpuesto) 
+    {
+        TipoImpuesto tipoCodImp;
+        tipoCodImp=this.recogeTipoImpuesto(codigoImpuesto);  
+        if(tipoCodImp==null)
+        {
+            return null;
+        }
+        else
+        {
+            return tipoCodImp;
+        }         
+    }
 
    
 }
