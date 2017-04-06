@@ -50,5 +50,13 @@ public class ImpuestoServicio extends ImpuestoDao{
         {
             return impRecoge;
         }     
-    }        
+    }  
+    
+    public  List<Impuesto> lstImpuesto(Integer codFac)
+    {
+        return this.cargaListaImpuesto(codFac);
+    } 
+
+    
+    
 }
