@@ -269,9 +269,158 @@
                             </p:dataTable>
                         </p:column>
                     </p:row>
+                    <p:row style="height: 20px"></p:row>
+                    <p:row>
+                        <p:column colspan="4">
+                            <p:panelGrid style="width: 80%;border:2px solid #a8a8a8; border-radius: 8px" styleClass="sinBordes">
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Dirección" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.direccionAdicional}" />
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Teléfono" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.telefonoAdicional}"  />                          
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Vendedor" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.vendedorAdicional}"  />                          
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Cuota 1" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.cuotaAdicional}"  />                          
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Forma de Pago" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.formaPagoAdicional}"  />                          
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </p:column>
+                        <p:column >
+                            <p:panelGrid id="panGri4" style="width: 100%;border:2px solid #a8a8a8; border-radius: 8px">
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="SUBTOTAL 14%" />
+                                    </p:column>
+                                    <p:column> 
+                                        <p:outputLabel value="#{verFacturaControlador.subtotal}" /> 
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="SUBTOTAL 0%" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="0.00" />
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+
+                                    <p:column>
+                                        <p:outputLabel value="SUBTOTAL No objeto de IVA" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="0.00" />
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="SUBTOTAL Exento de IVA" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="0.00" />
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="SUBTOTAL SIN IMPUESTOS" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="#{verFacturaControlador.subtotal}" />
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="TOTAL Descuento" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="#{verFacturaControlador.totalDescuento}" />
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="TOTAL Descuento" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="#{verFacturaControlador.totalDescuento}" />
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="ICE" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="#{verFacturaControlador.valorICE}" />
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="IVA 14%"  />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="#{verFacturaControlador.valor14}"  />
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="IRBPNR"  />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="#{verFacturaControlador.valorIRB}"  />
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="PROPINAS" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="#{verFacturaControlador.propina}"  />
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="VALOR TOTAL" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="#{verFacturaControlador.valorTotal}"  />
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </p:column>
+                    </p:row>
                 </p:panelGrid>
             </p:fieldset>
         </h:form>
+
     </h:body>
 </html>
 
