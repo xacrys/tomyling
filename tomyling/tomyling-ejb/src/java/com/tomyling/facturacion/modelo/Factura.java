@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author new user
  */
 @Entity
-@Table(name = "factura", schema="tomyling")
+@Table(name = "factura",schema="tomyling")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Factura.findAll", query = "SELECT f FROM Factura f")
@@ -57,7 +57,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Factura.findByTotalDescuento", query = "SELECT f FROM Factura f WHERE f.totalDescuento = :totalDescuento")
     , @NamedQuery(name = "Factura.findByPropina", query = "SELECT f FROM Factura f WHERE f.propina = :propina")
     , @NamedQuery(name = "Factura.findByImporteTotal", query = "SELECT f FROM Factura f WHERE f.importeTotal = :importeTotal")
-    , @NamedQuery(name = "Factura.findByMoneda", query = "SELECT f FROM Factura f WHERE f.moneda = :moneda")})
+    , @NamedQuery(name = "Factura.findByMoneda", query = "SELECT f FROM Factura f WHERE f.moneda = :moneda")
+    , @NamedQuery(name = "Factura.findByPtoEmi", query = "SELECT f FROM Factura f WHERE f.ptoEmi = :ptoEmi")
+    , @NamedQuery(name = "Factura.findByDireccionAdicional", query = "SELECT f FROM Factura f WHERE f.direccionAdicional = :direccionAdicional")
+    , @NamedQuery(name = "Factura.findByTelefonoAdicional", query = "SELECT f FROM Factura f WHERE f.telefonoAdicional = :telefonoAdicional")
+    , @NamedQuery(name = "Factura.findByVendedorAdicional", query = "SELECT f FROM Factura f WHERE f.vendedorAdicional = :vendedorAdicional")
+    , @NamedQuery(name = "Factura.findByFormaPagoAdicional", query = "SELECT f FROM Factura f WHERE f.formaPagoAdicional = :formaPagoAdicional")
+    , @NamedQuery(name = "Factura.findByCuotaAdicional", query = "SELECT f FROM Factura f WHERE f.cuotaAdicional = :cuotaAdicional")})
 public class Factura implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -138,6 +144,24 @@ public class Factura implements Serializable {
     @Size(max = 20)
     @Column(name = "moneda")
     private String moneda;
+    @Size(max = 3)
+    @Column(name = "pto_emi")
+    private String ptoEmi;
+    @Size(max = 300)
+    @Column(name = "direccion_adicional")
+    private String direccionAdicional;
+    @Size(max = 100)
+    @Column(name = "telefono_adicional")
+    private String telefonoAdicional;
+    @Size(max = 100)
+    @Column(name = "vendedor_adicional")
+    private String vendedorAdicional;
+    @Size(max = 100)
+    @Column(name = "forma_pago_adicional")
+    private String formaPagoAdicional;
+    @Size(max = 100)
+    @Column(name = "cuota_adicional")
+    private String cuotaAdicional;
 
     public Factura() {
     }
@@ -360,6 +384,54 @@ public class Factura implements Serializable {
 
     public void setMoneda(String moneda) {
         this.moneda = moneda;
+    }
+
+    public String getPtoEmi() {
+        return ptoEmi;
+    }
+
+    public void setPtoEmi(String ptoEmi) {
+        this.ptoEmi = ptoEmi;
+    }
+
+    public String getDireccionAdicional() {
+        return direccionAdicional;
+    }
+
+    public void setDireccionAdicional(String direccionAdicional) {
+        this.direccionAdicional = direccionAdicional;
+    }
+
+    public String getTelefonoAdicional() {
+        return telefonoAdicional;
+    }
+
+    public void setTelefonoAdicional(String telefonoAdicional) {
+        this.telefonoAdicional = telefonoAdicional;
+    }
+
+    public String getVendedorAdicional() {
+        return vendedorAdicional;
+    }
+
+    public void setVendedorAdicional(String vendedorAdicional) {
+        this.vendedorAdicional = vendedorAdicional;
+    }
+
+    public String getFormaPagoAdicional() {
+        return formaPagoAdicional;
+    }
+
+    public void setFormaPagoAdicional(String formaPagoAdicional) {
+        this.formaPagoAdicional = formaPagoAdicional;
+    }
+
+    public String getCuotaAdicional() {
+        return cuotaAdicional;
+    }
+
+    public void setCuotaAdicional(String cuotaAdicional) {
+        this.cuotaAdicional = cuotaAdicional;
     }
 
     @Override

@@ -7,7 +7,6 @@ package com.tomyling.facturacion.modelo;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author new user
  */
 @Entity
-@Table(name = "rol", schema="tomyling")
+@Table(name = "rol",schema="tomyling")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Rol.findAll", query = "SELECT r FROM Rol r")
@@ -115,6 +114,5 @@ public class Rol implements Serializable {
     public String toString() {
         return "com.tomyling.facturacion.modelo.Rol[ idRol=" + idRol + " ]";
     }
-
-   
+    
 }
