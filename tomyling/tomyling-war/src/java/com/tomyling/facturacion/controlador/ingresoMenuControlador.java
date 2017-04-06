@@ -87,9 +87,9 @@ public class ingresoMenuControlador extends Utilitarios implements Serializable
         //conseguir ultimo id del menu        
         //conseguir id rol de usuario
         Usuario u = usuarioServicio.existeUsuario(usuario, clave);
-       
-        UsuRolPK usuarioRol =  (UsuRolPK) usurolpkServicio.consultarRolesPorUsuario(u.getIdUsuario());
-       
+        Integer idUsuario=u.getIdUsuario();
+     //   UsuRolPK usuarioRol =  (UsuRolPK) usurolpkServicio.consultarRolesPorUsuario(u.getIdUsuario());
+        UsuRolPK usuarioRol =  (UsuRolPK) usurolpkServicio.obtenerRolMenu(idUsuario); 
       // this.menuServicio.guardaMenu(menues);
      
        RolMenuPK rm = new RolMenuPK(); 

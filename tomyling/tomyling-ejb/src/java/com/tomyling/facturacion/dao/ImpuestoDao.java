@@ -38,6 +38,7 @@ public class ImpuestoDao extends Generico<Impuesto>{
             return (Impuesto) query.getSingleResult();
         }      
     }
+
     
      public List<Impuesto> cargaListaImpuesto(Integer idFactura)
     {   
@@ -57,4 +58,5 @@ public class ImpuestoDao extends Generico<Impuesto>{
     }
     
     
+
 }

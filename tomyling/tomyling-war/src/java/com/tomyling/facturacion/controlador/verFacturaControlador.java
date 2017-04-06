@@ -171,18 +171,35 @@ public class verFacturaControlador extends Utilitarios implements Serializable {
                 valorIRB = i.getValor();
             }
         }
-        
-        //Trae tipoImpuesto
+        //Dstalle Factura
        
-
-    }
-
-    public void regresar() {
-        flagRide = false;
-    }
-
-    //getters y setters
-    public Integer getIdFactura() {
+        factura=null;
+        factura=this.facturaServicio.recogeFactura(idDetFac);
+        subtotal=factura.getTotalSinimpuesto();
+        totalDescuento=factura.getTotalDescuento();
+        valorTotal=factura.getImporteTotal();
+        propina=factura.getPropina();
+        // Impuestos
+        Integer codImpuesto=this.seleccionaFactura.getIdFactura();
+        Impuesto impuesto;
+        impuesto=this.impuestoServicio.recogeImpuesto(codImpuesto);
+        Integer codigoImpuesto=impuesto.getCodImpuesto(); 
+        valor14=impuesto.getValor();
+        //Trae tipoImpuesto
+        TipoImpuesto tipoImp;
+        tipoImp=null;
+        tipoImp=this.tipImpSer.traeCodImpuesto(codigoImpuesto);
+        descripTipoImpuesto=tipoImp.getDescImpuesto();
+        
+   }
+   public void regresar()
+   {
+       flagRide=false;
+   }
+   
+   
+   //getters y setters
+   public Integer getIdFactura() {
         return idFactura;
     }
 
