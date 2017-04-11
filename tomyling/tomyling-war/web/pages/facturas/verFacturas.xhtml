@@ -83,6 +83,7 @@
                     </p:column>
                 </p:dataTable>
             </p:fieldset>
+
             <p:fieldset id="fsFactura" legend="Formato Ride de la Factura" style="display:#{verFacturaControlador.flagRide?'block':'none'}">
                 <p:panelGrid style="width: 100%" styleClass="sinBordes">
                     <p:row>
@@ -355,7 +356,7 @@
                                         <p:outputLabel value="SUBTOTAL SIN IMPUESTOS" />
                                     </p:column>
                                     <p:column>
-                                        <p:outputLabel value="#{verFacturaControlador.subtotal}" />
+                                        <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.totalSinimpuesto}" />
                                     </p:column>
                                 </p:row>
                                 <p:row>
@@ -363,7 +364,7 @@
                                         <p:outputLabel value="TOTAL Descuento" />
                                     </p:column>
                                     <p:column>
-                                        <p:outputLabel value="#{verFacturaControlador.totalDescuento}" />
+                                        <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.totalDescuento}" />
                                     </p:column>
                                 </p:row>
                                 <p:row>
@@ -371,7 +372,7 @@
                                         <p:outputLabel value="TOTAL Descuento" />
                                     </p:column>
                                     <p:column>
-                                        <p:outputLabel value="#{verFacturaControlador.totalDescuento}" />
+                                        <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.totalDescuento}" />
                                     </p:column>
                                 </p:row>
                                 <p:row>
@@ -403,7 +404,7 @@
                                         <p:outputLabel value="PROPINAS" />
                                     </p:column>
                                     <p:column>
-                                        <p:outputLabel value="#{verFacturaControlador.propina}"  />
+                                        <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.propina}"  />
                                     </p:column>
                                 </p:row>
                                 <p:row>
@@ -411,13 +412,20 @@
                                         <p:outputLabel value="VALOR TOTAL" />
                                     </p:column>
                                     <p:column>
-                                        <p:outputLabel value="#{verFacturaControlador.valorTotal}"  />
+                                        <p:outputLabel value="#{verFacturaControlador.seleccionaFactura.importeTotal}"  />
                                     </p:column>
                                 </p:row>
                             </p:panelGrid>
                         </p:column>
                     </p:row>
+                    <p:row>
+                        <p:column colspan="5">
+                            <p:commandButton  icon="fa fa-file-excel-o" actionListener="#{verFacturaControlador.descargarXls}" value="Excel" ajax="false">
+                            </p:commandButton>
+                        </p:column>
+                    </p:row>
                 </p:panelGrid>
+
             </p:fieldset>
         </h:form>
 
