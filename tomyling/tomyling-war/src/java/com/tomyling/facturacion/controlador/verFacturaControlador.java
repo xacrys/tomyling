@@ -5,6 +5,7 @@
  */
 package com.tomyling.facturacion.controlador;
 
+import com.tomyling.facturacion.dto.FacturaCompletaDto;
 import com.tomyling.facturacion.modelo.Ambiente;
 import com.tomyling.facturacion.modelo.DetalleFactura;
 import com.tomyling.facturacion.modelo.Factura;
@@ -67,6 +68,7 @@ public class verFacturaControlador extends Utilitarios implements Serializable {
     private List<DetalleFactura> listaDetalleFactura;
     private DetalleFactura seleccionaDetalleFactura;
     private List<Impuesto> listaImpuesto;
+    private FacturaCompletaDto facCompleta;
 
     @EJB
     private AmbienteServicio ambienteServicio;
@@ -87,7 +89,7 @@ public class verFacturaControlador extends Utilitarios implements Serializable {
         flagRide = false;
         cargaFacturas();
         this.lstDesAmb = new ArrayList<>();
-        
+
     }
     @EJB
     private FacturaServicio facturaServicio;
@@ -156,54 +158,58 @@ public class verFacturaControlador extends Utilitarios implements Serializable {
         this.valorICE = valorICE.setScale(2, RoundingMode.CEILING);
         this.valorIRB = new BigDecimal(0d);
         this.valorIRB = valorIRB.setScale(2, RoundingMode.CEILING);
-        for(Impuesto i: listaImpuesto)
-        {
-            if(i.getCodImpuesto()==2)
-            {
+        for (Impuesto i : listaImpuesto) {
+            if (i.getCodImpuesto() == 2) {
                 valor14 = i.getValor();
             }
-            if(i.getCodImpuesto()==3)
-            {
+            if (i.getCodImpuesto() == 3) {
                 valorICE = i.getValor();
             }
-            if(i.getCodImpuesto()==5)
-            {
+            if (i.getCodImpuesto() == 5) {
                 valorIRB = i.getValor();
             }
         }
         //Dstalle Factura
-       
-        factura=null;
-        factura=this.facturaServicio.recogeFactura(idDetFac);
-        subtotal=factura.getTotalSinimpuesto();
-        totalDescuento=factura.getTotalDescuento();
-        valorTotal=factura.getImporteTotal();
-        propina=factura.getPropina();
+
+        factura = null;
+        factura = this.facturaServicio.recogeFactura(idDetFac);
+        subtotal = factura.getTotalSinimpuesto();
+        totalDescuento = factura.getTotalDescuento();
+        valorTotal = factura.getImporteTotal();
+        propina = factura.getPropina();
         // Impuestos
-        Integer codImpuesto=this.seleccionaFactura.getIdFactura();
+        Integer codImpuesto = this.seleccionaFactura.getIdFactura();
         Impuesto impuesto;
-        impuesto=this.impuestoServicio.recogeImpuesto(codImpuesto);
-        Integer codigoImpuesto=impuesto.getCodImpuesto(); 
-        valor14=impuesto.getValor();
+        impuesto = this.impuestoServicio.recogeImpuesto(codImpuesto);
+        Integer codigoImpuesto = impuesto.getCodImpuesto();
+        valor14 = impuesto.getValor();
         //Trae tipoImpuesto
         TipoImpuesto tipoImp;
-        tipoImp=null;
-        tipoImp=this.tipImpSer.traeCodImpuesto(codigoImpuesto);
-        descripTipoImpuesto=tipoImp.getDescImpuesto();
-        
-   }
-   public void regresar()
-   {
-       flagRide=false;
-   }
-   
-   public void descargarXls(){
-   generaXls();
-   }
-   
-   
-   //getters y setters
-   public Integer getIdFactura() {
+        tipoImp = null;
+        tipoImp = this.tipImpSer.traeCodImpuesto(codigoImpuesto);
+        descripTipoImpuesto = tipoImp.getDescImpuesto();
+
+        facCompleta = new FacturaCompletaDto();
+        facCompleta.setFactura(seleccionaFactura);
+        facCompleta.setDescripcionAmbiente(descripAmbiente);
+        facCompleta.setDescripcionTipoEmision(descripTipoEmision);
+        facCompleta.setListaDetalle(listaDetalleFactura);
+        facCompleta.setValor14(valor14);
+        facCompleta.setValorIce(valorICE);
+        facCompleta.setValorIrbf(valorIRB);
+
+    }
+
+    public void regresar() {
+        flagRide = false;
+    }
+
+    public void descargarXls() {
+        generaXls(facCompleta);
+    }
+
+    //getters y setters
+    public Integer getIdFactura() {
         return idFactura;
     }
 
@@ -369,6 +375,14 @@ public class verFacturaControlador extends Utilitarios implements Serializable {
 
     public void setImpuestoServicio(ImpuestoServicio impuestoServicio) {
         this.impuestoServicio = impuestoServicio;
+    }
+
+    public FacturaCompletaDto getFacCompleta() {
+        return facCompleta;
+    }
+
+    public void setFacCompleta(FacturaCompletaDto facCompleta) {
+        this.facCompleta = facCompleta;
     }
 
 }
