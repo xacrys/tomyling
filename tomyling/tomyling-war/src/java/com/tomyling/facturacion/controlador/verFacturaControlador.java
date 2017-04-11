@@ -197,6 +197,10 @@ public class verFacturaControlador extends Utilitarios implements Serializable {
        flagRide=false;
    }
    
+   public void descargarXls(){
+   generaXls();
+   }
+   
    
    //getters y setters
    public Integer getIdFactura() {
