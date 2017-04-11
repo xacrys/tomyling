@@ -5,6 +5,7 @@
  */
 package com.tomyling.facturacion.utilitarios;
 
+import com.tomyling.facturacion.dto.FacturaCompletaDto;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -49,7 +50,7 @@ public class Utilitarios implements Serializable {
         getExternalContext().redirect(getRequest().getContextPath() + url);
     }
 
-    public void generaXls() {
+    public void generaXls(FacturaCompletaDto facCompleta) {
 
         // Se crea el libro
         XSSFWorkbook libro = new XSSFWorkbook();
