@@ -5,6 +5,7 @@
  */
 package com.tomyling.facturacion.controlador;
 
+import com.itextpdf.text.DocumentException;
 import com.tomyling.facturacion.dto.FacturaCompletaDto;
 import com.tomyling.facturacion.modelo.Ambiente;
 import com.tomyling.facturacion.modelo.DetalleFactura;
@@ -19,6 +20,7 @@ import com.tomyling.facturacion.servicio.ImpuestoServicio;
 import com.tomyling.facturacion.servicio.TipoEmisionServicio;
 import com.tomyling.facturacion.servicio.TipoImpuestoServicio;
 import com.tomyling.facturacion.utilitarios.Utilitarios;
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -205,9 +207,13 @@ public class verFacturaControlador extends Utilitarios implements Serializable {
     }
 
     public void descargarXls() {
-        generaXls(facCompleta);
+        generaXls(facCompleta); 
     }
-
+    
+    public void descargarPdf() throws FileNotFoundException, DocumentException
+    {
+        generaPdf(facCompleta);
+    }       
     //getters y setters
     public Integer getIdFactura() {
         return idFactura;

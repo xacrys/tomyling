@@ -4,10 +4,16 @@
  * and open the template in the editor.
  */
 package com.tomyling.facturacion.utilitarios;
-
 import com.tomyling.facturacion.dto.FacturaCompletaDto;
+//*****************************************************
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+//****************************************************
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -222,4 +228,30 @@ public class Utilitarios implements Serializable {
             e.printStackTrace();
         }
     }
+    
+    public void generaPdf(FacturaCompletaDto facCompleta) throws FileNotFoundException, DocumentException
+    {
+        //Se crea el documento
+        Document documento=new Document();
+        // Se crea el OutputStream para el fichero donde queremos dejar el pdf.
+       try
+       {
+           // Se crea el OutputStream para el fichero donde queremos dejar el pdf.
+          // FileOutputStream ficheroPdf = new FileOutputStream("fichero.pdf");
+           FileOutputStream ficheroPdf=new FileOutputStream("fichero.pdf");
+           // Se asocia el documento al OutputStream
+           PdfWriter.getInstance(documento,ficheroPdf);
+           // Se abre el documento.
+           documento.open();
+           //Anadir párrafos
+           Paragraph parrafo=new Paragraph();
+           parrafo.add("este es un PDF");
+           documento.add(parrafo);
+           documento.close(); 
+       }
+       catch(Exception ex)
+       {
+          ex.printStackTrace();
+       }    
+    }        
 }
