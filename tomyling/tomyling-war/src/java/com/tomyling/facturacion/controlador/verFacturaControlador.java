@@ -21,6 +21,7 @@ import com.tomyling.facturacion.servicio.TipoEmisionServicio;
 import com.tomyling.facturacion.servicio.TipoImpuestoServicio;
 import com.tomyling.facturacion.utilitarios.Utilitarios;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -206,7 +207,7 @@ public class verFacturaControlador extends Utilitarios implements Serializable {
         flagRide = false;
     }
 
-    public void descargarXls() {
+    public void descargarXls() throws IOException {
         generaXls(facCompleta); 
     }
     
