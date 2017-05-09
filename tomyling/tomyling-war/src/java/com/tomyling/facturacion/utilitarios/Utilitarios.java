@@ -5,13 +5,26 @@
  */
 package com.tomyling.facturacion.utilitarios;
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
 import com.tomyling.facturacion.dto.FacturaCompletaDto;
 //*****************************************************
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.tomyling.facturacion.modelo.DetalleFactura;
+import com.tomyling.facturacion.modelo.Factura;
 //****************************************************
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,8 +33,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
@@ -48,6 +66,14 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @author new user
  */
 public class Utilitarios implements Serializable {
+    
+    private String descripAmbiente;
+    private String descripTipoEmite;
+    private BigDecimal val14;
+    private BigDecimal valICE;
+    private BigDecimal valIRB;
+    private Factura selectFactura;
+    private List<DetalleFactura> lisDetalleFactura;
 
     protected FacesContext getContext() {
         return FacesContext.getCurrentInstance();
@@ -388,25 +414,422 @@ public class Utilitarios implements Serializable {
 
     }
 
-    public void generaPdf(FacturaCompletaDto facCompleta) throws FileNotFoundException, DocumentException {
-        //Se crea el documento
-        Document documento = new Document();
-        // Se crea el OutputStream para el fichero donde queremos dejar el pdf.
-        try {
-            // Se crea el OutputStream para el fichero donde queremos dejar el pdf.
-            // FileOutputStream ficheroPdf = new FileOutputStream("fichero.pdf");
-            FileOutputStream ficheroPdf = new FileOutputStream("fichero.pdf");
-            // Se asocia el documento al OutputStream
-            PdfWriter.getInstance(documento, ficheroPdf);
-            // Se abre el documento.
-            documento.open();
-            //Anadir párrafos
-            Paragraph parrafo = new Paragraph();
-            parrafo.add("este es un PDF");
-            documento.add(parrafo);
-            documento.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+   public void generaPdf(FacturaCompletaDto facCompleta) throws FileNotFoundException, DocumentException
+    {      
+        descripAmbiente=facCompleta.getDescripcionAmbiente();
+        descripTipoEmite=facCompleta.getDescripcionTipoEmision();
+        val14=facCompleta.getValor14();
+        valICE=facCompleta.getValorIce();
+        valIRB=facCompleta.getValorIrbf();
+        selectFactura=facCompleta.getFactura();
+        lisDetalleFactura=facCompleta.getListaDetalle();
+        
+        String valICE1=String.valueOf(valICE);
+        String valIRB1=String.valueOf(valIRB);
+        String val141=String.valueOf(val14);
+       
+        //********************************************************       
+        String cedulaRuc=selectFactura.getCedRuc();
+        String claAcceso=selectFactura.getClaveAcceso();
+        Date fecha=selectFactura.getFechaEmision();       
+        String ambiente=descripAmbiente;
+        String emision=descripTipoEmite;
+        String direccion=selectFactura.getDirEstablecimiento();
+        String contrEspecial=selectFactura.getContibuyenteEspecial();
+        Boolean contaSiNo=selectFactura.getObligadoContabilidad();
+        String razonSocialCompra=selectFactura.getRazonSocialComprador();
+        String direcMatriz=selectFactura.getDirMatriz();
+        String direcSucursal=selectFactura.getDirEstablecimiento();
+        String contribuEspecial=selectFactura.getContibuyenteEspecial();
+        String sino;
+        //**Información adicional
+        String direcAdicional=selectFactura.getDireccionAdicional();
+        if(direcAdicional== null || direcAdicional.isEmpty() )
+        {
+            direcAdicional=" ";
+        }    
+        String telAdicional=selectFactura.getTelefonoAdicional();
+        if(telAdicional==null || telAdicional.isEmpty())
+        {
+           telAdicional=" " ;
         }
-    }
+        String venAdicional=selectFactura.getVendedorAdicional();
+        if(venAdicional==null || venAdicional.isEmpty())
+        {
+            venAdicional=" ";
+        }
+        String cuoAdicional=selectFactura.getCuotaAdicional();
+        if(cuoAdicional==null || cuoAdicional.isEmpty()) 
+        {
+            cuoAdicional="  ";
+        }
+        String forPagAdicional=selectFactura.getFormaPagoAdicional();
+        if(forPagAdicional==null || forPagAdicional.isEmpty())
+        {
+            forPagAdicional="  ";
+        }
+        BigDecimal impAdicional=selectFactura.getImporteTotal();
+        String impAdicional1=String.valueOf(impAdicional);
+        if(impAdicional1==null || impAdicional1.isEmpty() )
+        {
+            impAdicional1=" ";
+        }
+        //**Subtotales***************************************************
+        BigDecimal totSinImp=selectFactura.getTotalSinimpuesto();
+        String totalSinImpuesto=String.valueOf(totSinImp);
+        BigDecimal totDes=selectFactura.getTotalDescuento();
+        String totalDescuento=String.valueOf(totDes);
+        BigDecimal propina=selectFactura.getPropina();
+        String propinas=String.valueOf(propina);
+        BigDecimal impTot=selectFactura.getImporteTotal();
+        String importeTotal=String.valueOf(impTot);
+        String subTotCer="0,00";
+        String subNoIva="0,00";
+        String subTotExtIva="0,00";
+        //**************************************************************
+        if(contaSiNo == true)
+        {
+            sino="Si";
+        }
+        else
+        {
+           sino="No";
+        }    
+      //  String nombre=selectFactura.
+       
+        DateFormat fechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String fechaConvert = fechaHora.format(fecha);
+       
+       try 
+       {       
+             // Se crea el OutputStream para el fichero donde queremos dejar el pdf.
+            FileOutputStream ficheroPdf=new FileOutputStream("e://pdf//fichero.pdf"); 
+            //Se crea el Documento que tendra el contenido de sus elementos
+            Document document = new Document(PageSize.A4);      
+         //  PdfWriter.getInstance(document, ficheroPdf).setInitialLeading(20);      
+            PdfWriter escribir=PdfWriter.getInstance(document, ficheroPdf);
+            document.open(); 
+            //Construccion de rectangulo 
+            float llx = 33;   
+            float lly = 5;   
+            float urx = 570;
+            float ury = 820;
+            PdfContentByte cb = escribir.getDirectContent(); 
+            Rectangle rect = new Rectangle(llx, lly, urx, ury);  
+           // rect.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            rect.setBorder(Rectangle.BOX);  
+            rect.setBorderWidth(1);
+            cb.rectangle(rect);
+             // draw the rect
+
+            //**********************************************************************************8
+            Font fontContenido = FontFactory.getFont(FontFactory.TIMES_ROMAN, 9, Font.NORMAL,
+              BaseColor.RED);
+             Font fontContenido1 = FontFactory.getFont(FontFactory.TIMES_ROMAN, 9, Font.NORMAL, 
+              BaseColor.BLUE);
+             Font fontContenido2 = FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.NORMAL, 
+              BaseColor.BLUE);
+             Font fontContenido3 = FontFactory.getFont(FontFactory.TIMES_ROMAN, 9, Font.NORMAL,
+              BaseColor.BLUE);
+            Font fontContenido4 = FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.NORMAL,
+              BaseColor.RED);
+            Font fontContenido5 = FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.NORMAL,
+              BaseColor.GREEN);
+            Font fontContenido6 = FontFactory.getFont(FontFactory.TIMES_ROMAN, 8, Font.NORMAL,
+              BaseColor.DARK_GRAY);
+            Font fontContenido7 = FontFactory.getFont(FontFactory.TIMES_ROMAN, 10, Font.NORMAL,
+              BaseColor.BLUE);
+             Font fontContenido8 = FontFactory.getFont(FontFactory.TIMES_ROMAN, 10, Font.NORMAL,
+              BaseColor.RED);
+             //*******Crea la Tabla General****************************************************
+             PdfPTable table = new PdfPTable(3);   
+             table.setWidthPercentage(100f); 
+          //   table.setTotalWidth(540f);
+             table.setWidths(new float[]{3f,8f,11f});         
+     
+            //************************************************************
+            // Obtenemos una instancia de un objeto Image 
+            // pasandole por parametro la imagen.
+            PdfPTable tabla1=new PdfPTable(1); 
+            Image imagen = Image.getInstance("E:/imgenes/facturaLogo70x80.jpg");            
+        //    PdfPCell cell2 = new PdfPCell(new Paragraph("Cell 1"));
+            PdfPCell cell1 = new PdfPCell(imagen, false);  
+            imagen.scalePercent(10f);
+//            imagen.scaleAbsoluteWidth(3f);
+//            imagen.scaleAbsoluteHeight(10f); 
+            imagen.setBorder(PdfPCell.NO_BORDER);
+            tabla1.addCell(cell1);
+//     
+           //**********Titulos ******************************************************* 
+           PdfPTable tabla2=new PdfPTable(1);
+           PdfPCell celda1=new PdfPCell(new Phrase("R.U.C.  ",fontContenido));      
+           PdfPCell celda2=new PdfPCell(new Phrase("FACTURA",fontContenido)); 
+           PdfPCell celda3=new PdfPCell(new Phrase("NÚMERO DE AUTORIZACIÓN",fontContenido));
+           PdfPCell celda4=new PdfPCell(new Phrase("FECHA Y HORA DE AUTORIZACIÓN",fontContenido));
+           PdfPCell celda5=new PdfPCell(new Phrase("AMBIENTE",fontContenido));
+           PdfPCell celda6=new PdfPCell(new Phrase("EMISIÓN",fontContenido));
+            
+            
+           tabla2.addCell(celda1);    
+           tabla2.addCell(celda2);
+           tabla2.addCell(celda3);
+           tabla2.addCell(celda4);
+           tabla2.addCell(celda5);
+           tabla2.addCell(celda6);
+           // ***********Valores *************************************************************          
+           PdfPTable tabla3=new PdfPTable(1);
+           PdfPCell celda13=new PdfPCell(new Phrase(cedulaRuc,fontContenido1)); 
+           PdfPCell celda23=new PdfPCell(new Phrase(" ")); 
+           PdfPCell celda33=new PdfPCell(new Phrase(claAcceso,fontContenido1));
+           PdfPCell celda43=new PdfPCell(new Phrase(fechaConvert,fontContenido1));
+           PdfPCell celda53=new PdfPCell(new Phrase(ambiente,fontContenido1));
+           PdfPCell celda63=new PdfPCell(new Phrase(emision,fontContenido1)); 
+           
+           tabla3.addCell(celda13);
+           tabla3.addCell(celda23);
+           tabla3.addCell(celda33);
+           tabla3.addCell(celda43);
+           tabla3.addCell(celda53);
+           tabla3.addCell(celda63);
+           //*************Graba la Tabla********************************************************
+           PdfPTable tablaFinal=new PdfPTable(1);
+           PdfPCell celdas=new PdfPCell(new Paragraph("Hola 2"));
+           celdas.setColspan(3);
+           tablaFinal.addCell(celdas); 
+           table.addCell(tabla1);
+           table.addCell(tabla2);
+           table.addCell(tabla3);  
+           
+           table.addCell(tablaFinal);   
+           document.add(table); 
+           //***********Datos Empresa *************************************************
+           Phrase fraseEmp=new Phrase(45);
+           fraseEmp.add(Chunk.NEWLINE);
+           fraseEmp.add(new Chunk("SANSUR IMPORTACIONES Y COMPANÍA",fontContenido5)); 
+           fraseEmp.add(Chunk.NEWLINE);
+           fraseEmp.add(new Chunk("Dirección Matríz  ",fontContenido4));
+           fraseEmp.add(new Chunk(direcMatriz,fontContenido3));
+           fraseEmp.add(Chunk.NEWLINE);
+           fraseEmp.add(new Chunk("Dirección Sucursal ",fontContenido4));
+           fraseEmp.add(new Chunk(direcSucursal,fontContenido3));
+           fraseEmp.add(Chunk.NEWLINE);
+           fraseEmp.add(new Chunk("Contribuyente Especial Nro  ",fontContenido4));
+           fraseEmp.add(new Chunk(contribuEspecial,fontContenido3));
+           fraseEmp.add(Chunk.NEWLINE);
+           fraseEmp.add(new Chunk("OBLIGADO A LLEVAR CONTABILIDAD  ",fontContenido4)); 
+           fraseEmp.add(new Chunk(sino,fontContenido3));
+           document.add(fraseEmp);
+           
+            float llx2 =33;   
+            float lly2 =690;  
+            float urx2 = 360;
+            float ury2 = 480; 
+            PdfContentByte cb2 = escribir.getDirectContent();  
+            Rectangle rect2 = new Rectangle(llx2, lly2, urx2, ury2);  
+           // rect.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            rect2.setBorder(Rectangle.BOX);
+            rect2.setBorderWidth(1);
+            cb2.rectangle(rect2);
+//           //***********Datos Cliente ***************************************************
+            String espacio="               ";
+            Paragraph parrafo = new Paragraph();  
+            parrafo.setSpacingBefore(350); 
+            Phrase frase=new Phrase(45);   
+            frase.add(Chunk.NEWLINE);
+            frase.add(new Chunk("CLIENTE    ",fontContenido));         
+            frase.add(new Chunk(razonSocialCompra,fontContenido3));  
+            frase.add(new Chunk(espacio));
+            frase.add(new Chunk("Identificación    ",fontContenido));            
+            frase.add(new Chunk(cedulaRuc,fontContenido3)); 
+            frase.add(Chunk.NEWLINE);
+            frase.add(new Chunk("Fecha Emisión    ",fontContenido));             
+            frase.add(new Chunk(fechaConvert,fontContenido3)); 
+            frase.add(new Chunk("                                        "));
+            frase.add(new Chunk("Guía    ",fontContenido));           
+            frase.add(new Chunk(" ",fontContenido3));   
+
+            document.add(frase);
+            float llx1 =33; //posicion x 
+            float lly1 =470; //posicion y 
+            float urx1 = 545; //ancho
+            float ury1 = 385;//largo
+            PdfContentByte cb1 = escribir.getDirectContent(); 
+            Rectangle rect1 = new Rectangle(llx1, lly1, urx1, ury1);  
+           // rect.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            rect1.setBorder(Rectangle.BOX);
+            rect1.setBorderWidth(1);
+            cb1.rectangle(rect1);
+ 
+           PdfPTable tabla=new PdfPTable(7); 
+      //     tabla.setWidthPercentage(100);
+           tabla.setHorizontalAlignment(Element.ALIGN_CENTER);
+           //float[] medidaCeldas={3.30f,3.30f,3.50f,4.50f,3.30f,3.30f,3.30f}; 
+           tabla.setTotalWidth(500);
+           tabla.setLockedWidth(true); 
+           tabla.setWidths(new float[]{5,5,14,5,5,6,5});   
+         
+          // tabla.addCell(new Paragraph("Item",fontContenido)); 
+           
+           tabla.addCell(new Paragraph("Código Principal",fontContenido));
+           tabla.addCell(new Paragraph("Código Auxiliar",fontContenido));
+           tabla.addCell(new Paragraph("Descripión de Item o Producto",fontContenido));
+           tabla.addCell(new Paragraph("Cantidad",fontContenido));
+           tabla.addCell(new Paragraph("Precio Unitario",fontContenido));
+           tabla.addCell(new Paragraph("Descuento",fontContenido));
+           tabla.addCell(new Paragraph("Precio Total",fontContenido));
+      
+            for (DetalleFactura df:lisDetalleFactura) 
+            {
+                String coda=df.getCodigoAuxiliar();
+                String codp=df.getCodigoPrincipal();
+                String desc=df.getDescripcion();
+                Double cant=df.getCantidad();
+                Double preu=df.getPrecioUnitario();
+                Double descuento=df.getDescuento();
+                Double pret=df.getPrecioTotalSinimpuesto();
+             //   String descuento=df.getDescuento().toString();
+               
+                String cant1=String.valueOf(cant);
+                String preu1=String.valueOf(preu);
+                String pret1=String.valueOf(pret);
+                String descuento1=String.valueOf(descuento); 
+                
+                tabla.addCell(new Paragraph(codp,fontContenido3)); 
+                tabla.addCell(new Paragraph(coda,fontContenido3));
+                tabla.addCell(new Paragraph(desc,fontContenido3));
+                tabla.addCell(new Paragraph(cant1,fontContenido3));
+                tabla.addCell(new Paragraph(preu1,fontContenido3));
+                tabla.addCell(new Paragraph(descuento1,fontContenido3)); 
+                tabla.addCell(new Paragraph(pret1,fontContenido3));
+        
+            }
+               
+             document.add(tabla);
+             //*******Detalles y Subtotales ***************************************
+             Paragraph parrafoInf=new Paragraph();
+             parrafoInf.add(new Phrase("Información y Detalles Adicionales  ",fontContenido6));           
+             document.add (parrafoInf);
+             PdfPTable tabDetSub=new PdfPTable(4); 
+          //   tabDetSub.setTotalWidth(900);
+             tabDetSub.setWidthPercentage(100f);
+             float[] medidasCeldas={8f,20f,17f,6f}; 
+             tabDetSub.setWidths(medidasCeldas);
+           
+              
+           //** Tabla 1***
+             PdfPTable tab1=new PdfPTable(1);
+             PdfPCell celdas1=new PdfPCell(new Phrase("Dirección   ",fontContenido8));      
+             PdfPCell celdas2=new PdfPCell(new Phrase("Teléfono   ",fontContenido8)); 
+             PdfPCell celdas3=new PdfPCell(new Phrase("Vendedor   ",fontContenido8));
+             PdfPCell celdas4=new PdfPCell(new Phrase("Cuota 1  ",fontContenido8));
+             PdfPCell celdas5=new PdfPCell(new Phrase("Formza de pago  ",fontContenido8));
+             PdfPCell celdas6=new PdfPCell(new Phrase("Valor Pago  ",fontContenido8));
+             
+             tab1.addCell(celdas1); 
+             tab1.addCell(celdas2);
+             tab1.addCell(celdas3);
+             tab1.addCell(celdas4);
+             tab1.addCell(celdas5); 
+             tab1.addCell(celdas6); 
+             //**Tabla2
+             PdfPTable tab2=new PdfPTable(1);
+             PdfPCell celdas11=new PdfPCell(new Phrase(direcAdicional,fontContenido7));      
+             PdfPCell celdas21=new PdfPCell(new Phrase(telAdicional,fontContenido7)); 
+             PdfPCell celdas31=new PdfPCell(new Phrase(venAdicional,fontContenido7));
+             PdfPCell celdas41=new PdfPCell(new Phrase(cuoAdicional,fontContenido7));
+             PdfPCell celdas51=new PdfPCell(new Phrase(forPagAdicional,fontContenido7));
+             PdfPCell celdas61=new PdfPCell(new Phrase(impAdicional1,fontContenido7));
+             
+             tab2.addCell(celdas11);  
+             tab2.addCell(celdas21);
+             tab2.addCell(celdas31);
+             tab2.addCell(celdas41);
+             tab2.addCell(celdas51);  
+             tab2.addCell(celdas61);
+             //**Tabla3
+             PdfPTable tab3=new PdfPTable(1);
+             PdfPCell celdass1=new PdfPCell(new Phrase("SUBTOTAL 14%   ",fontContenido8));            
+             PdfPCell celdass2=new PdfPCell(new Phrase("Subtotal 0%   ",fontContenido8));             
+             PdfPCell celdass3=new PdfPCell(new Phrase("Subtotal No objeto IVA",fontContenido8));           
+             PdfPCell celdass4=new PdfPCell(new Phrase("Subtotal Exento de IVA",fontContenido8));
+             PdfPCell celdass5=new PdfPCell(new Phrase("Subtotal Sin Impuestos   ",fontContenido8));
+             PdfPCell celdass6=new PdfPCell(new Phrase("Total Descuento   ",fontContenido8));
+             PdfPCell celdass7=new PdfPCell(new Phrase("ICE   ",fontContenido8));
+             PdfPCell celdass8=new PdfPCell(new Phrase("IVA 14%  ",fontContenido8));
+             PdfPCell celdass9=new PdfPCell(new Phrase("IRBPNR   ",fontContenido8)); 
+             PdfPCell celdass10=new PdfPCell(new Phrase("PROPINAS 14%  ",fontContenido8)); 
+             PdfPCell celdass11=new PdfPCell(new Phrase("VALOR TOTAL   ",fontContenido8));
+             
+             tab3.addCell(celdass1); 
+             tab3.addCell(celdass2);
+             tab3.addCell(celdass3);
+             tab3.addCell(celdass4);
+             tab3.addCell(celdass5);
+             tab3.addCell(celdass6);
+             tab3.addCell(celdass7);
+             tab3.addCell(celdass8); 
+             tab3.addCell(celdass9); 
+             tab3.addCell(celdass10);
+             tab3.addCell(celdass11);
+   
+             //**Tabla 4
+             PdfPTable tab4=new PdfPTable(1);
+             PdfPCell cel1=new PdfPCell(new Phrase(totalSinImpuesto,fontContenido7));
+             PdfPCell cel2=new PdfPCell(new Phrase(subTotCer,fontContenido7));
+             PdfPCell cel3=new PdfPCell(new Phrase(subNoIva,fontContenido7));
+             PdfPCell cel4=new PdfPCell(new Phrase(subTotExtIva,fontContenido2));
+             PdfPCell cel5=new PdfPCell(new Phrase(totalSinImpuesto,fontContenido2));
+             PdfPCell cel6=new PdfPCell(new Phrase(totalDescuento,fontContenido7));
+             PdfPCell cel7=new PdfPCell(new Phrase(valICE1,fontContenido7));
+             PdfPCell cel8=new PdfPCell(new Phrase(val141,fontContenido7));
+             PdfPCell cel9=new PdfPCell(new Phrase(valIRB1,fontContenido7));
+             PdfPCell cel10=new PdfPCell(new Phrase(propinas,fontContenido7));
+              PdfPCell cel11=new PdfPCell(new Phrase(importeTotal,fontContenido7)); 
+             
+             tab4.addCell(cel1); 
+             tab4.addCell(cel2);
+             tab4.addCell(cel3);
+             tab4.addCell(cel4);
+             tab4.addCell(cel5);
+             tab4.addCell(cel6);
+             tab4.addCell(cel7);
+             tab4.addCell(cel8);
+             tab4.addCell(cel9);
+              tab4.addCell(cel10);
+             tab4.addCell(cel11);
+             
+             //Tabla Final
+            PdfPTable tabFin=new PdfPTable(1);
+        //    PdfPTable tablaFinal=new PdfPTable(1);
+            PdfPCell celda=new PdfPCell(new Paragraph("Hola 2"));
+            celda.setColspan(4); 
+            tabFin.addCell(celda); 
+            tabDetSub.addCell(tab1);
+            tabDetSub.addCell(tab2);
+            tabDetSub.addCell(tab3);  
+            tabDetSub.addCell(tab4); 
+           
+            tabDetSub.addCell(tabFin);      
+            document.add(tabDetSub);
+          
+            document.close();
+            
+            //Mensaje
+            FacesMessage pdfsi=new FacesMessage();
+            pdfsi.setSeverity(FacesMessage.SEVERITY_INFO); 
+            pdfsi.setSummary("PDF Generado..");
+            
+            FacesContext.getCurrentInstance().addMessage("men", pdfsi);
+          
+       }
+       catch(DocumentException | IOException ex)
+       {
+          //System.out.println("No escribió..");
+          FacesMessage pdfno=new FacesMessage();
+          pdfno.setSeverity(FacesMessage.SEVERITY_ERROR);
+          pdfno.setSummary("NO Genera PDF");
+          
+          FacesContext.getCurrentInstance().addMessage("msj", pdfno);
+       }    
+    } 
 }
