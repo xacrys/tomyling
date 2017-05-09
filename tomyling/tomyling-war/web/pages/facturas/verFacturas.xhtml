@@ -9,7 +9,7 @@
     </h:head>
     <h:body>
         <h:form id="formFactura">
-            <p:growl id="growl" life="8000" ></p:growl>
+            <p:growl id="growl" life="8000"  ></p:growl>
             <p:fieldset id="fsDatosFactura" style="border: 3px solid #23527c; display:#{verFacturaControlador.flagRide?'none':'block'}" legend="Consulta de Facturas" >
 
                 <p:panelGrid style="width: 100%">
@@ -419,12 +419,27 @@
                         </p:column>
                     </p:row>
                     <p:row>
-                        <p:column colspan="5">
-                            <p:commandButton  icon="fa fa-file-excel-o" actionListener="#{verFacturaControlador.descargarXls}" value="Excel" ajax="false">
-                            </p:commandButton>
-                            <p:commandButton icon="fa fa-file-pdf-o" 
-                                             actionListener="#{verFacturaControlador.descargarPdf}"
-                                             value="PDF" ajax="false" />
+                        <p:column colspan="5" >
+                         <!--<center> -->
+                             <!--   <p:commandButton  icon="fa fa-file-excel-o" actionListener="" value="Excel" ajax="false">
+                                </p:commandButton> -->
+                            <p:commandLink id="xls" actionListener="#{verFacturaControlador.descargarXls}" 
+                                            update=":#{p:component('growl')}">
+                                            
+                                    <p:graphicImage library="img" name="xls.jpg" style=" width: 33px; height: 33px" />
+                                    <p:tooltip  style=" color: green" id="toolTipGrow1" for="xls" value="Generar Exel"
+                                                  showEffect="clip" hideEffect="explode" />
+                                 
+                            </p:commandLink>
+                            
+                            <p:commandLink  id="tipo" actionListener="#{verFacturaControlador.descargarPdf}" 
+                                             update=":#{p:component('growl')}">
+                                      <p:graphicImage library="img" name="pdf36x36.gif" />
+                                      <p:tooltip  style=" color: darkred" id="toolTipGrow" for="tipo" value="Generar PDF"
+                                                  showEffect="clip" hideEffect="explode" />
+
+                            </p:commandLink>
+                          <!-- </center> -->
                         </p:column>
                     </p:row>
                 </p:panelGrid>
